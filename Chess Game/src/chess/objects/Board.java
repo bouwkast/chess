@@ -46,28 +46,7 @@ public class Board {
 		
 	}
 	
-	/**
-	 * UNFINISHED - CURRENTLY IS NOT CALLED
-	 * Just trying to set a row of each type Pawn on the board
-	 */
-	public void SetPawns2(){
-		
-		Pawn pawnB = new Pawn(PColor.Black, true);
-		Pawn pawnW = new Pawn(PColor.White, true);
-		
-		// Sets the pawns for the black side;
-		for (int x = 0; x<8; x++){
-			ChessBoard[6][x].SetChessPiece(pawnB);
-			
-		}
-		
-		
-		// Sets the pawns for the white Side
-		for (int y =0; y<8;y++){
-			ChessBoard[1][y].SetChessPiece(pawnW);
-		}
-		
-	}
+	
 	
 	/*Set all the knights on the board
 	 * @param N/A
@@ -142,6 +121,36 @@ public class Board {
 		
 		/*Set the Queen for the second player*/
 		ChessBoard[0][4].SetChessPiece(Queens);
+		
+	}
+	
+	
+	/**
+	 * Potentially new methods to set the board up upon creation.
+	 * Based off of the new objects that are created and the current
+	 * set methods.
+	 */
+	
+	/**
+	 * UNFINISHED - CURRENTLY IS NOT CALLED
+	 * Just trying to set a row of each type Pawn on the board
+	 */
+	public void SetPawns2(){
+		
+		Pawn pawnB = new Pawn(PColor.Black, true);
+		Pawn pawnW = new Pawn(PColor.White, true);
+		
+		// Sets the pawns for the black side;
+		for (int x = 0; x<8; x++){
+			ChessBoard[6][x].SetChessPiece(pawnB);
+			
+		}
+		
+		
+		// Sets the pawns for the white Side
+		for (int y =0; y<8;y++){
+			ChessBoard[1][y].SetChessPiece(pawnW);
+		}
 		
 	}
 	
