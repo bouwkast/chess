@@ -1,10 +1,10 @@
 package chess.objects;
 
-public class Pieces {
+public class Piece {
 	
 	int one = 1;
 	
-	public Pieces(){
+	public Piece(){
 		one = 2;
 	}
 

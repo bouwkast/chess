@@ -30,7 +30,7 @@ public class Board {
 	 * @return N/A*/
 	public void SetPawns(){
 		
-		Pieces Pawns = new Pieces();
+		Piece Pawns = new Piece();
 		
 		
 		/*Sets the pawns for the first player*/
@@ -51,7 +51,7 @@ public class Board {
 	 * @return N/A*/
 	public void SetKnights(){
 		
-		Pieces Knights = new Pieces();
+		Piece Knights = new Piece();
 		
 		/*Set the Knights for the first player*/
 		ChessBoard[7][1].SetChessPiece(Knights);
@@ -67,7 +67,7 @@ public class Board {
 	 * @return N/A*/
 	public void SetBishops(){
 		
-		Pieces Bishops = new Pieces();
+		Piece Bishops = new Piece();
 		
 		/*Set the Bishops for the first player*/
 		ChessBoard[7][2].SetChessPiece(Bishops);
@@ -83,7 +83,7 @@ public class Board {
 	 * @param N/A
 	 * @return N/A*/
 	public void SetRook(){
-		Pieces Rooks = new Pieces();
+		Piece Rooks = new Piece();
 		
 		/*Set the Rooks for the first player*/
 		ChessBoard[7][0].SetChessPiece(Rooks);
@@ -98,7 +98,7 @@ public class Board {
 	 * @param N/A
 	 * @return N/A*/
 	public void SetKings(){
-		Pieces Kings = new Pieces();
+		Piece Kings = new Piece();
 		
 		/*Set the King for the first player*/
 		ChessBoard[7][3].getClass();
@@ -112,7 +112,7 @@ public class Board {
 	 * @param N/A
 	 * @return N/A*/
 	public void SetQueens(){
-		Pieces Queens = new Pieces();
+		Piece Queens = new Piece();
 		
 		/*Set the Queen for the first player*/
 		ChessBoard[7][4].SetChessPiece(Queens);

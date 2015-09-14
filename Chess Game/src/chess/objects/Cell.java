@@ -2,7 +2,7 @@ package chess.objects;
 
 public class Cell {
 	
-	private Pieces ChessPiece;
+	private Piece ChessPiece;
 	
 	/*A constructor for the Cell class
 	 * @param N/A
@@ -14,7 +14,7 @@ public class Cell {
 	/*A method to set the Piece to a Cell
 	 * @param Pieces with an appropriate piece type
 	 * @return N/A */
-	public void SetChessPiece(Pieces piece) {
+	public void SetChessPiece(Piece piece) {
 		// TODO Auto-generated method stub
 		ChessPiece = piece;
 	}
@@ -22,7 +22,7 @@ public class Cell {
 	/*A method to return the Piece that a Cell contains
 	 * @param N/A
 	 * @return ChessPiece*/
-	public Pieces getChessPiece(){
+	public Piece getChessPiece(){
 		return ChessPiece;
 	}
 
