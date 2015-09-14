@@ -7,6 +7,8 @@ public class Pawn extends Piece {
 	 */
 	private boolean hasMoved;
 	
+	private final static String NAME = "P";
+	
 	/**
 	 * Constructor for Pawn that initializes hasMoved to false.
 	 * 
@@ -45,6 +47,10 @@ public class Pawn extends Piece {
 	 */
 	public void setHasMoved(boolean hasMoved) {
 		this.hasMoved = hasMoved;
+	}
+	
+	public String toString() {
+		return NAME;
 	}
 
 }
