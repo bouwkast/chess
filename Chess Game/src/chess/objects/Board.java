@@ -134,14 +134,14 @@ public class Board {
 		ChessBoard[0][4].SetChessPiece(kB);
 				
 		// Sets the king for the white side
-		ChessBoard[7][4].SetChessPiece(kB);
+		ChessBoard[7][4].SetChessPiece(kW);
 		
 	}
 	
 	/***
 	 * Prints the board in characters. Used to make sure the set methods for the board
 	 * are working properly. Returns a string of the board*
-	 * @return String result
+	 * @return String result containing the string representation of the board
 	 */
 	public String printBoard() {
 		String result = "";
