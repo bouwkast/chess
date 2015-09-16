@@ -2,7 +2,7 @@ package chess.objects;
 
 public class Rook extends Piece {
 	
-	private static final String NAME = "P";
+	private static final String NAME = "R";
 	private PColor color;
 	
 	/**

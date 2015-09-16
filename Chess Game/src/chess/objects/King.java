@@ -2,7 +2,7 @@ package chess.objects;
 
 public class King extends Piece {
 
-	private static final String NAME = "Q";
+	private static final String NAME = "K";
 	private PColor color;
 	
 	/**
