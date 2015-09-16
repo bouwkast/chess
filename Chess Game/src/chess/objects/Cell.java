@@ -25,6 +25,10 @@ public class Cell {
 	public Piece getChessPiece(){
 		return ChessPiece;
 	}
+	
+	public String getPieceName() {
+		return ChessPiece.getName();
+	}
 
 
 

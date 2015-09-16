@@ -131,27 +131,124 @@ public class Board {
 	 * set methods.
 	 */
 	
+	
+	
 	/**
 	 * UNFINISHED - CURRENTLY IS NOT CALLED
-	 * Just trying to set a row of each type Pawn on the board
+	 * Just trying to set a row of each type Pawn on the board= "Hello";
 	 */
-	public void SetPawns2(){
+	public void setPawns2(){
 		
 		Pawn pawnB = new Pawn(PColor.Black, true);
 		Pawn pawnW = new Pawn(PColor.White, true);
 		
 		// Sets the pawns for the black side;
 		for (int x = 0; x<8; x++){
-			ChessBoard[6][x].SetChessPiece(pawnB);
+			ChessBoard[1][x].SetChessPiece(pawnB);
 			
 		}
 		
 		
 		// Sets the pawns for the white Side
 		for (int y =0; y<8;y++){
-			ChessBoard[1][y].SetChessPiece(pawnW);
+			ChessBoard[6][y].SetChessPiece(pawnW);
 		}
 		
+	}
+	
+	/**
+	 * Sets the knights on the board
+	 */
+	public void setKnights2() {
+		Knight kB = new Knight(PColor.Black);
+		Knight kW = new Knight(PColor.White);
+		
+		// Sets the knights for the black side
+		ChessBoard[0][1].SetChessPiece(kB);
+		ChessBoard[0][6].SetChessPiece(kB);
+		
+		// Sets the knights for the white side
+		ChessBoard[7][1].SetChessPiece(kW);
+		ChessBoard[7][6].SetChessPiece(kW);
+
+	}
+	
+	/**
+	 * Sets the bishops on the board
+	 */
+	public void setBishops2() {
+		Bishop bB = new Bishop(PColor.Black);
+		Bishop bW = new Bishop(PColor.White);
+		
+		// Sets the bishops for the black side
+		ChessBoard[0][2].SetChessPiece(bB);
+		ChessBoard[0][5].SetChessPiece(bB);
+		
+		// Sets the bishops for the white side
+		ChessBoard[7][2].SetChessPiece(bW);
+		ChessBoard[7][5].SetChessPiece(bW);
+	}
+	
+	/**
+	 * Sets the Rooks on the board
+	 */
+	public void setRooks2() {
+		Rook rB = new Rook(PColor.Black);
+		Rook rW = new Rook(PColor.White);
+		
+		// Sets the rooks for the black side
+		ChessBoard[0][0].SetChessPiece(rB);
+		ChessBoard[0][7].SetChessPiece(rB);
+		
+		// Sets the rooks for the white side
+		ChessBoard[7][0].SetChessPiece(rW);
+		ChessBoard[7][7].SetChessPiece(rW);
+	}
+	
+	/**
+	 * Sets the Queens on the board
+	 */
+	public void setQueens2() {
+		Queen qB = new Queen(PColor.Black);
+		Queen qW = new Queen(PColor.White);
+		
+		// Sets the queen for the black side
+		ChessBoard[0][3].SetChessPiece(qB);
+		
+		// Sets the queen for the white side
+		ChessBoard[7][3].SetChessPiece(qW);
+	}
+	
+	/**
+	 * Sets the Kings on the board
+	 */
+	public void setKings2() {
+		King kB = new King(PColor.Black);
+		King kW = new King(PColor.White);
+		
+		// Sets the king for the black side
+		ChessBoard[0][4].SetChessPiece(kB);
+				
+		// Sets the king for the white side
+		ChessBoard[7][4].SetChessPiece(kB);
+		
+	}
+	
+	public String printBoard() {
+		String result = "";
+		if(ChessBoard[1][0].getChessPiece() == null)
+			result = "null";
+		result = ChessBoard[1][0].getPieceName();
+//		for(int row = 0; row < 8; row++) {
+//			for(int col = 0; col < 8; col++) {
+//				if(ChessBoard[row][col].getChessPiece() == null) 
+//					result += "E ";
+//				result += ChessBoard[row][col].getPieceName() + " ";
+//			}
+//			result += "/n";
+//		}
+		
+		return result;
 	}
 	
 

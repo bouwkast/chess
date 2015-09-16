@@ -3,6 +3,7 @@ package chess.objects;
 public class Piece {
 	private PColor color;
 	private boolean isAlive;
+	private String name;
 	
 	
 	int one = 1;
@@ -32,6 +33,18 @@ public class Piece {
 	public Piece(PColor color, boolean isAlive) {
 		this.setColor(color);
 		this.setAlive(isAlive);
+	}
+	
+	/**
+	 * Third constructor that has a name
+	 * @param color
+	 * @param isAlive
+	 * @param name
+	 */
+	public Piece(PColor color, boolean isAlive, String name) {
+		this.setColor(color);
+		this.setAlive(isAlive);
+		this.setName(name);
 	}
 	
 	/**
@@ -69,5 +82,20 @@ public class Piece {
 	public void setColor(PColor color) {
 		this.color = color;
 	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 
 }

@@ -16,7 +16,7 @@ public class Pawn extends Piece {
 	 * @param isAlive is whether the pawn is alive
 	 */
 	public Pawn(PColor color, boolean isAlive) {
-		super(color, isAlive);
+		super(color, isAlive, NAME);
 		hasMoved = false;
 	}
 	
