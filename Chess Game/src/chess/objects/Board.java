@@ -1,14 +1,31 @@
 package chess.objects;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 public class Board {
 	
 	private Cell[][] ChessBoard;
+	private JButton[][] BoardBackground;
+	private JFrame Frame;
+	private JPanel Grid;
 	
 	/**
 	 * A constructor for the Board class
 	 */
 	public Board(){
 		ChessBoard = new Cell[8][8];
+		BoardBackground = new JButton[8][8];
+		Frame = new JFrame("Chess");
+		Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Frame.setSize(800,800);
+		Frame.setVisible(true);
+
 	}
 	
 	/**
@@ -163,5 +180,28 @@ public class Board {
 	}
 	
 
+	public void GenerateBackground(){
+		Grid = new JPanel();
+		Grid.setLayout(new GridLayout(8,8));
+		Grid.setPreferredSize(new Dimension(800,800));
+		//System.out.println(ChessBoard[0][0].getPieceName());
+		String Empty = "E ";
+		
+		for (int row = 0; row < 8; row++){
+			for (int col = 0; col < 8; col++){
+				if (ChessBoard[row][col].getChessPiece() == (null)){
+					BoardBackground[row][col] = new JButton("");
+					BoardBackground[row][col].setPressedIcon(null);
+				}
+				else{
+					BoardBackground[row][col] = new JButton(ChessBoard[row][col].getPieceName());
+				}
+				Grid.add(BoardBackground[row][col]);
+			}
+		}
+		Grid.setVisible(true);
+		Frame.add(Grid, BorderLayout.CENTER);
+		Frame.revalidate();
+	}
 
 }

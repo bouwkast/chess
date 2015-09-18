@@ -13,7 +13,7 @@ public class Chess {
 		test.setKnights();
 		test.setRooks();
 		test.setPawns();
-		
+		test.GenerateBackground();
 		System.out.print(test.printBoard());
 		
 	}
