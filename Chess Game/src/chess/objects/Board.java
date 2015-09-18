@@ -147,7 +147,6 @@ public class Board {
 		String result = "";
 		if(ChessBoard[1][0].getChessPiece() == null)
 			result = "null";
-		//result = ChessBoard[1][0].getPieceName();
 		for(int row = 0; row < 8; row++) {
 			for(int col = 0; col < 8; col++) {
 				if(ChessBoard[row][col].getChessPiece() == null) {
