@@ -3,6 +3,8 @@ package chess.objects;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -179,22 +181,26 @@ public class Board {
 		return result;
 	}
 	
+	/***
+	 * Generates the buttons on the Frame CURRENTLY UNFINISHED
+	 */
 
 	public void GenerateBackground(){
 		Grid = new JPanel();
 		Grid.setLayout(new GridLayout(8,8));
 		Grid.setPreferredSize(new Dimension(800,800));
-		//System.out.println(ChessBoard[0][0].getPieceName());
-		String Empty = "E ";
-		
 		for (int row = 0; row < 8; row++){
 			for (int col = 0; col < 8; col++){
 				if (ChessBoard[row][col].getChessPiece() == (null)){
 					BoardBackground[row][col] = new JButton("");
-					BoardBackground[row][col].setPressedIcon(null);
+					BoardBackground[row][col].getModel().setPressed(true);
+					BoardBackground[row][col].addActionListener(new ButtonListener());
 				}
 				else{
 					BoardBackground[row][col] = new JButton(ChessBoard[row][col].getPieceName());
+					BoardBackground[row][col].getModel().setPressed(true);
+					BoardBackground[row][col].addActionListener(new ButtonListener());
+
 				}
 				Grid.add(BoardBackground[row][col]);
 			}
@@ -204,4 +210,54 @@ public class Board {
 		Frame.revalidate();
 	}
 
+	/**
+	 * A button Listener method as a placeholder. Allows the buttons to perform
+	 * certain actions. Currently it's used as a test to make sure buttons are working
+	 * properly*
+	 *
+	 */
+	private class ButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			// TODO Auto-generated method stub
+			DepressButtons();
+			for (int row = 0; row < 8; row++){
+				for (int col = 0; col < 8; col++){
+					if (BoardBackground[row][col] == a.getSource()){
+						System.out.println("The Row is: " + (row + 1) + " and the Column is: " + (col + 1));
+					}
+				}
+			}
+			
+		}
+		
+	}
+	/****
+	 * Sets all the buttons on the 2D Array to look like it's pressed. 
+	 * There was an issue where once you pressed a button, it would "reset" the button so 
+	 * that it looks like it can be pushed again.
+	 */
+	public void DepressButtons(){
+		for (int row = 0; row < 8; row++){
+			for (int col = 0; col < 8; col ++){
+				BoardBackground[row][col].getModel().setPressed(true);
+			}
+		}
+	}
+	
+	/***
+	 * A method to set colors to the buttons. UNFINISHED
+	 */
+	public void SetColorToButtons(){
+		boolean FlipColors = false;
+		for (int row = 0; row < 8; row++){
+			for (int col = 0; col < 8; col ++){
+				if (!FlipColors){
+					//BoardBackground[row][col].setBackground(Color.White);
+					
+				}
+			}
+		}
+	}
 }
