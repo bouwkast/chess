@@ -18,19 +18,10 @@ public class Chess {
 		this.board = board;
 	}
 	
-	public static void main(String[] args){
-		Board test = new Board();
-		test.reset();
-		test.setKings();
-		test.setQueens();
-		test.setBishops();
-		test.setKnights();
-		test.setRooks();
-		test.setPawns();
-		test.GenerateBackground();
-		System.out.print(test.printBoard());
-		
-		
-	}
+	/* No longer needed, moved into ChessController*/
+//	public static void main(String[] args){
+//		Board test = new Board(1);
+//		System.out.print(test.printBoard());	
+//	}
 
 }
