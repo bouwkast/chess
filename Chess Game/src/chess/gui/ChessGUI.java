@@ -14,8 +14,12 @@ import chess.main.Chess;
 public class ChessGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** Is the 2D array of JButtons to use for the board */
 	private JButton[][] board;
+	/** Is the panel that contains the JButtons */
 	private JPanel grid;
+	/** Is the instance of the chess game */
 	private Chess chess;
 	
 	public ChessGUI() {

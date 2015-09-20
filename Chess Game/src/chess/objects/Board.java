@@ -12,7 +12,14 @@ import javax.swing.JPanel;
 
 public class Board {
 
+	/** Is the 2D array that will contain the pieces */
 	private Cell[][] ChessBoard;
+
+	/*
+	 * Currently don't need this, but just to make sure that everything
+	 * moved over works correctly I don't want to remove old code that
+	 * works
+	 */
 	// private JButton[][] BoardBackground;
 	// private JFrame Frame;
 	// private JPanel Grid;
@@ -36,6 +43,7 @@ public class Board {
 	 * everything works.
 	 * 
 	 * @param i
+	 *            dummy paramter to overload the method
 	 ******************************************************************/
 	public Board(int i) {
 		ChessBoard = new Cell[8][8];
@@ -43,11 +51,10 @@ public class Board {
 		setBoard();
 
 	}
-
-	/**
-	 * Resets the board and populates the 2D array with blank cells
-	 */
-
+	
+	/*******************************************************************
+	 * Create a whole new board and initializes each Cell to a new Cell
+	 ******************************************************************/
 	public void reset() {
 		ChessBoard = new Cell[8][8];
 
@@ -56,12 +63,11 @@ public class Board {
 				ChessBoard[x][y] = new Cell();
 			}
 		}
-
 	}
 
-	/**
-	 * Sets the pawns on board*
-	 */
+	/*******************************************************************
+	 * Sets the pawns on the board in the correct location and color
+	 ******************************************************************/
 	public void setPawns() {
 
 		Pawn pawnB = new Pawn(PColor.Black, true);
@@ -198,89 +204,91 @@ public class Board {
 		return result;
 	}
 
-//	/**
-//	 * Generates the buttons on the Frame CURRENTLY UNFINISHED
-//	 */
-//
-//	public void GenerateBackground() {
-//		Grid = new JPanel();
-//		Grid.setLayout(new GridLayout(8, 8));
-//		Grid.setPreferredSize(new Dimension(800, 800));
-//		for (int row = 0; row < 8; row++) {
-//			for (int col = 0; col < 8; col++) {
-//				if (ChessBoard[row][col].getChessPiece() == (null)) {
-//					BoardBackground[row][col] = new JButton("");
-//					BoardBackground[row][col].getModel()
-//							.setPressed(true);
-//					BoardBackground[row][col]
-//							.addActionListener(new ButtonListener());
-//				} else {
-//					BoardBackground[row][col] = new JButton(
-//							ChessBoard[row][col].getPieceName());
-//					BoardBackground[row][col].getModel()
-//							.setPressed(true);
-//					BoardBackground[row][col]
-//							.addActionListener(new ButtonListener());
-//
-//				}
-//				Grid.add(BoardBackground[row][col]);
-//			}
-//		}
-//		Grid.setVisible(true);
-//		Frame.add(Grid, BorderLayout.CENTER);
-//		Frame.revalidate();
-//	}
-//
-//	/**
-//	 * A button Listener method as a placeholder. Allows the buttons to
-//	 * perform certain actions. Currently it's used as a test to make
-//	 * sure buttons are working properly*
-//	 *
-//	 */
-//	private class ButtonListener implements ActionListener {
-//
-//		@Override
-//		public void actionPerformed(ActionEvent a) {
-//			// TODO Auto-generated method stub
-//			DepressButtons();
-//			for (int row = 0; row < 8; row++) {
-//				for (int col = 0; col < 8; col++) {
-//					if (BoardBackground[row][col] == a.getSource()) {
-//						System.out.println("The Row is: " + (row + 1)
-//								+ " and the Column is: " + (col + 1));
-//					}
-//				}
-//			}
-//
-//		}
-//
-//	}
-//
-//	/****
-//	 * Sets all the buttons on the 2D Array to look like it's pressed.
-//	 * There was an issue where once you pressed a button, it would
-//	 * "reset" the button so that it looks like it can be pushed again.
-//	 */
-//	public void DepressButtons() {
-//		for (int row = 0; row < 8; row++) {
-//			for (int col = 0; col < 8; col++) {
-//				BoardBackground[row][col].getModel().setPressed(true);
-//			}
-//		}
-//	}
-//
-//	/***
-//	 * A method to set colors to the buttons. UNFINISHED
-//	 */
-//	public void SetColorToButtons() {
-//		boolean FlipColors = false;
-//		for (int row = 0; row < 8; row++) {
-//			for (int col = 0; col < 8; col++) {
-//				if (!FlipColors) {
-//					// BoardBackground[row][col].setBackground(Color.White);
-//
-//				}
-//			}
-//		}
-//	}
+	// /**
+	// * Generates the buttons on the Frame CURRENTLY UNFINISHED
+	// */
+	//
+	// public void GenerateBackground() {
+	// Grid = new JPanel();
+	// Grid.setLayout(new GridLayout(8, 8));
+	// Grid.setPreferredSize(new Dimension(800, 800));
+	// for (int row = 0; row < 8; row++) {
+	// for (int col = 0; col < 8; col++) {
+	// if (ChessBoard[row][col].getChessPiece() == (null)) {
+	// BoardBackground[row][col] = new JButton("");
+	// BoardBackground[row][col].getModel()
+	// .setPressed(true);
+	// BoardBackground[row][col]
+	// .addActionListener(new ButtonListener());
+	// } else {
+	// BoardBackground[row][col] = new JButton(
+	// ChessBoard[row][col].getPieceName());
+	// BoardBackground[row][col].getModel()
+	// .setPressed(true);
+	// BoardBackground[row][col]
+	// .addActionListener(new ButtonListener());
+	//
+	// }
+	// Grid.add(BoardBackground[row][col]);
+	// }
+	// }
+	// Grid.setVisible(true);
+	// Frame.add(Grid, BorderLayout.CENTER);
+	// Frame.revalidate();
+	// }
+	//
+	// /**
+	// * A button Listener method as a placeholder. Allows the buttons
+	// to
+	// * perform certain actions. Currently it's used as a test to make
+	// * sure buttons are working properly*
+	// *
+	// */
+	// private class ButtonListener implements ActionListener {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent a) {
+	// // TODO Auto-generated method stub
+	// DepressButtons();
+	// for (int row = 0; row < 8; row++) {
+	// for (int col = 0; col < 8; col++) {
+	// if (BoardBackground[row][col] == a.getSource()) {
+	// System.out.println("The Row is: " + (row + 1)
+	// + " and the Column is: " + (col + 1));
+	// }
+	// }
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	// /****
+	// * Sets all the buttons on the 2D Array to look like it's pressed.
+	// * There was an issue where once you pressed a button, it would
+	// * "reset" the button so that it looks like it can be pushed
+	// again.
+	// */
+	// public void DepressButtons() {
+	// for (int row = 0; row < 8; row++) {
+	// for (int col = 0; col < 8; col++) {
+	// BoardBackground[row][col].getModel().setPressed(true);
+	// }
+	// }
+	// }
+	//
+	// /***
+	// * A method to set colors to the buttons. UNFINISHED
+	// */
+	// public void SetColorToButtons() {
+	// boolean FlipColors = false;
+	// for (int row = 0; row < 8; row++) {
+	// for (int col = 0; col < 8; col++) {
+	// if (!FlipColors) {
+	// // BoardBackground[row][col].setBackground(Color.White);
+	//
+	// }
+	// }
+	// }
+	// }
 }
