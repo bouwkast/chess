@@ -30,11 +30,18 @@ public class Board {
 
 	}
 	
+	public Board(int i) {
+		ChessBoard = new Cell[8][8];
+		reset();
+		setBoard();
+		
+	}
+	
 	/**
 	 * Resets the board and populates the 2D array with blank cells
 	 */
 
-	public void Reset(){
+	public void reset(){
 		ChessBoard = new Cell[8][8];
 		
 		for (int x = 0; x<8; x++){
@@ -44,19 +51,7 @@ public class Board {
 		}
 		
 	}
-	
-	/**
-	 * Potentially new methods to set the board up upon creation.
-	 * Based off of the new objects that are created and the current
-	 * set methods.
-	 */
-	
-		
-	/**
-	 * UNFINISHED - CURRENTLY IS NOT CALLED
-	 * Just trying to set a row of each type Pawn on the board= "Hello";
-	 */
-	
+
 	/**
 	 *Sets the pawns on board*
 	 */
@@ -155,6 +150,19 @@ public class Board {
 		// Sets the king for the white side
 		ChessBoard[7][4].SetChessPiece(kW);
 		
+	}
+	
+	private void setBoard() {
+		setKings();
+		setQueens();
+		setBishops();
+		setKnights();
+		setRooks();
+		setPawns();
+	}
+	
+	public Cell getCellAt(int row, int col) {
+		return ChessBoard[row][col];
 	}
 	
 	/***
