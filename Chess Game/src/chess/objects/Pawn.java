@@ -22,7 +22,7 @@ public class Pawn extends Piece {
 	public Pawn(PColor color, boolean isAlive) {
 		super(color, isAlive, "Pawn");
 		hasMoved = false;
-		if(color.equals(Color.White))
+		if(color.equals(PColor.White))
 			this.icon = "\u2659";
 		else
 			this.icon = "\u265f";
@@ -38,7 +38,7 @@ public class Pawn extends Piece {
 	public Pawn(PColor color, boolean isAlive, boolean hasMoved) {
 		super(color, isAlive);
 		this.hasMoved = hasMoved;
-		if(color.equals(Color.White))
+		if(color.equals(PColor.White))
 			this.icon = "\u2659";
 		else
 			this.icon = "\u265f";
