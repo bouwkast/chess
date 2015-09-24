@@ -30,6 +30,7 @@ public class ChessGUI extends JFrame {
 		board = new JButton[8][8];
 		
 		grid = new JPanel(new GridLayout(8,8));
+		boolean isWhite = true;
 		for(int row = 0; row < 8; ++row) {
 			for(int col = 0; col < 8; ++col) {
 				board[row][col] = new JButton("");
@@ -39,13 +40,31 @@ public class ChessGUI extends JFrame {
 				} 
 				board[row][col].getModel().setPressed(true);
 				/*For now just making the colors black/white, not doing a checkered pattern yet*/
-				if(row == 0 || row == 1) {
-					board[row][col].setBackground(Color.GRAY);
-				} else if(row == 6 || row ==7) {
+				
+				if(isWhite) {
 					board[row][col].setBackground(Color.WHITE);
+					if(col != 7)
+						isWhite = false;
+					else
+						isWhite = true;
 				} else {
-					board[row][col].setBackground(Color.LIGHT_GRAY);
+					board[row][col].setBackground(Color.BLACK);
+					if(col != 7)
+						isWhite = true;
+					else
+						isWhite = false;
 				}
+					
+				
+				
+					
+//				if(row == 0 || row == 1) {
+//					board[row][col].setBackground(Color.GRAY);
+//				} else if(row == 6 || row ==7) {
+//					board[row][col].setBackground(Color.WHITE);
+//				} else {
+//					board[row][col].setBackground(Color.LIGHT_GRAY);
+//				}
 //				board[row][col].setContentAreaFilled(false);
 				board[row][col].setMargin(new Insets(0,0,0,0));
 				board[row][col].setBorderPainted(false);
