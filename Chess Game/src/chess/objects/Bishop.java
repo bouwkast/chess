@@ -2,10 +2,14 @@ package chess.objects;
 
 public class Bishop extends Piece {
 
-	private final static String NAME = "B";
+	/*Local instance variables are not needed - use protected
+	 * instances from parent class
+	 */
+	
+	/*private final static String NAME = "B";
 
 	/** Is the color of the piece **/
-	private PColor color;
+	/*private PColor color;*/
 
 	/*******************************************************************
 	 * Constructor for the Bishop piece with its specified PColor
@@ -14,8 +18,12 @@ public class Bishop extends Piece {
 	 *            is the PColor of the piece
 	 ******************************************************************/
 	public Bishop(PColor color) {
-		super(color, true, NAME); // Set the color and make it alive
+		super(color, true, "Bishop"); // Set the color and make it alive
 		this.color = color;
+		if(color.equals(Color.White))
+			this.icon = "\u2657";
+		else
+			this.icon = "\u265d";
 	}
 
 	/*******************************************************************
@@ -24,7 +32,7 @@ public class Bishop extends Piece {
 	 * @return a string value containing the piece's name
 	 ******************************************************************/
 	public String toString() {
-		return NAME;
+		return name;
 	}
 
 	/*******************************************************************

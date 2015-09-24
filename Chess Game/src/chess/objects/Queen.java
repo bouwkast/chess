@@ -1,23 +1,32 @@
 package chess.objects;
 
 public class Queen extends Piece {
-	private static final String NAME = "Q";
-	private PColor color;
+	
+	/*Local instance variables are not needed - use protected
+	 * instances from parent class
+	 */
+	
+	/*private static final String NAME = "Q";
+	private PColor color;*/
 	
 	/**
 	 * Constructor for the Queen that runs the super and sets the color
 	 * @param color is the color to set
 	 */
 	public Queen(PColor color) {
-		super(color, true, NAME); // Set the color and make it alive
+		super(color, true, "Queen"); // Set the color and make it alive
 		this.color = color;
+		if(color.equals(Color.White))
+			this.icon = "\u2655";
+		else
+			this.icon = "\u265b";
 	}
 	
 	/**
 	 * Returns the name of the Queen, basically for testing board setup
 	 */
 	public String toString() {
-		return NAME;
+		return name;
 	}
 
 	/**

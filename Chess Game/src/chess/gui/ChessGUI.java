@@ -1,6 +1,7 @@
 package chess.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -33,7 +34,8 @@ public class ChessGUI extends JFrame {
 			for(int col = 0; col < 8; ++col) {
 				board[row][col] = new JButton("");
 				if(chess.getBoard().getCellAt(row, col).getChessPiece() != null) {
-					board[row][col].setText(chess.getBoard().getCellAt(row, col).getPieceName());
+					board[row][col].setText(chess.getBoard().getCellAt(row, col).getPieceIcon());
+					board[row][col].setFont(new Font("Arial", Font.PLAIN, 40));
 				} 
 				board[row][col].getModel().setPressed(true);
 				/*For now just making the colors black/white, not doing a checkered pattern yet*/

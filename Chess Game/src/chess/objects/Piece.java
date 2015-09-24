@@ -1,9 +1,10 @@
 package chess.objects;
 
 public class Piece {
-	private PColor color;
+	protected PColor color;
 	private boolean isAlive;
-	private String name;
+	protected String name;
+	protected String icon;
 	
 	
 	int one = 1;
@@ -95,6 +96,13 @@ public class Piece {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/*
+	 * @return the unicode icon for the piece
+	 */
+	public String getIcon(){
+		return icon;
 	}
 	
 

@@ -7,7 +7,11 @@ public class Pawn extends Piece {
 	 */
 	private boolean hasMoved;
 	
-	private final static String NAME = "P";
+	
+	/*Local instance variables are not needed - use protected
+	 * instances from parent class
+	 */
+	//private final static String NAME = "P";
 	
 	/**
 	 * Constructor for Pawn that initializes hasMoved to false.
@@ -16,8 +20,12 @@ public class Pawn extends Piece {
 	 * @param isAlive is whether the pawn is alive
 	 */
 	public Pawn(PColor color, boolean isAlive) {
-		super(color, isAlive, NAME);
+		super(color, isAlive, "Pawn");
 		hasMoved = false;
+		if(color.equals(Color.White))
+			this.icon = "\u2659";
+		else
+			this.icon = "\u265f";
 	}
 	
 	/**
@@ -30,6 +38,10 @@ public class Pawn extends Piece {
 	public Pawn(PColor color, boolean isAlive, boolean hasMoved) {
 		super(color, isAlive);
 		this.hasMoved = hasMoved;
+		if(color.equals(Color.White))
+			this.icon = "\u2659";
+		else
+			this.icon = "\u265f";
 	}
 
 	/**
@@ -50,7 +62,7 @@ public class Pawn extends Piece {
 	}
 	
 	public String toString() {
-		return NAME;
+		return name;
 	}
 
 }

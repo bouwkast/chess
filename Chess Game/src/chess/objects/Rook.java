@@ -2,8 +2,12 @@ package chess.objects;
 
 public class Rook extends Piece {
 	
-	private static final String NAME = "R";
-	private PColor color;
+	/*Local instance variables are not needed - use protected
+	 * instances from parent class
+	 */
+	
+	/*private static final String NAME = "R";
+	private PColor color;*/
 	
 	/**
 	 * Constructor for the Rook that sets its color and runs the
@@ -12,8 +16,12 @@ public class Rook extends Piece {
 	 * @param color
 	 */
 	public Rook (PColor color) {
-		super(color, true, NAME); // Set the color of the Rook and make it alive
+		super(color, true, "Rook"); // Set the color of the Rook and make it alive
 		this.color = color;
+		if(color.equals(Color.White))
+			this.icon = "\u2656";
+		else
+			this.icon = "\u265c";
 	}
 
 
@@ -21,7 +29,7 @@ public class Rook extends Piece {
 	 * Returns the name of the Knight, basically for testing board setup
 	 */
 	public String toString() {
-		return NAME;
+		return name;
 	}
 
 	/**

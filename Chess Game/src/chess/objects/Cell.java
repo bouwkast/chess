@@ -29,6 +29,11 @@ public class Cell {
 	public String getPieceName() {
 		return ChessPiece.getName();
 	}
+	
+	public String getPieceIcon(){
+		return ChessPiece.getIcon();
+		
+	}
 
 
 
