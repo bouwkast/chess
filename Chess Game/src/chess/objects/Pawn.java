@@ -4,8 +4,9 @@ public class Pawn extends Piece {
 	
 	/**
 	 * If the Pawn has moved it can only go one spot, otherwise it can go 2
+	 * (implemented as protected variable in Piece
 	 */
-	private boolean hasMoved;
+	//private boolean hasMoved;
 	
 	
 	/*Local instance variables are not needed - use protected
@@ -42,27 +43,6 @@ public class Pawn extends Piece {
 			this.icon = "\u2659";
 		else
 			this.icon = "\u265f";
-	}
-
-	/**
-	 * Return whether the Pawn has moved or not
-	 * 
-	 * @return the hasMoved
-	 */
-	public boolean isHasMoved() {
-		return hasMoved;
-	}
-
-	/**
-	 * Set whether the Pawn has moved or not
-	 * @param hasMoved the hasMoved to set
-	 */
-	public void setHasMoved(boolean hasMoved) {
-		this.hasMoved = hasMoved;
-	}
-	
-	public String toString() {
-		return name;
 	}
 
 }

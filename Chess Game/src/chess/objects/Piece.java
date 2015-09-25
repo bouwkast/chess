@@ -5,6 +5,7 @@ public class Piece {
 	private boolean isAlive;
 	protected String name;
 	protected String icon;
+	protected boolean hasMoved;
 	
 	
 	int one = 1;
@@ -21,6 +22,9 @@ public class Piece {
 	public Piece(PColor color) {
 		this.setColor(color);
 		setAlive(true); // First creation of object, it will be alive
+		hasMoved = false;
+		name = "";
+		icon = "";
 	}
 	
 	
@@ -34,6 +38,9 @@ public class Piece {
 	public Piece(PColor color, boolean isAlive) {
 		this.setColor(color);
 		this.setAlive(isAlive);
+		hasMoved = false;
+		name = "";
+		icon = "";
 	}
 	
 	/**
@@ -46,6 +53,35 @@ public class Piece {
 		this.setColor(color);
 		this.setAlive(isAlive);
 		this.setName(name);
+		this.setHasMoved(false);
+		icon = "";
+	}
+	
+	/**
+	 * Fourth constructor that takes all parameters
+	 * @param color
+	 * @param isAlive
+	 * @param name
+	 * @param hasMoved
+	 */
+	public Piece(PColor color, boolean isAlive, String name, boolean hasMoved) {
+		this.setColor(color);
+		this.setAlive(isAlive);
+		this.setName(name);
+		this.setHasMoved(hasMoved);
+		icon = "";
+	}
+	
+	/**
+	 * Fifth constructor that takes another piece
+	 * @param otherPiece
+	 */
+	public Piece (Piece otherPiece) {
+		this.color = otherPiece.color;
+		this.isAlive = otherPiece.isAlive;
+		this.name = otherPiece.name;
+		this.hasMoved = otherPiece.hasMoved;
+		this.icon = otherPiece.icon;
 	}
 	
 	/**
@@ -99,11 +135,41 @@ public class Piece {
 	}
 	
 	/*
-	 * @return the unicode icon for the piece
+	 * @return the unicode icon for the piece (set in child classes)
 	 */
 	public String getIcon(){
 		return icon;
 	}
 	
+	/**
+	 * Return whether the Piece has moved or not
+	 * 
+	 * @return the hasMoved
+	 */
+	public boolean isHasMoved() {
+		return hasMoved;
+	}
 
+	/**
+	 * Set whether the Piece has moved or not
+	 * @param hasMoved the hasMoved to set
+	 */
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
+	
+	/*******************************************************************
+	 * Returns all the information about the piece as a string
+	 * 
+	 * @return a string containing all information about the piece
+	 ******************************************************************/
+	public String toString() {
+		return "Piece name: " + name
+				+ "\nPiece color: " + color.name()
+				+ "\nisAlive: " + isAlive
+				+ "\nhasMoved: " + hasMoved
+				+ "\nIcon: " + icon;
+		
+	}
+	
 }

@@ -16,35 +16,10 @@ public class Queen extends Piece {
 	public Queen(PColor color) {
 		super(color, true, "Queen"); // Set the color and make it alive
 		this.color = color;
-		if(color.equals(Color.White))
+		if(color.equals(PColor.White))
 			this.icon = "\u2655";
 		else
 			this.icon = "\u265b";
 	}
 	
-	/**
-	 * Returns the name of the Queen, basically for testing board setup
-	 */
-	public String toString() {
-		return name;
-	}
-
-	/**
-	 * Gets the color of the Queen
-	 * 
-	 * @return the color of the queen
-	 */
-	public PColor getColor() {
-		return color;
-	}
-
-	/**
-	 * Sets the color of the Queen
-	 * 
-	 * @param color is the color to set
-	 */
-	public void setColor(PColor color) {
-		this.color = color;
-	}
-
 }
