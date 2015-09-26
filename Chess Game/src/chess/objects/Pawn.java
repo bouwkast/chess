@@ -6,7 +6,7 @@ public class Pawn extends Piece {
 	 * If the Pawn has moved it can only go one spot, otherwise it can go 2
 	 * (implemented as protected variable in Piece
 	 */
-	//private boolean hasMoved;
+	private boolean hasMoved;
 	
 	
 	/*Local instance variables are not needed - use protected
@@ -43,6 +43,14 @@ public class Pawn extends Piece {
 			this.icon = "\u2659";
 		else
 			this.icon = "\u265f";
+	}
+	
+	public boolean isHasMoved(){
+		return hasMoved;
+	}
+	
+	public void setHasMoved(boolean moved) {
+		this.hasMoved = moved;
 	}
 
 }
