@@ -1,6 +1,7 @@
 package chess.main;
 
 import chess.objects.Board;
+import chess.objects.PColor;
 import chess.objects.Pawn;
 import chess.objects.Piece;
 
@@ -40,12 +41,49 @@ public class Chess {
 	/*******************************************************************
 	 * Makes it easier to get the piece
 	 * 
-	 * @param row
-	 * @param col
-	 * @return
+	 * @param row the row of the piece
+	 * @param col the col of the piece
+	 * @return the piece at the specified cell
 	 ******************************************************************/
 	public Piece getPieceAt(int row, int col) {
 		return this.getBoard().getCellAt(row, col).getChessPiece();
+	}
+	
+	private boolean checkPawn(int r1, int c1, int r2, int c2, Pawn pawn) {
+		// Check to see if the pawn has moved
+		if(pawn.isHasMoved()) {
+			// Want to get the color of the pawn for proper checking
+			if(pawn.getColor() == PColor.White) {
+				// If the pawn is white it is in the bottom rows, so the rows should decrease by 1
+				if(r2 - r1 == 1) {
+					// Potentially a valid move
+					// First check if it is a capture
+					if(Math.abs(c2 - c1) != 0) {
+						if(Math.abs(c2 - c1) > 1) { // Can only move one row diagonally
+							return false;
+						} else {
+							// Need to check if the cell they are moving too contains an enemy
+							
+							// If it doesn't return false
+						}
+					}
+				} else {
+					// Invalid move for the pawn
+					return false;
+				}
+			} else {
+				// The pawn is black and it is in the upper rows, so the rows should increase
+				if(r1 - r2 == 1) {
+					
+				} else {
+					// 
+				}
+			}
+		} else {
+			// The pawn has not moved yet and can move up to 2 rows
+			
+		}
+		return false;
 	}
 
 	/**
@@ -56,6 +94,10 @@ public class Chess {
 	 */
 	public boolean checkMove(int r1, int c1, int r2, int c2,
 			Piece piece) {
+		// Goal is to make more complex
+		if(piece instanceof Pawn) {
+			
+		}
 		if (piece instanceof Pawn) {
 			System.out.println(
 					"Pawn" + r1 + " " + c1 + " " + r2 + " " + c2);
