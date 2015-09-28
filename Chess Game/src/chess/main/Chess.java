@@ -138,6 +138,45 @@ public class Chess {
 			// Could use a recursive call here
 			// Check to see if the pawn is white, if it is, it's at the bottom rows
 			if(pawn.getColor() == PColor.White) {
+				if(r1 - r2 == 2 || r1 - r2 == 1) {
+					if(r1 - r2 == 2) {
+						// The pawn can only move two rows, not any cols
+						if(c1 != c2) {
+							// Pawn can't move two rows and move diagonally
+							return false;
+						} else { // The pawn is not moving diagonally 
+							// We need to check if the cell two rows up the board is empty
+							if(getPieceAt(r2, c2) == null) {
+								// We can move our pawn to the new cell because it is empty
+								// Set the second cell to the pawn
+								board.getCellAt(r2, c2).SetChessPiece(pawn);
+								// The the first cell to null
+								board.getCellAt(r1, c1).SetChessPiece(null);
+								pawn.setHasMoved(true);
+								return true;
+							} else {
+								// The cell is not empty, so it is an invalid move
+								return false;
+							}
+						}
+					} else { // The pawn is only moving one row
+						if(getPieceAt(r2, c2) == null) {
+							// If the cell is empty move the pawn to that cell
+							// DUPLICATE CODE! *************************************************************
+							// Set the second cell to the pawn
+							board.getCellAt(r2, c2).SetChessPiece(pawn);
+							// Set the previous cell to null
+							board.getCellAt(r1, c1).SetChessPiece(null);
+							return true;
+						} else {
+							return false;
+						}
+					}
+				} else {
+					// Invalid move
+					return false;
+				}
+			} else { // The color of the pawn is Black
 				if(r2 - r1 == 2 || r2 - r1 == 1) {
 					if(r2 - r1 == 2) {
 						// The pawn can only move two rows, not any cols
@@ -160,16 +199,23 @@ public class Chess {
 							}
 						}
 					} else { // The pawn is only moving one row
-						
+						if(getPieceAt(r2, c2) == null) {
+							// If the cell is empty move the pawn to that cell
+							// DUPLICATE CODE! *************************************************************
+							// Set the second cell to the pawn
+							board.getCellAt(r2, c2).SetChessPiece(pawn);
+							// Set the previous cell to null
+							board.getCellAt(r1, c1).SetChessPiece(null);
+							return true;
+						} else {
+							return false;
+						}
 					}
 				} else {
 					// Invalid move
 					return false;
 				}
-			} else { // The color of the pawn is Black
-				
 			}
-			
 		}
 		return false;
 	}
@@ -184,39 +230,43 @@ public class Chess {
 			Piece piece) {
 		// Goal is to make more complex
 		if(piece instanceof Pawn) {
-			
-		}
-		if (piece instanceof Pawn) {
-			System.out.println(
-					"Pawn" + r1 + " " + c1 + " " + r2 + " " + c2);
-			// Want to check if it is a valid move
-			if (piece.isHasMoved()) { // If it has moved we need more
-										// checks
-				if (Math.abs(r1 - r2) > 1) {
-					System.out.println("INVALID MOVE");
-				} else {
-					System.out.println("VALID MOVE");
-					board.getCellAt(r2, c2).SetChessPiece(piece);
-					board.getCellAt(r1, c1).SetChessPiece(null);
-					return true;
-				}
+			if(checkPawn(r1, c1, r2, c2, (Pawn)piece)) {
+				System.out.println("VALID MOVE");
 			} else {
-				// It hasn't moved assuming it isn't moving diagonally
-				// now
-				if (Math.abs(r1 - r2) > 2) {
-					System.out.println("INVALID MOVE");
-				} else {
-					System.out.println("VALID MOVE");
-					board.getCellAt(r2, c2).SetChessPiece(piece);
-					board.getCellAt(r1, c1).SetChessPiece(null);
-					piece.setHasMoved(true);
-					return true;
-				}
+				System.out.println("INVALID MOVE");
 			}
 		} else {
 			System.out.println("Not a Pawn");
 		}
 		return false;
+//		if (piece instanceof Pawn) {
+//			System.out.println(
+//					"Pawn" + r1 + " " + c1 + " " + r2 + " " + c2);
+//			// Want to check if it is a valid move
+//			if (piece.isHasMoved()) { // If it has moved we need more
+//										// checks
+//				if (Math.abs(r1 - r2) > 1) {
+//					System.out.println("INVALID MOVE");
+//				} else {
+//					System.out.println("VALID MOVE");
+//					board.getCellAt(r2, c2).SetChessPiece(piece);
+//					board.getCellAt(r1, c1).SetChessPiece(null);
+//					return true;
+//				}
+//			} else {
+//				// It hasn't moved assuming it isn't moving diagonally
+//				// now
+//				if (Math.abs(r1 - r2) > 2) {
+//					System.out.println("INVALID MOVE");
+//				} else {
+//					System.out.println("VALID MOVE");
+//					board.getCellAt(r2, c2).SetChessPiece(piece);
+//					board.getCellAt(r1, c1).SetChessPiece(null);
+//					piece.setHasMoved(true);
+//					return true;
+//				}
+//			}
+		
 	}
 
 	/* No longer needed, moved into ChessController */
