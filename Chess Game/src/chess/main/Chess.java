@@ -41,183 +41,234 @@ public class Chess {
 	/*******************************************************************
 	 * Makes it easier to get the piece
 	 * 
-	 * @param row the row of the piece
-	 * @param col the col of the piece
+	 * @param row
+	 *            the row of the piece
+	 * @param col
+	 *            the col of the piece
 	 * @return the piece at the specified cell
 	 ******************************************************************/
 	public Piece getPieceAt(int row, int col) {
 		return this.getBoard().getCellAt(row, col).getChessPiece();
 	}
-	
-	private boolean checkPawn(int r1, int c1, int r2, int c2, Pawn pawn) {
-		// Check to see if the pawn has moved
-		if(pawn.isHasMoved()) {
-			// Want to get the color of the pawn for proper checking
-			if(pawn.getColor() == PColor.White) {
-				// If the pawn is white it is in the bottom rows, so the rows should decrease by 1
-				if(r1 - r2 == 1) {
-					// Potentially a valid move
-					// First check if it is a capture
-					if(Math.abs(c2 - c1) != 0) {
-						if(Math.abs(c2 - c1) > 1) { // Can only move one row diagonally
-							return false;
-						} else {
-							// Need to check if the cell they are moving too contains an enemy
-							if(getPieceAt(r2, c2) != null && getPieceAt(r2, c2).getColor() == PColor.Black) {
-								// It is an enemy piece, capture it and move the pawn
-								// Set the second cell to the pawn
-								board.getCellAt(r2, c2).SetChessPiece(pawn);
-								// Set the previous cell to null
-								board.getCellAt(r1, c1).SetChessPiece(null);
-								return true;
-							} else {
-								// The cell doesn't contain an enemy, so it is an invalid move
-								return false;
-							}
-						}
-						// If it isn't a capture we want to check if the pawn can move to the cell
-					} else if(Math.abs(c2 - c1) == 0) {
-						if(getPieceAt(r2, c2) == null) {
-							// If the cell is empty move the pawn to that cell
-							// DUPLICATE CODE! *************************************************************
-							// Set the second cell to the pawn
-							board.getCellAt(r2, c2).SetChessPiece(pawn);
-							// Set the previous cell to null
-							board.getCellAt(r1, c1).SetChessPiece(null);
-							return true;
-						} else {
-							return false;
-						}
-					}
+
+	/*******************************************************************
+	 * Helper method for the white pawns that checks for valid movement
+	 * vertically. Just a note the white pawns are located in row 6 in
+	 * the beginning. For this method the cols are the same, so we
+	 * aren't capturing anything.
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn we are trying to move
+	 * @return a boolean value whether the pawn was moved successfully
+	 ******************************************************************/
+	private boolean pawnWhiteVert(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		if (r1 - r2 > 2) { // Pawns cannot move more than two rows.
+			System.out.println("OOPS");
+			return false;
+		}
+		// Only gets here if it is 2 or less for the rows
+		// If it has moved it can only go 1 row
+		if (pawn.isHasMoved()) {
+			if (r1 - r2 == 1 && board.getCellAt(r2, c2) == null) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		} else { // If it hasn't moved it can go two rows
+			if (r1 - r2 == 2 || r1 - r2 == 1) {
+				if (getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					return true;
 				} else {
-					// Invalid move for the pawn
 					return false;
 				}
 			} else {
-				// The pawn is black and it is in the upper rows, so the rows should increase
-				if(r1 - r2 == 1) {
-					// Check if it is a capture move
-					if(Math.abs(c2 - c1) != 0) {
-						if(Math.abs(c2 - c1) > 1) { // Can only move one col over
-							return false;
-						} else { // Else it is a potential capture move
-							// We need to check if the cell contains an enemy
-							if(getPieceAt(r2, c2) != null && getPieceAt(r2, c2).getColor() == PColor.White) {
-								// It is an enemy piece, capture it and move the pawn
-								// Set the second cell to the pawn
-								board.getCellAt(r2, c2).SetChessPiece(pawn);
-								// Set the previous cell to null
-								board.getCellAt(r1, c1).SetChessPiece(null);
-								return true;
-							} else {
-								// The cell doesn't contain an enemy, invalid move
-								return false;
-							}
-						}
-						// Else it isn't a capture piece and is only moving 1 row
-					} else if(Math.abs(c2 - c1) == 0) {
-						if(getPieceAt(r2, c2) == null) {
-							// If the cell is empty move the pawn to that cell
-							// DUPLICATE CODE! *************************************************************
-							// Set the second cell to the pawn
-							board.getCellAt(r2, c2).SetChessPiece(pawn);
-							// Set the previous cell to null
-							board.getCellAt(r1, c1).SetChessPiece(null);
-							return true;
-						} else {
-							return false;
-						}
-					}
+				return false;
+			}
+		}
+	}
+
+	/*******************************************************************
+	 * Simply moves one piece from one cell to the one specified. No
+	 * checking should be done in this function, it is a basic helper
+	 * method, so all checking if the piece can go in that cell should
+	 * be done outside.
+	 * 
+	 * This will remove any piece in the second cell and replace it with
+	 * the piece that was in the first cell.
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param piece
+	 *            is the piece to move
+	 ******************************************************************/
+	private void movePieceTo(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		// Set the second cell to the pawn
+		board.getCellAt(r2, c2).SetChessPiece(piece);
+		// Set the previous cell to null
+		board.getCellAt(r1, c1).SetChessPiece(null);
+	}
+
+	/*******************************************************************
+	 * This checks if the pawn is making a valid move diagonally.
+	 * Currently there has to be a piece there, but later en passant,
+	 * must be implemented
+	 * 
+	 * EN PASSANT NOT IMPLEMENTED YET
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn that we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
+	private boolean pawnWhiteDiag(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		if (r1 - r2 != 1) {
+			return false;
+		} else {
+			if (getPieceAt(r2, c2) != null
+					&& getPieceAt(r2, c2).getColor() == PColor.Black) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*******************************************************************
+	 * This checks if the black pawn is making a valid move vertically.
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
+	private boolean pawnBlackVert(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		// Pawns at most can only move 2 rows
+		if (r2 - r1 > 2) {
+			return false;
+		}
+		if (pawn.isHasMoved()) {
+			if (r2 - r1 == 1 && getPieceAt(r2, c2) == null) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		} else { // If it hasn't moved it can go two rows
+			if ((r2 - r1 == 2 || r2 - r1 == 1)
+					&& getPieceAt(r2, c2) == null) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*******************************************************************
+	 * This checks if the black pawn is making a valid move diagonally.
+	 * 
+	 * EN PASSANT NOT IMPLEMENTED YET
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn that we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
+	private boolean pawnBlackDiag(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		if (r2 - r1 != 1) {
+			return false;
+		} else {
+			if (getPieceAt(r2, c2) != null
+					&& getPieceAt(r2, c2).getColor() == PColor.White) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/*******************************************************************
+	 * Checks whether the pawn is making a valid move or not.
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
+	private boolean checkPawn(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		if (pawn.getColor() == PColor.White) {
+			if (c1 == c2) { // Not moving diagonally
+				return pawnWhiteVert(r1, c1, r2, c2, pawn);
+			} else { // It is moving diagonally
+				if (Math.abs(c1 - c2) == 1) { // Can only move 1 col
+					return pawnWhiteDiag(r1, c1, r2, c2, pawn);
 				} else {
-					// The pawn can only move row
 					return false;
 				}
 			}
-		} else {
-			// The pawn has not moved yet and can move up to 2 rows
-			// Could use a recursive call here
-			// Check to see if the pawn is white, if it is, it's at the bottom rows
-			if(pawn.getColor() == PColor.White) {
-				if(r1 - r2 == 2 || r1 - r2 == 1) {
-					if(r1 - r2 == 2) {
-						// The pawn can only move two rows, not any cols
-						if(c1 != c2) {
-							// Pawn can't move two rows and move diagonally
-							return false;
-						} else { // The pawn is not moving diagonally 
-							// We need to check if the cell two rows up the board is empty
-							if(getPieceAt(r2, c2) == null) {
-								// We can move our pawn to the new cell because it is empty
-								// Set the second cell to the pawn
-								board.getCellAt(r2, c2).SetChessPiece(pawn);
-								// The the first cell to null
-								board.getCellAt(r1, c1).SetChessPiece(null);
-								pawn.setHasMoved(true);
-								return true;
-							} else {
-								// The cell is not empty, so it is an invalid move
-								return false;
-							}
-						}
-					} else { // The pawn is only moving one row
-						if(getPieceAt(r2, c2) == null) {
-							// If the cell is empty move the pawn to that cell
-							// DUPLICATE CODE! *************************************************************
-							// Set the second cell to the pawn
-							board.getCellAt(r2, c2).SetChessPiece(pawn);
-							// Set the previous cell to null
-							board.getCellAt(r1, c1).SetChessPiece(null);
-							return true;
-						} else {
-							return false;
-						}
-					}
+		} else { // The pawn is black
+			if (c1 == c2) { // Not moving diagonally
+				return pawnBlackVert(r1, c1, r2, c2, pawn);
+			} else { // It is moving diagonally
+				if (Math.abs(c1 - c2) == 1) {
+					return pawnBlackDiag(r1, c1, r2, c2, pawn);
 				} else {
-					// Invalid move
-					return false;
-				}
-			} else { // The color of the pawn is Black
-				if(r2 - r1 == 2 || r2 - r1 == 1) {
-					if(r2 - r1 == 2) {
-						// The pawn can only move two rows, not any cols
-						if(c1 != c2) {
-							// Pawn can't move two rows and move diagonally
-							return false;
-						} else { // The pawn is not moving diagonally 
-							// We need to check if the cell two rows up the board is empty
-							if(getPieceAt(r2, c2) == null) {
-								// We can move our pawn to the new cell because it is empty
-								// Set the second cell to the pawn
-								board.getCellAt(r2, c2).SetChessPiece(pawn);
-								// The the first cell to null
-								board.getCellAt(r1, c1).SetChessPiece(null);
-								pawn.setHasMoved(true);
-								return true;
-							} else {
-								// The cell is not empty, so it is an invalid move
-								return false;
-							}
-						}
-					} else { // The pawn is only moving one row
-						if(getPieceAt(r2, c2) == null) {
-							// If the cell is empty move the pawn to that cell
-							// DUPLICATE CODE! *************************************************************
-							// Set the second cell to the pawn
-							board.getCellAt(r2, c2).SetChessPiece(pawn);
-							// Set the previous cell to null
-							board.getCellAt(r1, c1).SetChessPiece(null);
-							return true;
-						} else {
-							return false;
-						}
-					}
-				} else {
-					// Invalid move
 					return false;
 				}
 			}
 		}
-		return false;
 	}
 
 	/**
@@ -228,9 +279,9 @@ public class Chess {
 	 */
 	public boolean checkMove(int r1, int c1, int r2, int c2,
 			Piece piece) {
-		// Goal is to make more complex
-		if(piece instanceof Pawn) {
-			if(checkPawn(r1, c1, r2, c2, (Pawn)piece)) {
+		// Relatively decent checking style for pawn
+		if (piece instanceof Pawn) {
+			if (checkPawn(r1, c1, r2, c2, (Pawn) piece)) {
 				System.out.println("VALID MOVE");
 				return true;
 			} else {
@@ -241,34 +292,6 @@ public class Chess {
 			System.out.println("Not a Pawn");
 		}
 		return false;
-//		if (piece instanceof Pawn) {
-//			System.out.println(
-//					"Pawn" + r1 + " " + c1 + " " + r2 + " " + c2);
-//			// Want to check if it is a valid move
-//			if (piece.isHasMoved()) { // If it has moved we need more
-//										// checks
-//				if (Math.abs(r1 - r2) > 1) {
-//					System.out.println("INVALID MOVE");
-//				} else {
-//					System.out.println("VALID MOVE");
-//					board.getCellAt(r2, c2).SetChessPiece(piece);
-//					board.getCellAt(r1, c1).SetChessPiece(null);
-//					return true;
-//				}
-//			} else {
-//				// It hasn't moved assuming it isn't moving diagonally
-//				// now
-//				if (Math.abs(r1 - r2) > 2) {
-//					System.out.println("INVALID MOVE");
-//				} else {
-//					System.out.println("VALID MOVE");
-//					board.getCellAt(r2, c2).SetChessPiece(piece);
-//					board.getCellAt(r1, c1).SetChessPiece(null);
-//					piece.setHasMoved(true);
-//					return true;
-//				}
-//			}
-		
 	}
 
 	/* No longer needed, moved into ChessController */
