@@ -55,7 +55,7 @@ public class Chess {
 			// Want to get the color of the pawn for proper checking
 			if(pawn.getColor() == PColor.White) {
 				// If the pawn is white it is in the bottom rows, so the rows should decrease by 1
-				if(r2 - r1 == 1) {
+				if(r1 - r2 == 1) {
 					// Potentially a valid move
 					// First check if it is a capture
 					if(Math.abs(c2 - c1) != 0) {
@@ -232,8 +232,10 @@ public class Chess {
 		if(piece instanceof Pawn) {
 			if(checkPawn(r1, c1, r2, c2, (Pawn)piece)) {
 				System.out.println("VALID MOVE");
+				return true;
 			} else {
 				System.out.println("INVALID MOVE");
+				return false;
 			}
 		} else {
 			System.out.println("Not a Pawn");

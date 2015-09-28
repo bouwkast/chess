@@ -75,13 +75,13 @@ public class Board {
 
 		// Sets the pawns for the black side;
 		for (int x = 0; x < 8; x++) {
-			ChessBoard[1][x].SetChessPiece(pawnB);
+			ChessBoard[1][x].SetChessPiece(new Pawn(PColor.Black, true));
 
 		}
 
 		// Sets the pawns for the white Side
 		for (int y = 0; y < 8; y++) {
-			ChessBoard[6][y].SetChessPiece(pawnW);
+			ChessBoard[6][y].SetChessPiece(new Pawn(PColor.White, true));
 		}
 
 	}

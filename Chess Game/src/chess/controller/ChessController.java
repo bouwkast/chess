@@ -82,7 +82,8 @@ public class ChessController {
 					gui.getButtonAt(r1, c1).setText("");
 					if (game.getPieceAt(r2, c2).getName() != null) {
 						gui.getButtonAt(r2, c2).setText(
-								game.getPieceAt(r2, c2).getName());
+								game.getPieceAt(r2, c2).getIcon());
+						gui.revalidate();
 					}
 				}
 			}
