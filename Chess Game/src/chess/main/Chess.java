@@ -135,6 +135,40 @@ public class Chess {
 			}
 		} else {
 			// The pawn has not moved yet and can move up to 2 rows
+			// Could use a recursive call here
+			// Check to see if the pawn is white, if it is, it's at the bottom rows
+			if(pawn.getColor() == PColor.White) {
+				if(r2 - r1 == 2 || r2 - r1 == 1) {
+					if(r2 - r1 == 2) {
+						// The pawn can only move two rows, not any cols
+						if(c1 != c2) {
+							// Pawn can't move two rows and move diagonally
+							return false;
+						} else { // The pawn is not moving diagonally 
+							// We need to check if the cell two rows up the board is empty
+							if(getPieceAt(r2, c2) == null) {
+								// We can move our pawn to the new cell because it is empty
+								// Set the second cell to the pawn
+								board.getCellAt(r2, c2).SetChessPiece(pawn);
+								// The the first cell to null
+								board.getCellAt(r1, c1).SetChessPiece(null);
+								pawn.setHasMoved(true);
+								return true;
+							} else {
+								// The cell is not empty, so it is an invalid move
+								return false;
+							}
+						}
+					} else { // The pawn is only moving one row
+						
+					}
+				} else {
+					// Invalid move
+					return false;
+				}
+			} else { // The color of the pawn is Black
+				
+			}
 			
 		}
 		return false;
