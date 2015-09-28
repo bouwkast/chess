@@ -63,8 +63,30 @@ public class Chess {
 							return false;
 						} else {
 							// Need to check if the cell they are moving too contains an enemy
-							
-							// If it doesn't return false
+							if(getPieceAt(r2, c2) != null && getPieceAt(r2, c2).getColor() == PColor.Black) {
+								// It is an enemy piece, capture it and move the pawn
+								// Set the second cell to the pawn
+								board.getCellAt(r2, c2).SetChessPiece(pawn);
+								// Set the previous cell to null
+								board.getCellAt(r1, c1).SetChessPiece(null);
+								return true;
+							} else {
+								// The cell doesn't contain an enemy, so it is an invalid move
+								return false;
+							}
+						}
+						// If it isn't a capture we want to check if the pawn can move to the cell
+					} else if(Math.abs(c2 - c1) == 0) {
+						if(getPieceAt(r2, c2) == null) {
+							// If the cell is empty move the pawn to that cell
+							// DUPLICATE CODE! *************************************************************
+							// Set the second cell to the pawn
+							board.getCellAt(r2, c2).SetChessPiece(pawn);
+							// Set the previous cell to null
+							board.getCellAt(r1, c1).SetChessPiece(null);
+							return true;
+						} else {
+							return false;
 						}
 					}
 				} else {
@@ -74,9 +96,41 @@ public class Chess {
 			} else {
 				// The pawn is black and it is in the upper rows, so the rows should increase
 				if(r1 - r2 == 1) {
-					
+					// Check if it is a capture move
+					if(Math.abs(c2 - c1) != 0) {
+						if(Math.abs(c2 - c1) > 1) { // Can only move one col over
+							return false;
+						} else { // Else it is a potential capture move
+							// We need to check if the cell contains an enemy
+							if(getPieceAt(r2, c2) != null && getPieceAt(r2, c2).getColor() == PColor.White) {
+								// It is an enemy piece, capture it and move the pawn
+								// Set the second cell to the pawn
+								board.getCellAt(r2, c2).SetChessPiece(pawn);
+								// Set the previous cell to null
+								board.getCellAt(r1, c1).SetChessPiece(null);
+								return true;
+							} else {
+								// The cell doesn't contain an enemy, invalid move
+								return false;
+							}
+						}
+						// Else it isn't a capture piece and is only moving 1 row
+					} else if(Math.abs(c2 - c1) == 0) {
+						if(getPieceAt(r2, c2) == null) {
+							// If the cell is empty move the pawn to that cell
+							// DUPLICATE CODE! *************************************************************
+							// Set the second cell to the pawn
+							board.getCellAt(r2, c2).SetChessPiece(pawn);
+							// Set the previous cell to null
+							board.getCellAt(r1, c1).SetChessPiece(null);
+							return true;
+						} else {
+							return false;
+						}
+					}
 				} else {
-					// 
+					// The pawn can only move row
+					return false;
 				}
 			}
 		} else {
