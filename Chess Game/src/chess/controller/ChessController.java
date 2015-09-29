@@ -1,6 +1,5 @@
 package chess.controller;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,9 +13,11 @@ public class ChessController {
 
 	/** Is the Chess to add to the controller */
 	private Chess game;
-
+	
+	/** These are the row values for first and second click */
 	private int r1 = -1, c1 = -1, r2 = -1, c2 = -1;
-
+	
+	/** Track whether it is the first click for that player's turn */
 	private boolean firstClick;
 
 	/*******************************************************************
@@ -43,7 +44,6 @@ public class ChessController {
 		this.firstClick = true;
 
 		this.gui.addChessListener(new ChessListener());
-		// TODO Auto-generated constructor stub
 	}
 
 	private void findCell(ActionEvent e) {
@@ -70,11 +70,10 @@ public class ChessController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// Very basic method to find the button and peice and checks
+			// Very basic method to find the button and piece and checks
 			// if it can move there
 			if (firstClick) {
 				findCell(e);
-				// System.out.println(r1 + 1 + " " + (c1 +1));
 			} else {
 				findCell(e);
 				System.out.println(r2 + 1 + " " + (c2 + 1));
@@ -88,21 +87,6 @@ public class ChessController {
 					}
 				}
 			}
-
-			// Simply going to search through the 2D array of buttons
-			// and
-			// print out the location of them
-			// for (int row = 0; row < 8; ++row) {
-			// for (int col = 0; col < 8; ++col) {
-			// if (e.getSource() == gui.getBoard()[row][col]) {
-			// System.out.println("The Row is: " + (row + 1)
-			// + " and the Column is: " + (col + 1));
-			// }
-			// }
-			// }
-
 		}
-
 	}
-
 }

@@ -34,11 +34,11 @@ public class Board {
 	private void setPawns() {
 		// Sets the pawns for the black side;
 		for (int x = 0; x < 8; x++) {
-			board[1][x].setChessPiece(new Pawn(PColor.Black, true));
+			board[1][x].setChessPiece(new Pawn(PColor.Black));
 		}
 		// Sets the pawns for the white Side
 		for (int y = 0; y < 8; y++) {
-			board[6][y].setChessPiece(new Pawn(PColor.White, true));
+			board[6][y].setChessPiece(new Pawn(PColor.White));
 		}
 	}
 

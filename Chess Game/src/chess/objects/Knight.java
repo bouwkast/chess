@@ -1,21 +1,20 @@
 package chess.objects;
 
 public class Knight extends Piece {
-	
-	/*Local instance variables are not needed - use protected
-	 * instances from parent class
-	 */
-	
-	/*private static final String NAME = "N";
-	private PColor color;*/
 
+	/*******************************************************************
+	 * Constructor for the Knight that takes it's PColor
+	 * 
+	 * @param color
+	 *            is the PColor to set the Knight to
+	 ******************************************************************/
 	public Knight(PColor color) {
 		super(color, true, "Knight"); // Set the color and make it alive
 		this.color = color;
-		if(color.equals(PColor.White))
-			this.icon = "\u2658";
+		if (color.equals(PColor.White))
+			this.icon = "\u2658"; // white
 		else
-			this.icon = "\u265e";
+			this.icon = "\u265e"; // black
 	}
 
 }

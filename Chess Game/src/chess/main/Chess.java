@@ -1,5 +1,6 @@
 package chess.main;
 
+import chess.objects.Bishop;
 import chess.objects.Board;
 import chess.objects.Knight;
 import chess.objects.PColor;
@@ -78,6 +79,10 @@ public class Chess {
 		board.getCellAt(r2, c2).setChessPiece(piece);
 		// Set the previous cell to null
 		board.getCellAt(r1, c1).setChessPiece(null);
+		// If it was the Piece's first move, set that it has moved
+		if (!piece.isHasMoved()) {
+			piece.setHasMoved(true);
+		}
 	}
 
 	/*******************************************************************
@@ -118,10 +123,8 @@ public class Chess {
 				if (getPieceAt(r2 + 1, c2) == null
 						&& getPieceAt(r2, c2) == null) {
 					movePieceTo(r1, c1, r2, c2, pawn);
-					pawn.setHasMoved(true);
 					/** Need to check for passant here */
 					// TODO add passant
-					// board.getCellAt(r2 + 1, c2).setPassant(true);
 					return true;
 				} else {
 					return false;
@@ -204,10 +207,8 @@ public class Chess {
 				if (getPieceAt(r2 - 1, c2) == null
 						&& getPieceAt(r2, c2) == null) {
 					movePieceTo(r1, c1, r2, c2, pawn);
-					pawn.setHasMoved(true);
 					/** Need to check for passant here */
 					// TODO add passant
-					// board.getCellAt(r2 - 1, c2).setPassant(true);
 					return true;
 				} else {
 					return false;
@@ -333,9 +334,103 @@ public class Chess {
 			}
 
 		} else {
-			// Invalid move
+			// Invalid move pattern
 			return false;
 		}
+	}
+
+	private boolean checkBishop(int r1, int c1, int r2, int c2,
+			Bishop bishop) {
+		// Bishops row and col must change by same amount
+		if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
+			return checkDiagonal(r1, c1, r2, c2, bishop);
+
+		} else { // Not a diagonal move
+			return false;
+		}
+	}
+
+	/*******************************************************************
+	 * Helper method that checks the piece's diagonal movement
+	 * 
+	 * @param r1
+	 *            is the row of the first Cell
+	 * @param c1
+	 *            is the col of the first Cell
+	 * @param r2
+	 *            is the row of the second Cell
+	 * @param c2
+	 *            is the col of the second Cell
+	 * @param piece
+	 *            is the Piece we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkDiagonal(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		if (r1 > r2 && c1 < c2) { // Up and right
+			for (int x = r1 - 1, y = c1 + 1; x >= r2
+					&& y <= c2; x--, y++) {
+				if (x != r2) { // Check all cells inbetween
+					if (getPieceAt(x, y) != null) {
+						return false;
+					}
+				} else { // At the final cell check its piece
+					if (getPieceAt(x, y) == null || getPieceAt(x, y)
+							.getColor() != piece.getColor()) {
+						movePieceTo(r1, c1, r2, c2, piece);
+						return true;
+					}
+				}
+			}
+		} else if (r1 < r2 && c1 < c2) { // Down and right
+			System.out.println("DL");
+			for (int x = r1 + 1, y = c1 + 1; x <= r2
+					&& y <= c2; x++, y++) {
+				if (x != r2) { // Check all cells inbetween
+					if (getPieceAt(x, y) != null) {
+						return false;
+					}
+				} else { // At the final cell check its piece
+					if (getPieceAt(x, y) == null || getPieceAt(x, y)
+							.getColor() != piece.getColor()) {
+						movePieceTo(r1, c1, r2, c2, piece);
+						return true;
+					}
+				}
+			}
+		} else if (r1 < r2 && c1 > c2) { // Down and left
+			for (int x = r1 + 1, y = c1 - 1; x <= r2
+					&& y >= c2; x++, y--) {
+				if (x != r2) { // Check all cells inbetween
+					if (getPieceAt(x, y) != null) {
+						return false;
+					}
+				} else { // At the final cell check its piece
+					if (getPieceAt(x, y) == null || getPieceAt(x, y)
+							.getColor() != piece.getColor()) {
+						movePieceTo(r1, c1, r2, c2, piece);
+						return true;
+					}
+				}
+			}
+
+		} else if (r1 > r2 && c1 > c2) { // Up and left
+			for (int x = r1 - 1, y = c1 - 1; x >= r2
+					&& y >= c2; x--, y--) {
+				if (x != r2) { // Check all cells inbetween
+					if (getPieceAt(x, y) != null) {
+						return false;
+					}
+				} else { // At the final cell check its piece
+					if (getPieceAt(x, y) == null || getPieceAt(x, y)
+							.getColor() != piece.getColor()) {
+						movePieceTo(r1, c1, r2, c2, piece);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -364,8 +459,18 @@ public class Chess {
 				System.out.println("INVALID MOVE KNIGHT");
 				return false;
 			}
+		} else if (piece instanceof Bishop) {
+			System.out.println("BISHOP");
+			if (checkBishop(r1, c1, r2, c2, (Bishop) piece)) {
+				System.out.println("VALID MOVE BISHOP");
+				return true;
+			} else {
+				System.out.println("INVALID MOVE BISHOP");
+				return false;
+			}
+
 		} else {
-			System.out.println("Not a Pawn/Knight");
+			System.out.println("Not a Pawn/Knight/Bishop");
 		}
 		return false;
 	}

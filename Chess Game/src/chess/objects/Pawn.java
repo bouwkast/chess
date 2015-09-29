@@ -12,8 +12,8 @@ public class Pawn extends Piece {
 		super(color, true, "Pawn");
 		hasMoved = false;
 		if (color.equals(PColor.White))
-			this.icon = "\u2659";
+			this.icon = "\u2659"; // white
 		else
-			this.icon = "\u265f";
+			this.icon = "\u265f"; // black
 	}
 }

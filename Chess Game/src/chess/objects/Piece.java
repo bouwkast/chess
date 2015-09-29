@@ -109,7 +109,8 @@ public class Piece {
 	/*******************************************************************
 	 * Setter for whether the Piece is alive or not
 	 * 
-	 * @param isAlive is the value to set
+	 * @param isAlive
+	 *            is the value to set
 	 ******************************************************************/
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
@@ -127,7 +128,8 @@ public class Piece {
 	/*******************************************************************
 	 * Setter for the PColor of the Piece
 	 * 
-	 * @param color is the PColor to set
+	 * @param color
+	 *            is the PColor to set
 	 ******************************************************************/
 	public void setColor(PColor color) {
 		this.color = color;
@@ -145,7 +147,8 @@ public class Piece {
 	/*******************************************************************
 	 * Setter for the name of the Piece
 	 * 
-	 * @param name is the name to set
+	 * @param name
+	 *            is the name to set
 	 ******************************************************************/
 	public void setName(String name) {
 		this.name = name;
@@ -172,7 +175,8 @@ public class Piece {
 	/*******************************************************************
 	 * Setter for whether the Piece has moved or not
 	 * 
-	 * @param hasMoved is the boolean value to set
+	 * @param hasMoved
+	 *            is the boolean value to set
 	 ******************************************************************/
 	public void setHasMoved(boolean hasMoved) {
 		this.hasMoved = hasMoved;
