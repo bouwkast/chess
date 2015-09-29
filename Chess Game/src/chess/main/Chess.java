@@ -368,65 +368,147 @@ public class Chess {
 	private boolean checkDiagonal(int r1, int c1, int r2, int c2,
 			Piece piece) {
 		if (r1 > r2 && c1 < c2) { // Up and right
-			for (int x = r1 - 1, y = c1 + 1; x >= r2
-					&& y <= c2; x--, y++) {
-				if (x != r2) { // Check all cells inbetween
-					if (getPieceAt(x, y) != null) {
-						return false;
-					}
-				} else { // At the final cell check its piece
-					if (getPieceAt(x, y) == null || getPieceAt(x, y)
-							.getColor() != piece.getColor()) {
-						movePieceTo(r1, c1, r2, c2, piece);
-						return true;
-					}
-				}
-			}
+			return cUpRight(r1, c1, r2, c2, piece);
 		} else if (r1 < r2 && c1 < c2) { // Down and right
-			System.out.println("DL");
-			for (int x = r1 + 1, y = c1 + 1; x <= r2
-					&& y <= c2; x++, y++) {
-				if (x != r2) { // Check all cells inbetween
-					if (getPieceAt(x, y) != null) {
-						return false;
-					}
-				} else { // At the final cell check its piece
-					if (getPieceAt(x, y) == null || getPieceAt(x, y)
-							.getColor() != piece.getColor()) {
-						movePieceTo(r1, c1, r2, c2, piece);
-						return true;
-					}
-				}
-			}
+			return cDownRight(r1, c1, r2, c2, piece);
 		} else if (r1 < r2 && c1 > c2) { // Down and left
-			for (int x = r1 + 1, y = c1 - 1; x <= r2
-					&& y >= c2; x++, y--) {
-				if (x != r2) { // Check all cells inbetween
-					if (getPieceAt(x, y) != null) {
-						return false;
-					}
-				} else { // At the final cell check its piece
-					if (getPieceAt(x, y) == null || getPieceAt(x, y)
-							.getColor() != piece.getColor()) {
-						movePieceTo(r1, c1, r2, c2, piece);
-						return true;
-					}
+			return cDownLeft(r1, c1, r2, c2, piece);
+		} else if (r1 > r2 && c1 > c2) { // Up and left
+			return cUpLeft(r1, c1, r2, c2, piece);
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Check the Piece's movement up and to the right
+	 * 
+	 * @param r1
+	 *            is the row of the first Cell
+	 * @param c1
+	 *            is the col of the first Cell
+	 * @param r2
+	 *            is the row of the second Cell
+	 * @param c2
+	 *            is the col of the second Cell
+	 * @param piece
+	 *            is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean cUpRight(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		for (int x = r1 - 1, y = c1 + 1; x >= r2
+				&& y <= c2; x--, y++) {
+			if (x != r2) { // Check all cells inbetween
+				if (getPieceAt(x, y) != null) {
+					return false;
+				}
+			} else { // At the final cell check its piece
+				if (getPieceAt(x, y) == null || getPieceAt(x, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
 				}
 			}
+		}
+		return false;
+	}
 
-		} else if (r1 > r2 && c1 > c2) { // Up and left
-			for (int x = r1 - 1, y = c1 - 1; x >= r2
-					&& y >= c2; x--, y--) {
-				if (x != r2) { // Check all cells inbetween
-					if (getPieceAt(x, y) != null) {
-						return false;
-					}
-				} else { // At the final cell check its piece
-					if (getPieceAt(x, y) == null || getPieceAt(x, y)
-							.getColor() != piece.getColor()) {
-						movePieceTo(r1, c1, r2, c2, piece);
-						return true;
-					}
+	/*******************************************************************
+	 * Check the Piece's movement down and to the right
+	 * 
+	 * @param r1
+	 *            is the row of the first Cell
+	 * @param c1
+	 *            is the col of the first Cell
+	 * @param r2
+	 *            is the row of the second Cell
+	 * @param c2
+	 *            is the col of the second Cell
+	 * @param piece
+	 *            is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean cDownRight(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		for (int x = r1 + 1, y = c1 + 1; x <= r2
+				&& y <= c2; x++, y++) {
+			if (x != r2) { // Check all cells inbetween
+				if (getPieceAt(x, y) != null) {
+					return false;
+				}
+			} else { // At the final cell check its piece
+				if (getPieceAt(x, y) == null || getPieceAt(x, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Check the Piece's movement down and to the left
+	 * 
+	 * @param r1
+	 *            is the row of the first Cell
+	 * @param c1
+	 *            is the col of the first Cell
+	 * @param r2
+	 *            is the row of the second Cell
+	 * @param c2
+	 *            is the col of the second Cell
+	 * @param piece
+	 *            is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean cDownLeft(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		for (int x = r1 + 1, y = c1 - 1; x <= r2
+				&& y >= c2; x++, y--) {
+			if (x != r2) { // Check all cells inbetween
+				if (getPieceAt(x, y) != null) {
+					return false;
+				}
+			} else { // At the final cell check its piece
+				if (getPieceAt(x, y) == null || getPieceAt(x, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Check the Piece's movement up and to the left
+	 * 
+	 * @param r1
+	 *            is the row of the first Cell
+	 * @param c1
+	 *            is the col of the first Cell
+	 * @param r2
+	 *            is the row of the second Cell
+	 * @param c2
+	 *            is the col of the second Cell
+	 * @param piece
+	 *            is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean cUpLeft(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		for (int x = r1 - 1, y = c1 - 1; x >= r2
+				&& y >= c2; x--, y--) {
+			if (x != r2) { // Check all cells inbetween
+				if (getPieceAt(x, y) != null) {
+					return false;
+				}
+			} else { // At the final cell check its piece
+				if (getPieceAt(x, y) == null || getPieceAt(x, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
 				}
 			}
 		}
