@@ -1,45 +1,83 @@
 package chess.objects;
 
 public class Cell {
-	
-	private Piece ChessPiece;
-	
-	/*A constructor for the Cell class
-	 * @param N/A
-	 * @return N/A */
-	public Cell(){
-		ChessPiece = null;
+
+	private Piece piece;
+	private boolean isPassant;
+
+	/*******************************************************************
+	 * Constructor for the Cell class, sets the piece to be null and
+	 * sets isPassant to be false by default.
+	 * 
+	 ******************************************************************/
+	public Cell() {
+		piece = null;
+		isPassant = false;
 	}
-	
-	/*A method to set the Piece to a Cell
-	 * @param Pieces with an appropriate piece type
-	 * @return N/A */
-	public void SetChessPiece(Piece piece) {
+
+	/*******************************************************************
+	 * Sets the Piece that is in the Cell, isPassant is set to false by
+	 * default and only is true when a pawn moves past the cell due to
+	 * its first move.
+	 * 
+	 * @param piece
+	 *            is the Piece to set
+	 ******************************************************************/
+	public void setChessPiece(Piece piece) {
 		// TODO Auto-generated method stub
-		ChessPiece = piece;
+		this.piece = piece;
+		isPassant = false;
 	}
 
-	/*A method to return the Piece that a Cell contains
-	 * @param N/A
-	 * @return ChessPiece*/
-	public Piece getChessPiece(){
-		return ChessPiece;
+	/*******************************************************************
+	 * Gets the Piece that is in the Cell
+	 * 
+	 * @return the Piece that is in the Cell
+	 ******************************************************************/
+	public Piece getChessPiece() {
+		return piece;
 	}
-	
+
+	/*******************************************************************
+	 * Gets the actual name of the piece
+	 * 
+	 * @return a String value containing the name of the piece
+	 ******************************************************************/
 	public String getPieceName() {
-		return ChessPiece.getName();
-	}
-	
-	public String getPieceIcon(){
-		return ChessPiece.getIcon();
-		
+		return piece.getName();
 	}
 
+	/*******************************************************************
+	 * Gets the pieces unicode character to display the appropriate
+	 * icon.
+	 * 
+	 * @return a string value containing the piece's unicode value
+	 ******************************************************************/
+	public String getPieceIcon() {
+		return piece.getIcon();
 
+	}
 
-	
+	/*******************************************************************
+	 * Returns whether the cell is a passant square.
+	 * 
+	 * If it is a passant square an enemy pawn may move to that square
+	 * and capture that pawn even though it isn't on the square.
+	 * 
+	 * @return the isPassant is whether the cell is a passant cell
+	 ******************************************************************/
+	public boolean isPassant() {
+		return isPassant;
+	}
 
-
-	
+	/*******************************************************************
+	 * Sets whether the cell is a passant square.
+	 *
+	 * @param isPassant
+	 *            the isPassant to set
+	 ******************************************************************/
+	public void setPassant(boolean isPassant) {
+		this.isPassant = isPassant;
+	}
 
 }
