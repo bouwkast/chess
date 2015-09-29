@@ -34,12 +34,12 @@ public class ChessGUI extends JFrame {
 		for(int row = 0; row < 8; ++row) {
 			for(int col = 0; col < 8; ++col) {
 				board[row][col] = new JButton("");
+				board[row][col].setFont(new Font("Arial Unicode MS", Font.BOLD, 48 ));
 				if(chess.getBoard().getCellAt(row, col).getChessPiece() != null) {
 					board[row][col].setText(chess.getBoard().getCellAt(row, col).getPieceIcon());
-//					board[row][col].setFont(new Font("Arial", Font.PLAIN, 40));
+//					board[row][col].setFont(board[row][col].getFont().deriveFont(48f));
 				} 
 				board[row][col].getModel().setPressed(true);
-				/*For now just making the colors black/white, not doing a checkered pattern yet*/
 				
 				if(isWhite) {
 					board[row][col].setBackground(Color.WHITE);
@@ -48,7 +48,7 @@ public class ChessGUI extends JFrame {
 					else
 						isWhite = true;
 				} else {
-					board[row][col].setBackground(Color.BLACK);
+					board[row][col].setBackground(Color.GRAY);
 					if(col != 7)
 						isWhite = true;
 					else

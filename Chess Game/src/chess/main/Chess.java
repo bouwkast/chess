@@ -85,15 +85,21 @@ public class Chess {
 				return false;
 			}
 		} else { // If it hasn't moved it can go two rows
-			if (r1 - r2 == 2 || r1 - r2 == 1) {
-				if (getPieceAt(r2, c2) == null) {
+			
+			if(r1 - r2 == 2) { // Pawn is moving two rows, check both
+				if(getPieceAt(r2 + 1, c2) == null && getPieceAt(r2, c2) == null) {
 					movePieceTo(r1, c1, r2, c2, pawn);
 					return true;
 				} else {
 					return false;
 				}
-			} else {
-				return false;
+			} else { // Pawn is only moving one row, it must be empty
+				if(getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 	}
@@ -189,12 +195,20 @@ public class Chess {
 				return false;
 			}
 		} else { // If it hasn't moved it can go two rows
-			if ((r2 - r1 == 2 || r2 - r1 == 1)
-					&& getPieceAt(r2, c2) == null) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
+			if(r2 - r1 == 2) { // Pawn moving two rows check both
+				if(getPieceAt(r2 - 1, c2) == null && getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					return true;
+				} else {
+					return false;
+				}
+			} else { // Pawn moving one row check if empty
+				if(getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 	}
