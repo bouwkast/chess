@@ -2,13 +2,14 @@ package chess.objects;
 
 public class Cell {
 
+	/** Is the Piece in the Cell */
 	private Piece piece;
+	/** Is whether the Cell is considered for En Passant */
 	private boolean isPassant;
 
 	/*******************************************************************
 	 * Constructor for the Cell class, sets the piece to be null and
 	 * sets isPassant to be false by default.
-	 * 
 	 ******************************************************************/
 	public Cell() {
 		piece = null;
@@ -24,7 +25,6 @@ public class Cell {
 	 *            is the Piece to set
 	 ******************************************************************/
 	public void setChessPiece(Piece piece) {
-		// TODO Auto-generated method stub
 		this.piece = piece;
 		isPassant = false;
 	}
