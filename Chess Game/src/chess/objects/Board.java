@@ -118,10 +118,8 @@ public class Board {
 	/*******************************************************************
 	 * Getter method for a Cell at a specific location
 	 * 
-	 * @param row
-	 *            is the row of the Cell to get
-	 * @param col
-	 *            is the col of the Cell to get
+	 * @param row is the row of the Cell to get
+	 * @param col is the col of the Cell to get
 	 * @return the Cell at the location specified
 	 ******************************************************************/
 	public Cell getCellAt(int row, int col) {

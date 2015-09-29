@@ -21,8 +21,7 @@ public class Cell {
 	 * default and only is true when a pawn moves past the cell due to
 	 * its first move.
 	 * 
-	 * @param piece
-	 *            is the Piece to set
+	 * @param piece is the Piece to set
 	 ******************************************************************/
 	public void setChessPiece(Piece piece) {
 		this.piece = piece;
@@ -73,8 +72,7 @@ public class Cell {
 	/*******************************************************************
 	 * Sets whether the cell is a passant square.
 	 *
-	 * @param isPassant
-	 *            the isPassant to set
+	 * @param isPassant the isPassant to set
 	 ******************************************************************/
 	public void setPassant(boolean isPassant) {
 		this.isPassant = isPassant;

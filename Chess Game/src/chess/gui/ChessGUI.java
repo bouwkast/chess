@@ -23,6 +23,9 @@ public class ChessGUI extends JFrame {
 	/** Is the instance of the chess game */
 	private Chess chess;
 
+	/*******************************************************************
+	 * Constructor for the View
+	 ******************************************************************/
 	public ChessGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(800, 800);
@@ -59,19 +62,9 @@ public class ChessGUI extends JFrame {
 					else
 						isWhite = false;
 				}
-
-				// if(row == 0 || row == 1) {
-				// board[row][col].setBackground(Color.GRAY);
-				// } else if(row == 6 || row ==7) {
-				// board[row][col].setBackground(Color.WHITE);
-				// } else {
-				// board[row][col].setBackground(Color.LIGHT_GRAY);
-				// }
-				// board[row][col].setContentAreaFilled(false);
 				board[row][col].setMargin(new Insets(0, 0, 0, 0));
 				board[row][col].setBorderPainted(false);
 				board[row][col].setFocusPainted(false);
-				;
 				grid.add(board[row][col]);
 			}
 		}
@@ -79,14 +72,31 @@ public class ChessGUI extends JFrame {
 		this.setVisible(true);
 	}
 
+	/*******************************************************************
+	 * Gets the board in the form of a 2D array of JButtons
+	 * 
+	 * @return a 2D array of JButton
+	 ******************************************************************/
 	public JButton[][] getBoard() {
 		return board;
 	}
 
+	/*******************************************************************
+	 * Gets the JButton at a specified location
+	 * 
+	 * @param row is the row of the JButton to get
+	 * @param col is the col of the JButton to get
+	 * @return a JButton at the specified location
+	 ******************************************************************/
 	public JButton getButtonAt(int row, int col) {
 		return board[row][col];
 	}
 
+	/*******************************************************************
+	 * Adds the Controller to the JButtons
+	 * 
+	 * @param listener is the ActionListener to add
+	 ******************************************************************/
 	public void addChessListener(ActionListener listener) {
 
 		for (int row = 0; row < 8; ++row) {

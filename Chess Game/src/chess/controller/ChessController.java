@@ -13,10 +13,10 @@ public class ChessController {
 
 	/** Is the Chess to add to the controller */
 	private Chess game;
-	
+
 	/** These are the row values for first and second click */
 	private int r1 = -1, c1 = -1, r2 = -1, c2 = -1;
-	
+
 	/** Track whether it is the first click for that player's turn */
 	private boolean firstClick;
 
@@ -33,10 +33,8 @@ public class ChessController {
 	 * 
 	 * ChessGUI simply displays the view, the controller updates it
 	 * 
-	 * @param gui
-	 *            is the ChessGUI to add
-	 * @param game
-	 *            is the Chess to add
+	 * @param gui is the ChessGUI to add
+	 * @param game is the Chess to add
 	 ******************************************************************/
 	public ChessController(ChessGUI gui, Chess game) {
 		this.gui = gui;

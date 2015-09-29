@@ -2,10 +2,13 @@ package chess.main;
 
 import chess.objects.Bishop;
 import chess.objects.Board;
+import chess.objects.King;
 import chess.objects.Knight;
 import chess.objects.PColor;
 import chess.objects.Pawn;
 import chess.objects.Piece;
+import chess.objects.Queen;
+import chess.objects.Rook;
 
 public class Chess {
 
@@ -33,8 +36,7 @@ public class Chess {
 	/*******************************************************************
 	 * Sets the board to the specified parameter
 	 * 
-	 * @param board
-	 *            is the board to set
+	 * @param board is the board to set
 	 ******************************************************************/
 	public void setBoard(Board board) {
 		this.board = board;
@@ -43,10 +45,8 @@ public class Chess {
 	/*******************************************************************
 	 * Makes it easier to get the piece
 	 * 
-	 * @param row
-	 *            the row of the piece
-	 * @param col
-	 *            the col of the piece
+	 * @param row the row of the piece
+	 * @param col the col of the piece
 	 * @return the piece at the specified cell
 	 ******************************************************************/
 	public Piece getPieceAt(int row, int col) {
@@ -62,16 +62,11 @@ public class Chess {
 	 * This will remove any piece in the second cell and replace it with
 	 * the piece that was in the first cell.
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param piece
-	 *            is the piece to move
+	 * @param r1 is the row of the first cell
+	 * @param c1 is the col of the first cell
+	 * @param r2 is the row of the second cell
+	 * @param c2 is the col of the second cell
+	 * @param piece is the piece to move
 	 ******************************************************************/
 	private void movePieceTo(int r1, int c1, int r2, int c2,
 			Piece piece) {
@@ -91,16 +86,11 @@ public class Chess {
 	 * the beginning. For this method the cols are the same, so we
 	 * aren't capturing anything.
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn we are trying to move
+	 * @param r1 is the row of the first cell
+	 * @param c1 is the col of the first cell
+	 * @param r2 is the row of the second cell
+	 * @param c2 is the col of the second cell
+	 * @param pawn is the pawn we are trying to move
 	 * @return a boolean value whether the pawn was moved successfully
 	 ******************************************************************/
 	private boolean pawnWhiteVert(int r1, int c1, int r2, int c2,
@@ -147,16 +137,11 @@ public class Chess {
 	 * 
 	 * EN PASSANT NOT IMPLEMENTED YET
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn that we are checking
+	 * @param r1 is the row of the first cell
+	 * @param c1 is the col of the first cell
+	 * @param r2 is the row of the second cell
+	 * @param c2 is the col of the second cell
+	 * @param pawn is the pawn that we are checking
 	 * @return a boolean value whether the pawn was moved
 	 ******************************************************************/
 	private boolean pawnWhiteDiag(int r1, int c1, int r2, int c2,
@@ -177,16 +162,11 @@ public class Chess {
 	/*******************************************************************
 	 * This checks if the black pawn is making a valid move vertically.
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn we are checking
+	 * @param r1 is the row of the first cell
+	 * @param c1 is the col of the first cell
+	 * @param r2 is the row of the second cell
+	 * @param c2 is the col of the second cell
+	 * @param pawn is the pawn we are checking
 	 * @return a boolean value whether the pawn was moved
 	 ******************************************************************/
 	private boolean pawnBlackVert(int r1, int c1, int r2, int c2,
@@ -229,16 +209,11 @@ public class Chess {
 	 * 
 	 * EN PASSANT NOT IMPLEMENTED YET
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn that we are checking
+	 * @param r1 is the row of the first cell
+	 * @param c1 is the col of the first cell
+	 * @param r2 is the row of the second cell
+	 * @param c2 is the col of the second cell
+	 * @param pawn is the pawn that we are checking
 	 * @return a boolean value whether the pawn was moved
 	 ******************************************************************/
 	private boolean pawnBlackDiag(int r1, int c1, int r2, int c2,
@@ -259,16 +234,11 @@ public class Chess {
 	/*******************************************************************
 	 * Checks whether the pawn is making a valid move or not.
 	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn we are checking
+	 * @param r1 is the row of the first Cell w/ Pawn
+	 * @param c1 is the col of the first Cell w/ Pawn
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param pawn is the pawn we are checking
 	 * @return a boolean value whether the pawn was moved
 	 ******************************************************************/
 	private boolean checkPawn(int r1, int c1, int r2, int c2,
@@ -302,16 +272,11 @@ public class Chess {
 	 * cols and 1 row over. Also, it must be a different color the the
 	 * knight passed as a parameter.
 	 * 
-	 * @param r1
-	 *            is the row of the Cell containing the Knight
-	 * @param c1
-	 *            is the col of the Cell containing the Knight
-	 * @param r2
-	 *            is the row of the Cell we are moving to
-	 * @param c2
-	 *            is the col of the Cell we are moving to
-	 * @param knight
-	 *            is the Knight we are checking
+	 * @param r1 is the row of the first Cell w/ Knight
+	 * @param c1 is the col of the first Cell w/ Knight
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param knight is the Knight we are checking
 	 * @return a boolean value of whether the Knight was moved
 	 ******************************************************************/
 	private boolean checkKnight(int r1, int c1, int r2, int c2,
@@ -339,6 +304,16 @@ public class Chess {
 		}
 	}
 
+	/*******************************************************************
+	 * Checks the movement of the Bishop Piece
+	 * 
+	 * @param r1 is the row of the first Cell w/ Bishop
+	 * @param c1 is the col of the first Cell w/ Bishop
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param bishop is the Bishop that we are checking
+	 * @return a boolean value whether the Bishop was moved
+	 ******************************************************************/
 	private boolean checkBishop(int r1, int c1, int r2, int c2,
 			Bishop bishop) {
 		// Bishops row and col must change by same amount
@@ -351,18 +326,159 @@ public class Chess {
 	}
 
 	/*******************************************************************
+	 * Checks the movement of the Rook in it's four possible directions.
+	 * Up, Right, Down, and Left. For each move, either the row or the
+	 * col can't change while the other one does
+	 * 
+	 * Uses the checkLateral method.
+	 * 
+	 * @param r1 is the row of the first Cell w/ Rook
+	 * @param c1 is the col of the first Cell w/ Rook
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param rook is the Rook that we are checking
+	 * @return a boolean value whether the Rook was moved
+	 ******************************************************************/
+	private boolean checkRook(int r1, int c1, int r2, int c2,
+			Rook rook) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the movement of the Queen, it uses the check diagonal and
+	 * check Lateral
+	 * 
+	 * @param r1 is the row of the first Cell w/ Queen
+	 * @param c1 is the col of the first Cell w/ Queen
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the row of the second Cell
+	 * @param queen is the Queen that we are checking
+	 * @return a boolean value whether the Queen was moved
+	 ******************************************************************/
+	private boolean checkQueen(int r1, int c1, int r2, int c2,
+			Queen queen) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the movement of the King, similar to the Queen just the
+	 * King can only move one spot. Aren't checking for Check or
+	 * Checkmate, but if it is captured the game should end.
+	 * 
+	 * @param r1 is the row of the first Cell w/ King
+	 * @param c1 is the col of the first Cell w/ King
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param king is the King that we are checking
+	 * @return a boolean value whether the King was moved
+	 ******************************************************************/
+	private boolean checkKing(int r1, int c1, int r2, int c2,
+			King king) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the Lateral(PROPER WORD? Couldn't think of what to call
+	 * it) movement of the piece for its movement UP, RIGHT, DOWN, and
+	 * LEFT
+	 * 
+	 * @param r1 is the row for the first Cell
+	 * @param c1 is the col for the first Cell
+	 * @param r2 is the row for the second Cell
+	 * @param c2 is the col for the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkLateral(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		// I believe that the inequalities are correct, need to test
+		if(r1 > r2 && c1 == c2) { // Check UP
+			return checkUp(r1, c1, r2, c2, piece);
+		} else if(r1 == r2 && c1 < c2) { // Check RIGHT
+			return checkRight(r1, c1, r2, c2, piece);
+		} else if(r1 < r2 && c1 == c2) { // Check DOWN
+			return checkDown(r1, c1, r2, c2, piece);
+		} else if(r1 == r2 && c1 > c2) { // Check LEFT
+			return checkLeft(r1, c1, r2, c2, piece);
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the Piece's movement UP
+	 * 
+	 * @param r1 is the row for the first Cell
+	 * @param c1 is the col for the first Cell
+	 * @param r2 is the row for the second Cell
+	 * @param c2 is the col for the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkUp(int r1, int c1, int r2, int c2,
+			Piece piece) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the Piece's movement to the RIGHT
+	 * 
+	 * @param r1 is the row for the first Cell
+	 * @param c1 is the col for the first Cell
+	 * @param r2 is the row for the second Cell
+	 * @param c2 is the col for the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkRight(int r1, int c1, int r2, int c2,
+			Piece piece) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the Piece's movement DOWN
+	 * 
+	 * @param r1 is the row for the first Cell
+	 * @param c1 is the col for the first Cell
+	 * @param r2 is the row for the second Cell
+	 * @param c2 is the col for the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkDown(int r1, int c1, int r2, int c2,
+			Piece piece) {
+
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks the Piece's movement LEFT
+	 * 
+	 * @param r1 is the row for the first Cell
+	 * @param c1 is the col for the first Cell
+	 * @param r2 is the row for the second Cell
+	 * @param c2 is the col for the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
+	private boolean checkLeft(int r1, int c1, int r2, int c2,
+			Piece piece) {
+
+		return false;
+	}
+
+	/*******************************************************************
 	 * Helper method that checks the piece's diagonal movement
 	 * 
-	 * @param r1
-	 *            is the row of the first Cell
-	 * @param c1
-	 *            is the col of the first Cell
-	 * @param r2
-	 *            is the row of the second Cell
-	 * @param c2
-	 *            is the col of the second Cell
-	 * @param piece
-	 *            is the Piece we are checking
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	private boolean checkDiagonal(int r1, int c1, int r2, int c2,
@@ -382,16 +498,11 @@ public class Chess {
 	/*******************************************************************
 	 * Check the Piece's movement up and to the right
 	 * 
-	 * @param r1
-	 *            is the row of the first Cell
-	 * @param c1
-	 *            is the col of the first Cell
-	 * @param r2
-	 *            is the row of the second Cell
-	 * @param c2
-	 *            is the col of the second Cell
-	 * @param piece
-	 *            is the Piece that we are checking
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece that we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	private boolean cUpRight(int r1, int c1, int r2, int c2,
@@ -416,16 +527,11 @@ public class Chess {
 	/*******************************************************************
 	 * Check the Piece's movement down and to the right
 	 * 
-	 * @param r1
-	 *            is the row of the first Cell
-	 * @param c1
-	 *            is the col of the first Cell
-	 * @param r2
-	 *            is the row of the second Cell
-	 * @param c2
-	 *            is the col of the second Cell
-	 * @param piece
-	 *            is the Piece that we are checking
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece that we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	private boolean cDownRight(int r1, int c1, int r2, int c2,
@@ -450,16 +556,11 @@ public class Chess {
 	/*******************************************************************
 	 * Check the Piece's movement down and to the left
 	 * 
-	 * @param r1
-	 *            is the row of the first Cell
-	 * @param c1
-	 *            is the col of the first Cell
-	 * @param r2
-	 *            is the row of the second Cell
-	 * @param c2
-	 *            is the col of the second Cell
-	 * @param piece
-	 *            is the Piece that we are checking
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece that we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	private boolean cDownLeft(int r1, int c1, int r2, int c2,
@@ -484,16 +585,11 @@ public class Chess {
 	/*******************************************************************
 	 * Check the Piece's movement up and to the left
 	 * 
-	 * @param r1
-	 *            is the row of the first Cell
-	 * @param c1
-	 *            is the col of the first Cell
-	 * @param r2
-	 *            is the row of the second Cell
-	 * @param c2
-	 *            is the col of the second Cell
-	 * @param piece
-	 *            is the Piece that we are checking
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece that we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	private boolean cUpLeft(int r1, int c1, int r2, int c2,
@@ -551,9 +647,14 @@ public class Chess {
 				return false;
 			}
 
-		} else {
-			System.out.println("Not a Pawn/Knight/Bishop");
+		} else if (piece instanceof Rook) {
+			System.out.println("ROOK");
+		} else if (piece instanceof Queen) {
+			System.out.println("QUEEN");
+		} else if (piece instanceof King) {
+			System.out.println("KING");
 		}
+		System.out.println("Something went wrong......");
 		return false;
 	}
 

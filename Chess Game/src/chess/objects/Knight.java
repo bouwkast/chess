@@ -5,8 +5,7 @@ public class Knight extends Piece {
 	/*******************************************************************
 	 * Constructor for the Knight that takes it's PColor
 	 * 
-	 * @param color
-	 *            is the PColor to set the Knight to
+	 * @param color is the PColor to set the Knight to
 	 ******************************************************************/
 	public Knight(PColor color) {
 		super(color, true, "Knight"); // Set the color and make it alive
