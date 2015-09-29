@@ -1,6 +1,7 @@
 package chess.main;
 
 import chess.objects.Board;
+import chess.objects.Knight;
 import chess.objects.PColor;
 import chess.objects.Pawn;
 import chess.objects.Piece;
@@ -16,7 +17,7 @@ public class Chess {
 	 * ect.
 	 ******************************************************************/
 	public Chess() {
-		board = new Board(1);
+		board = new Board();
 	}
 
 	/*******************************************************************
@@ -52,59 +53,6 @@ public class Chess {
 	}
 
 	/*******************************************************************
-	 * Helper method for the white pawns that checks for valid movement
-	 * vertically. Just a note the white pawns are located in row 6 in
-	 * the beginning. For this method the cols are the same, so we
-	 * aren't capturing anything.
-	 * 
-	 * @param r1
-	 *            is the row of the first cell
-	 * @param c1
-	 *            is the col of the first cell
-	 * @param r2
-	 *            is the row of the second cell
-	 * @param c2
-	 *            is the col of the second cell
-	 * @param pawn
-	 *            is the pawn we are trying to move
-	 * @return a boolean value whether the pawn was moved successfully
-	 ******************************************************************/
-	private boolean pawnWhiteVert(int r1, int c1, int r2, int c2,
-			Pawn pawn) {
-		if (r1 - r2 > 2) { // Pawns cannot move more than two rows.
-			System.out.println("OOPS");
-			return false;
-		}
-		// Only gets here if it is 2 or less for the rows
-		// If it has moved it can only go 1 row
-		if (pawn.isHasMoved()) {
-			if (r1 - r2 == 1 && board.getCellAt(r2, c2) == null) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
-			}
-		} else { // If it hasn't moved it can go two rows
-			
-			if(r1 - r2 == 2) { // Pawn is moving two rows, check both
-				if(getPieceAt(r2 + 1, c2) == null && getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					return true;
-				} else {
-					return false;
-				}
-			} else { // Pawn is only moving one row, it must be empty
-				if(getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-	}
-
-	/*******************************************************************
 	 * Simply moves one piece from one cell to the one specified. No
 	 * checking should be done in this function, it is a basic helper
 	 * method, so all checking if the piece can go in that cell should
@@ -127,9 +75,66 @@ public class Chess {
 	private void movePieceTo(int r1, int c1, int r2, int c2,
 			Piece piece) {
 		// Set the second cell to the pawn
-		board.getCellAt(r2, c2).SetChessPiece(piece);
+		board.getCellAt(r2, c2).setChessPiece(piece);
 		// Set the previous cell to null
-		board.getCellAt(r1, c1).SetChessPiece(null);
+		board.getCellAt(r1, c1).setChessPiece(null);
+	}
+
+	/*******************************************************************
+	 * Helper method for the white pawns that checks for valid movement
+	 * vertically. Just a note the white pawns are located in row 6 in
+	 * the beginning. For this method the cols are the same, so we
+	 * aren't capturing anything.
+	 * 
+	 * @param r1
+	 *            is the row of the first cell
+	 * @param c1
+	 *            is the col of the first cell
+	 * @param r2
+	 *            is the row of the second cell
+	 * @param c2
+	 *            is the col of the second cell
+	 * @param pawn
+	 *            is the pawn we are trying to move
+	 * @return a boolean value whether the pawn was moved successfully
+	 ******************************************************************/
+	private boolean pawnWhiteVert(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		if (r1 - r2 > 2) { // Pawns cannot move more than two rows.
+			return false;
+		}
+		// Only gets here if it is 2 or less for the rows
+		// If it has moved it can only go 1 row
+		if (pawn.isHasMoved()) {
+			if (r1 - r2 == 1 && getPieceAt(r2, c2) == null) {
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false;
+			}
+		} else { // If it hasn't moved it can go two rows
+
+			if (r1 - r2 == 2) { // Pawn is moving two rows, check both
+				if (getPieceAt(r2 + 1, c2) == null
+						&& getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					pawn.setHasMoved(true);
+					/** Need to check for passant here */
+					// TODO add passant
+					// board.getCellAt(r2 + 1, c2).setPassant(true);
+					return true;
+				} else {
+					return false;
+				}
+			} else { // Pawn is only moving one row, it must be empty
+				if (getPieceAt(r2, c2) == null) {
+					movePieceTo(r1, c1, r2, c2, pawn);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 	}
 
 	/*******************************************************************
@@ -195,15 +200,20 @@ public class Chess {
 				return false;
 			}
 		} else { // If it hasn't moved it can go two rows
-			if(r2 - r1 == 2) { // Pawn moving two rows check both
-				if(getPieceAt(r2 - 1, c2) == null && getPieceAt(r2, c2) == null) {
+			if (r2 - r1 == 2) { // Pawn moving two rows check both
+				if (getPieceAt(r2 - 1, c2) == null
+						&& getPieceAt(r2, c2) == null) {
 					movePieceTo(r1, c1, r2, c2, pawn);
+					pawn.setHasMoved(true);
+					/** Need to check for passant here */
+					// TODO add passant
+					// board.getCellAt(r2 - 1, c2).setPassant(true);
 					return true;
 				} else {
 					return false;
 				}
 			} else { // Pawn moving one row check if empty
-				if(getPieceAt(r2, c2) == null) {
+				if (getPieceAt(r2, c2) == null) {
 					movePieceTo(r1, c1, r2, c2, pawn);
 					return true;
 				} else {
@@ -285,6 +295,49 @@ public class Chess {
 		}
 	}
 
+	/*******************************************************************
+	 * Checks to see if a move containing the Knight is a valid move. To
+	 * be valid the move must either be 2 rows and 1 col over OR be 2
+	 * cols and 1 row over. Also, it must be a different color the the
+	 * knight passed as a parameter.
+	 * 
+	 * @param r1
+	 *            is the row of the Cell containing the Knight
+	 * @param c1
+	 *            is the col of the Cell containing the Knight
+	 * @param r2
+	 *            is the row of the Cell we are moving to
+	 * @param c2
+	 *            is the col of the Cell we are moving to
+	 * @param knight
+	 *            is the Knight we are checking
+	 * @return a boolean value of whether the Knight was moved
+	 ******************************************************************/
+	private boolean checkKnight(int r1, int c1, int r2, int c2,
+			Knight knight) {
+
+		// First need to calc the difference for the rows and cols
+		if ((Math.abs(r1 - r2) == 2 && Math.abs(c1 - c2) == 1)
+				|| (Math.abs(r1 - r2) == 1
+						&& Math.abs(c1 - c2) == 2)) {
+			// Need to check the cell it is moving to
+			if (getPieceAt(r2, c2) == null || knight
+					.getColor() != getPieceAt(r2, c2).getColor()) {
+				// Valid move, we can move the Knight
+				movePieceTo(r1, c1, r2, c2, knight);
+				return true;
+
+			} else {
+				// Invalid move, it contains the same color as Knight
+				return false;
+			}
+
+		} else {
+			// Invalid move
+			return false;
+		}
+	}
+
 	/**
 	 * This method is not done yet, but is just to test how to check the
 	 * move for the pieces, right now it only works for Pawns and only
@@ -302,16 +355,19 @@ public class Chess {
 				System.out.println("INVALID MOVE");
 				return false;
 			}
+		} else if (piece instanceof Knight) {
+			System.out.println("KNIGHT");
+			if (checkKnight(r1, c1, r2, c2, (Knight) piece)) {
+				System.out.println("VALID MOVE KNIGHT");
+				return true;
+			} else {
+				System.out.println("INVALID MOVE KNIGHT");
+				return false;
+			}
 		} else {
-			System.out.println("Not a Pawn");
+			System.out.println("Not a Pawn/Knight");
 		}
 		return false;
 	}
-
-	/* No longer needed, moved into ChessController */
-	// public static void main(String[] args){
-	// Board test = new Board(1);
-	// System.out.print(test.printBoard());
-	// }
 
 }
