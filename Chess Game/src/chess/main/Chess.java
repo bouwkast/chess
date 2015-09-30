@@ -23,7 +23,7 @@ public class Chess {
 	public Chess() {
 		board = new Board();
 	}
-	
+
 	public void reset() {
 		board = new Board();
 	}
@@ -85,157 +85,6 @@ public class Chess {
 	}
 
 	/*******************************************************************
-	 * Helper method for the white pawns that checks for valid movement
-	 * vertically. Just a note the white pawns are located in row 6 in
-	 * the beginning. For this method the cols are the same, so we
-	 * aren't capturing anything.
-	 * 
-	 * @param r1 is the row of the first cell
-	 * @param c1 is the col of the first cell
-	 * @param r2 is the row of the second cell
-	 * @param c2 is the col of the second cell
-	 * @param pawn is the pawn we are trying to move
-	 * @return a boolean value whether the pawn was moved successfully
-	 ******************************************************************/
-	private boolean pawnWhiteVert(int r1, int c1, int r2, int c2,
-			Pawn pawn) {
-		if (r1 - r2 > 2) { // Pawns cannot move more than two rows.
-			return false;
-		}
-		// Only gets here if it is 2 or less for the rows
-		// If it has moved it can only go 1 row
-		if (pawn.isHasMoved()) {
-			if (r1 - r2 == 1 && getPieceAt(r2, c2) == null) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
-			}
-		} else { // If it hasn't moved it can go two rows
-
-			if (r1 - r2 == 2) { // Pawn is moving two rows, check both
-				if (getPieceAt(r2 + 1, c2) == null
-						&& getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					/** Need to check for passant here */
-					// TODO add passant
-					return true;
-				} else {
-					return false;
-				}
-			} else { // Pawn is only moving one row, it must be empty
-				if (getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-	}
-
-	/*******************************************************************
-	 * This checks if the pawn is making a valid move diagonally.
-	 * Currently there has to be a piece there, but later en passant,
-	 * must be implemented
-	 * 
-	 * EN PASSANT NOT IMPLEMENTED YET
-	 * 
-	 * @param r1 is the row of the first cell
-	 * @param c1 is the col of the first cell
-	 * @param r2 is the row of the second cell
-	 * @param c2 is the col of the second cell
-	 * @param pawn is the pawn that we are checking
-	 * @return a boolean value whether the pawn was moved
-	 ******************************************************************/
-	private boolean pawnWhiteDiag(int r1, int c1, int r2, int c2,
-			Pawn pawn) {
-		if (r1 - r2 != 1) {
-			return false;
-		} else {
-			if (getPieceAt(r2, c2) != null
-					&& getPieceAt(r2, c2).getColor() == PColor.Black) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-
-	/*******************************************************************
-	 * This checks if the black pawn is making a valid move vertically.
-	 * 
-	 * @param r1 is the row of the first cell
-	 * @param c1 is the col of the first cell
-	 * @param r2 is the row of the second cell
-	 * @param c2 is the col of the second cell
-	 * @param pawn is the pawn we are checking
-	 * @return a boolean value whether the pawn was moved
-	 ******************************************************************/
-	private boolean pawnBlackVert(int r1, int c1, int r2, int c2,
-			Pawn pawn) {
-		// Pawns at most can only move 2 rows
-		if (r2 - r1 > 2) {
-			return false;
-		}
-		if (pawn.isHasMoved()) {
-			if (r2 - r1 == 1 && getPieceAt(r2, c2) == null) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
-			}
-		} else { // If it hasn't moved it can go two rows
-			if (r2 - r1 == 2) { // Pawn moving two rows check both
-				if (getPieceAt(r2 - 1, c2) == null
-						&& getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					/** Need to check for passant here */
-					// TODO add passant
-					return true;
-				} else {
-					return false;
-				}
-			} else { // Pawn moving one row check if empty
-				if (getPieceAt(r2, c2) == null) {
-					movePieceTo(r1, c1, r2, c2, pawn);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-	}
-
-	/*******************************************************************
-	 * This checks if the black pawn is making a valid move diagonally.
-	 * 
-	 * EN PASSANT NOT IMPLEMENTED YET
-	 * 
-	 * @param r1 is the row of the first cell
-	 * @param c1 is the col of the first cell
-	 * @param r2 is the row of the second cell
-	 * @param c2 is the col of the second cell
-	 * @param pawn is the pawn that we are checking
-	 * @return a boolean value whether the pawn was moved
-	 ******************************************************************/
-	private boolean pawnBlackDiag(int r1, int c1, int r2, int c2,
-			Pawn pawn) {
-		if (r2 - r1 != 1) {
-			return false;
-		} else {
-			if (getPieceAt(r2, c2) != null
-					&& getPieceAt(r2, c2).getColor() == PColor.White) {
-				movePieceTo(r1, c1, r2, c2, pawn);
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-
-	/*******************************************************************
 	 * Checks whether the pawn is making a valid move or not.
 	 * 
 	 * @param r1 is the row of the first Cell w/ Pawn
@@ -247,26 +96,95 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkPawn(int r1, int c1, int r2, int c2,
 			Pawn pawn) {
+		// Each color Pawn has its own unique movements
 		if (pawn.getColor() == PColor.White) {
-			if (c1 == c2) { // Not moving diagonally
-				return pawnWhiteVert(r1, c1, r2, c2, pawn);
-			} else { // It is moving diagonally
-				if (Math.abs(c1 - c2) == 1) { // Can only move 1 col
-					return pawnWhiteDiag(r1, c1, r2, c2, pawn);
-				} else {
-					return false;
-				}
+			return checkWPawn(r1, c1, r2, c2, pawn);
+		} else { // Pawn is black
+			return checkBPawn(r1, c1, r2, c2, pawn);
+		}
+	}
+
+	private boolean checkWPawn(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		/*
+		 * White pawns can move UP, U and L, or U and R Black pawns can
+		 * move DOWN, D and L, or D and R
+		 */
+		if (r1 - r2 == 1 && c1 == c2) { // only moving one row UP
+			if (getPieceAt(r2, c2) == null) { // If Cell is empty
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true; // Valid move
+			} else {
+				return false; // Piece is blocking the way
 			}
-		} else { // The pawn is black
-			if (c1 == c2) { // Not moving diagonally
-				return pawnBlackVert(r1, c1, r2, c2, pawn);
-			} else { // It is moving diagonally
-				if (Math.abs(c1 - c2) == 1) {
-					return pawnBlackDiag(r1, c1, r2, c2, pawn);
-				} else {
-					return false;
-				}
+
+		} else if (!pawn.isHasMoved() && r1 - r2 == 2 && c1 == c2) {
+			// Pawn hasn't moved is moving two rows UP
+			if (getPieceAt(r2 + 1, c1) == null
+					&& getPieceAt(r2, c2) == null) {
+				// Check if both spots are empty, if so valid move
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false; // There is a Piece blocking the way
 			}
+
+		} else if (r1 - r2 == 1 && Math.abs(c1 - c2) == 1) {
+			// If it is moving diagonally 1 Cell
+			if (getPieceAt(r2, c2) != null && getPieceAt(r2, c2)
+					.getColor() != pawn.getColor()) {
+				// Check to make sure there is an enemy Piece there
+				
+				// White Pawns capture U and L or U and R
+				return cUpLeft(r1, c1, r2, c2, pawn)
+						|| cUpRight(r1, c1, r2, c2, pawn);
+			} else {
+				return false; // Invalid pawn capture move
+			}
+
+		} else {
+			return false; // Invalid moves
+		}
+	}
+
+	private boolean checkBPawn(int r1, int c1, int r2, int c2,
+			Pawn pawn) {
+		// Pawn is only moving 1 row DOWN
+		if (r2 - r1 == 1 && c1 == c2) {
+			if (getPieceAt(r2, c2) == null) {
+				// If the Cell is empty, valid move
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false; // Piece is blocking the way
+			}
+
+		} else if (!pawn.isHasMoved() && r2 - r1 == 2 && c1 == c2) {
+			// Pawn hasn't moved is moving two rows DOWN
+			if (getPieceAt(r2 - 1, c1) == null
+					&& getPieceAt(r2, c2) == null) {
+				// Check both Cells to make sure they are empty
+				movePieceTo(r1, c1, r2, c2, pawn);
+				return true;
+			} else {
+				return false; // There is a Piece blocking the way
+			}
+
+		} else if (r2 - r1 == 1 && Math.abs(c1 - c2) == 1) {
+			// Pawn is moving diagonally
+			if (getPieceAt(r2, c2) != null && getPieceAt(r2, c2)
+					.getColor() != pawn.getColor()) {
+				// Make sure enemy Pawn is there
+				
+				// Black Pawns can only capture D and L, or D and R
+				return cDownLeft(r1, c1, r2, c2, pawn)
+						|| cDownRight(r1, c1, r2, c2, pawn);
+			} else {
+				return false; // Invalid pawn capture move
+			}
+
+		} else {
+			return false; // Invalid moves
 		}
 	}
 
@@ -328,7 +246,6 @@ public class Chess {
 			return false;
 		}
 	}
-
 	/*******************************************************************
 	 * Checks the movement of the Rook in it's four possible directions.
 	 * Up, Right, Down, and Left. For each move, either the row or the
@@ -341,82 +258,96 @@ public class Chess {
 	 * @param r2 is the row of the second Cell
 	 * @param c2 is the col of the second Cell
 	 * @param rook is the Rook that we are checking
-	 * @return a boolean value whether the Rook can be moved
+	 * @return a boolean value whether the Rook was moved
 	 ******************************************************************/
 	private boolean checkRook(int r1, int c1, int r2, int c2,
 			Rook rook) {
-		
-		
+		/*
+		 * Rooks, row can change cols are constant OR cols can change
+		 * and rows are constant
+		 */
+		if ((r1 != r2 && c1 == c2) || (r1 == r2 && c1 != c2)) {
+			return checkLateral(r1, c1, r2, c2, rook);
+		} else { // Not a lateral movement
+			return false;
+		}
+	}
+
+	/*
+	 * Old checkRook
+	 */
+	private boolean checkRook2(int r1, int c1, int r2, int c2,
+			Rook rook) {
+
 		boolean RowChanged = false;
 		boolean ColChanged = false;
-		
-		
-		if (Math.abs(r2-r1) > 0){
+
+		if (Math.abs(r2 - r1) > 0) {
 			System.out.println("The Row Has Changed");
 			RowChanged = true;
 		}
-		if (Math.abs(c2-c1) > 0){
+		if (Math.abs(c2 - c1) > 0) {
 			System.out.println("The Column Has Changed");
 			ColChanged = true;
 		}
-		
-		if ((Math.abs(r2-r1) > 0) && (Math.abs(c2-c1) > 0)){
+
+		if ((Math.abs(r2 - r1) > 0) && (Math.abs(c2 - c1) > 0)) {
 			System.out.println("INVALID MOVE");
 			return false;
 		}
-		
-		if (RowChanged){
-			
+
+		if (RowChanged) {
+
 			int loops = 0;
 			int max = 0;
-			if (r1 > r2){
+			if (r1 > r2) {
 				loops = r2;
 				max = r1;
+			} else {
+				loops = r1;
+				max = r2;
 			}
-			else{
-			loops = r1;
-			max = r2;
-			}
-			
-			//max -= 1;
-			System.out.println("START ROW: " + loops + " AND END ROW: " + max);
-			for (int x = loops; x<=max; x++)
-			{
-				System.out.println("CHECKING ROW: " + x + " AND COLUMN: " + c1);
-				if (x != r1 && x != r2){
-					if (board.getCellAt(x, c1).getChessPiece() != null){
-						System.out.println("Not an empty Space for Row");
+
+			// max -= 1;
+			System.out.println(
+					"START ROW: " + loops + " AND END ROW: " + max);
+			for (int x = loops; x <= max; x++) {
+				System.out.println(
+						"CHECKING ROW: " + x + " AND COLUMN: " + c1);
+				if (x != r1 && x != r2) {
+					if (board.getCellAt(x, c1)
+							.getChessPiece() != null) {
+						System.out
+								.println("Not an empty Space for Row");
 						return false;
 					}
 				}
 			}
 			return true;
-		}
-		else if (ColChanged){
-			
+		} else if (ColChanged) {
+
 			int loops2 = 0;
 			int max2 = 0;
-			
-			if (c1 > c2){
+
+			if (c1 > c2) {
 				loops2 = c2;
 				max2 = c1;
-			}
-			else{
+			} else {
 				loops2 = c1;
 				max2 = c2;
 			}
-			for (int y = loops2+1; y<max2; y++){
-				
-				if (board.getCellAt(r1, y).getChessPiece() != null){
+			for (int y = loops2 + 1; y < max2; y++) {
+
+				if (board.getCellAt(r1, y).getChessPiece() != null) {
 					System.out.println("Empty Space for Col");
 					return false;
 				}
-				
+
 			}
- 
+
 			return true;
 		}
-		
+
 		System.out.println("INVALID MOVE");
 		return false;
 	}
@@ -435,6 +366,18 @@ public class Chess {
 	private boolean checkQueen(int r1, int c1, int r2, int c2,
 			Queen queen) {
 
+		/* The Queen can move either diagonally or laterally */
+		// Check if the attempted move is diagonal
+		if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
+			return checkDiagonal(r1, c1, r2, c2, queen);
+
+			// Check if the attempted move is lateral
+		} else if ((Math.abs(r1 - r2) == 0 && c1 != c2)
+				|| (r1 != r2 && Math.abs(c1 - c2) == 0)) {
+			return checkLateral(r1, c1, r2, c2, queen);
+		}
+
+		// If neither, return false because it is an invalid move
 		return false;
 	}
 
@@ -453,7 +396,24 @@ public class Chess {
 	private boolean checkKing(int r1, int c1, int r2, int c2,
 			King king) {
 
+		/* King is similar to the queen, but can only move 1 spot */
+		
+		// Check if the attempted move is diagonal
+		if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
+			// Check to make sure it is one spot
+			if (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 1)
+				return checkDiagonal(r1, c1, r2, c2, king);
+
+			// Check if the attempted move is lateral
+		} else if ((Math.abs(r1 - r2) == 0 && Math.abs(c1 - c2) == 1)
+				|| (Math.abs(r1 - r2) == 1
+						&& Math.abs(c1 - c2) == 0)) {
+			return checkLateral(r1, c1, r2, c2, king);
+		}
+
+		// If neither, return false because it is an invalid move
 		return false;
+
 	}
 
 	/*******************************************************************
@@ -470,14 +430,13 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkLateral(int r1, int c1, int r2, int c2,
 			Piece piece) {
-		// I believe that the inequalities are correct, need to test
-		if(r1 > r2 && c1 == c2) { // Check UP
+		if (r1 > r2 && c1 == c2) { // Check UP
 			return checkUp(r1, c1, r2, c2, piece);
-		} else if(r1 == r2 && c1 < c2) { // Check RIGHT
+		} else if (r1 == r2 && c1 < c2) { // Check RIGHT
 			return checkRight(r1, c1, r2, c2, piece);
-		} else if(r1 < r2 && c1 == c2) { // Check DOWN
+		} else if (r1 < r2 && c1 == c2) { // Check DOWN
 			return checkDown(r1, c1, r2, c2, piece);
-		} else if(r1 == r2 && c1 > c2) { // Check LEFT
+		} else if (r1 == r2 && c1 > c2) { // Check LEFT
 			return checkLeft(r1, c1, r2, c2, piece);
 		}
 		return false;
@@ -495,7 +454,24 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkUp(int r1, int c1, int r2, int c2,
 			Piece piece) {
-
+		// r1 is greater than r2, c1 and c2 are equal
+		for (int x = r1 - 1; x >= r2; x--) { // We are going up
+			// We don't care about the cols because they are the same
+			if (x != r2) { // if true we are checking all cells inbtwn
+				if (getPieceAt(x, c1) != null) {
+					return false; // Piece is blocking the way
+				}
+			} else { // We are at the final Cell
+				// use c2 because we are at the second clicked Cell
+				if (getPieceAt(x, c2) == null || getPieceAt(x, c2)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
+				} else {
+					return false; // same color piece is there
+				}
+			}
+		}
 		return false;
 	}
 
@@ -511,7 +487,24 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkRight(int r1, int c1, int r2, int c2,
 			Piece piece) {
-
+		// c2 is greater than c1, r1 and r2 are equal
+		// don't care about the row because they are the same
+		for (int y = c1 + 1; y <= c2; y++) {
+			if (y != c2) { // checking all Cells inbetween
+				if (getPieceAt(r1, y) != null) {
+					return false; // piece is blocking the way
+				}
+			} else { // we are at the destination
+				// use r2 because we are at the second clicked Cell
+				if (getPieceAt(r2, y) == null || getPieceAt(r2, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true;
+				} else {
+					return false; // same color piece is there
+				}
+			}
+		}
 		return false;
 	}
 
@@ -527,7 +520,23 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkDown(int r1, int c1, int r2, int c2,
 			Piece piece) {
-
+		// r2 is greater than r1, c1 and c2 are the same
+		for (int x = r1 + 1; x <= r2; x++) {
+			if (x != r2) { // checking all Cells inbetween
+				if (getPieceAt(x, c1) != null) {
+					return false; // Piece is blocking the way
+				}
+			} else { // we are at the destination
+				// use c2 because we are at the second clicked Cell
+				if (getPieceAt(x, c2) == null || getPieceAt(x, c2)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true; // Valid move
+				} else {
+					return false; // same color piece is there
+				}
+			}
+		}
 		return false;
 	}
 
@@ -543,7 +552,23 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkLeft(int r1, int c1, int r2, int c2,
 			Piece piece) {
-
+		// c1 is greater than c2, r1 and r2 are equal
+		for (int y = c1 - 1; y >= c2; y--) {
+			if (y != c2) { // check all Cells inbetween
+				if (getPieceAt(r1, y) != null) {
+					return false; // Piece is blocking the way
+				}
+			} else { // we are at the destination
+				// use r2 because we are at the second clicked Cell
+				if (getPieceAt(r2, y) == null || getPieceAt(r2, y)
+						.getColor() != piece.getColor()) {
+					movePieceTo(r1, c1, r2, c2, piece);
+					return true; // valid move
+				} else {
+					return false; // same color Piece is there
+				}
+			}
+		}
 		return false;
 	}
 
@@ -583,21 +608,23 @@ public class Chess {
 	 ******************************************************************/
 	private boolean cUpRight(int r1, int c1, int r2, int c2,
 			Piece piece) {
+		// Keep track of current cell being checked with x and y
 		for (int x = r1 - 1, y = c1 + 1; x >= r2
 				&& y <= c2; x--, y++) {
-			if (x != r2) { // Check all cells inbetween
+			if (x != r2) { // Check all cells in-between
 				if (getPieceAt(x, y) != null) {
-					return false;
+					return false; // Piece was blocking the way
 				}
 			} else { // At the final cell check its piece
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
+					// Cell is either empty or contains an enemy
 					movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
 		}
-		return false;
+		return false; // Invalid Move
 	}
 
 	/*******************************************************************
@@ -612,21 +639,24 @@ public class Chess {
 	 ******************************************************************/
 	private boolean cDownRight(int r1, int c1, int r2, int c2,
 			Piece piece) {
+		// Keep track of current Cell with x and y
 		for (int x = r1 + 1, y = c1 + 1; x <= r2
 				&& y <= c2; x++, y++) {
 			if (x != r2) { // Check all cells inbetween
 				if (getPieceAt(x, y) != null) {
+					// If there is a Piece blocking the way
 					return false;
 				}
 			} else { // At the final cell check its piece
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
+					// Make sure Cell is empty or contains an enemy
 					movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
 		}
-		return false;
+		return false; // Invalid move
 	}
 
 	/*******************************************************************
@@ -641,21 +671,24 @@ public class Chess {
 	 ******************************************************************/
 	private boolean cDownLeft(int r1, int c1, int r2, int c2,
 			Piece piece) {
+		// Keep track of current Cell with x and y
 		for (int x = r1 + 1, y = c1 - 1; x <= r2
 				&& y >= c2; x++, y--) {
 			if (x != r2) { // Check all cells inbetween
 				if (getPieceAt(x, y) != null) {
+					// If there is a Piece blocking the way
 					return false;
 				}
 			} else { // At the final cell check its piece
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
+					// Makes sure Cell is empty or contains an enemy
 					movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
 		}
-		return false;
+		return false; // Invalid move
 	}
 
 	/*******************************************************************
@@ -670,21 +703,24 @@ public class Chess {
 	 ******************************************************************/
 	private boolean cUpLeft(int r1, int c1, int r2, int c2,
 			Piece piece) {
+		// Keep track of current Cell with x and y
 		for (int x = r1 - 1, y = c1 - 1; x >= r2
 				&& y >= c2; x--, y--) {
 			if (x != r2) { // Check all cells inbetween
 				if (getPieceAt(x, y) != null) {
+					// If there is a Piece blocking the way
 					return false;
 				}
 			} else { // At the final cell check its piece
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
+					// Cell is empty or contains an enemy
 					movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
 		}
-		return false;
+		return false; // Invalid Move
 	}
 
 	/**
@@ -722,21 +758,32 @@ public class Chess {
 				System.out.println("INVALID MOVE BISHOP");
 				return false;
 			}
-
 		} else if (piece instanceof Rook) {
 			System.out.println("ROOK");
-			if (checkRook(r1,c1,r2,c2, (Rook) piece)){
+			if (checkRook(r1, c1, r2, c2, (Rook) piece)) {
 				System.out.println("VALID MOVE ROOK");
 				return true;
-			}
-			else{
+			} else {
 				System.out.println("INVALID MOVE ROOK");
 				return false;
 			}
 		} else if (piece instanceof Queen) {
-			System.out.println("QUEEN");
+			if (checkQueen(r1, c1, r2, c2, (Queen) piece)) {
+				System.out.println("VALID MOVE QUEEN");
+				return true;
+			} else {
+				System.out.println("INVALID MOVE QUEEN");
+				return false;
+			}
 		} else if (piece instanceof King) {
-			System.out.println("KING");
+			if (checkKing(r1, c1, r2, c2, (King) piece)) {
+				System.out.println("VALID MOVE KING");
+				return true;
+			} else {
+				System.out.println("INVALID MOVE KING");
+				return false;
+
+			}
 		}
 		System.out.println("Something went wrong......");
 		return false;

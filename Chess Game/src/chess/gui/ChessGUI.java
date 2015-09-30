@@ -45,7 +45,8 @@ public class ChessGUI extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// Makes a square based on screen size, (x, y, size.x, size.y
-		setBounds(0,0,screenSize.height, screenSize.height);
+		int x = 100;
+		setBounds(0,0,screenSize.height - x , screenSize.height - x);
 		int xLoc = (screenSize.width - screenSize.height) / 2; // center
 		setLocation(xLoc, 0);
 		chess = new Chess();
