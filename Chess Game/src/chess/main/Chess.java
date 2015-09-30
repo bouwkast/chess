@@ -341,11 +341,83 @@ public class Chess {
 	 * @param r2 is the row of the second Cell
 	 * @param c2 is the col of the second Cell
 	 * @param rook is the Rook that we are checking
-	 * @return a boolean value whether the Rook was moved
+	 * @return a boolean value whether the Rook can be moved
 	 ******************************************************************/
 	private boolean checkRook(int r1, int c1, int r2, int c2,
 			Rook rook) {
-
+		
+		
+		boolean RowChanged = false;
+		boolean ColChanged = false;
+		
+		
+		if (Math.abs(r2-r1) > 0){
+			System.out.println("The Row Has Changed");
+			RowChanged = true;
+		}
+		if (Math.abs(c2-c1) > 0){
+			System.out.println("The Column Has Changed");
+			ColChanged = true;
+		}
+		
+		if ((Math.abs(r2-r1) > 0) && (Math.abs(c2-c1) > 0)){
+			System.out.println("INVALID MOVE");
+			return false;
+		}
+		
+		if (RowChanged){
+			
+			int loops = 0;
+			int max = 0;
+			if (r1 > r2){
+				loops = r2;
+				max = r1;
+			}
+			else{
+			loops = r1;
+			max = r2;
+			}
+			
+			//max -= 1;
+			System.out.println("START ROW: " + loops + " AND END ROW: " + max);
+			for (int x = loops; x<=max; x++)
+			{
+				System.out.println("CHECKING ROW: " + x + " AND COLUMN: " + c1);
+				if (x != r1 && x != r2){
+					if (board.getCellAt(x, c1).getChessPiece() != null){
+						System.out.println("Not an empty Space for Row");
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		else if (ColChanged){
+			
+			int loops2 = 0;
+			int max2 = 0;
+			
+			if (c1 > c2){
+				loops2 = c2;
+				max2 = c1;
+			}
+			else{
+				loops2 = c1;
+				max2 = c2;
+			}
+			for (int y = loops2+1; y<max2; y++){
+				
+				if (board.getCellAt(r1, y).getChessPiece() != null){
+					System.out.println("Empty Space for Col");
+					return false;
+				}
+				
+			}
+ 
+			return true;
+		}
+		
+		System.out.println("INVALID MOVE");
 		return false;
 	}
 
@@ -653,6 +725,14 @@ public class Chess {
 
 		} else if (piece instanceof Rook) {
 			System.out.println("ROOK");
+			if (checkRook(r1,c1,r2,c2, (Rook) piece)){
+				System.out.println("VALID MOVE ROOK");
+				return true;
+			}
+			else{
+				System.out.println("INVALID MOVE ROOK");
+				return false;
+			}
 		} else if (piece instanceof Queen) {
 			System.out.println("QUEEN");
 		} else if (piece instanceof King) {

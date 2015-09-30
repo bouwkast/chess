@@ -86,11 +86,11 @@ public class ChessController {
 				System.out.println(r2 + 1 + " " + (c2 + 1));
 				if (game.checkMove(r1, c1, r2, c2,
 						game.getPieceAt(r1, c1))) {
-					gui.getButtonAt(r1, c1).setText("");
-					if (game.getPieceAt(r2, c2).getName() != null) {
-						gui.getButtonAt(r2, c2).setText(
-								game.getPieceAt(r2, c2).getIcon());
-						gui.revalidate();
+							gui.getButtonAt(r1, c1).setText("");
+								if (game.getPieceAt(r2, c2) != null) {
+									gui.getButtonAt(r2, c2).setText(
+											game.getPieceAt(r2, c2).getIcon());
+									gui.revalidate();
 					}
 				}
 			}
