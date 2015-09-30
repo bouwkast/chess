@@ -23,6 +23,10 @@ public class Chess {
 	public Chess() {
 		board = new Board();
 	}
+	
+	public void reset() {
+		board = new Board();
+	}
 
 	/*******************************************************************
 	 * Returns the board object

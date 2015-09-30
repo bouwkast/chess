@@ -68,6 +68,15 @@ public class ChessController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == gui.getNewItem()) {
+				game.reset();
+				gui.resetBoard();
+				gui.revalidate();
+				gui.repaint();
+				
+			} else if(e.getSource() == gui.getExitItem()) {
+				System.exit(0);
+			}
 			// Very basic method to find the button and piece and checks
 			// if it can move there
 			if (firstClick) {
