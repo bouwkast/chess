@@ -65,6 +65,7 @@ public class ChessController {
 					}
 					//System.out.println("The Row is: " + (row + 1)
 							//+ " and the Column is: " + (col + 1));
+					// New Comment
 				}
 			}
 		}
