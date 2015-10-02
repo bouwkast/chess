@@ -85,11 +85,11 @@ public class ChessTester {
 	public void checkWhiteKnightsPosition() {
 		// White Knights are at row 7, col 1 and 6
 		game = new Chess();
-		Knight leftKnight = (Knight) game.getPieceAt(7, 1);
-		Knight rightKnight = (Knight) game.getPieceAt(7, 6);
-		boolean isLeftWhite = leftKnight.getColor() == PColor.White;
-		boolean isRightWhite = rightKnight.getColor() == PColor.White;
-		assertTrue(isLeftWhite && isRightWhite);
+		boolean isLeftKnight = game.getPieceAt(7, 1) instanceof Knight;
+		boolean isRightKnight = game.getPieceAt(7, 6) instanceof Knight;
+		boolean isLeftWhite = game.getPieceAt(7, 1).getColor() == PColor.White;
+		boolean isRightWhite = game.getPieceAt(7, 6).getColor() == PColor.White;
+		assertTrue(isLeftKnight && isRightKnight && isLeftWhite && isRightWhite);
 	}
 
 	@Test
@@ -134,7 +134,7 @@ public class ChessTester {
 
 	@Test
 	public void checkBlackPawnsPositions() {
-		// Black Pawns are in row 6, col 0-7
+		// Black Pawns are in row 0, col 0-7
 		game = new Chess();
 		boolean isCorrect = false;
 		for (int i = 0; i < 8; i++) {
@@ -150,34 +150,54 @@ public class ChessTester {
 
 	@Test
 	public void checkBlackKnightsPositions() {
-		// White Knights are at row 7, col 1 and 6
+		// Black Knights are at row 0, col 1 and 6
 		game = new Chess();
 		boolean isLeftKnight = game.getPieceAt(0, 1) instanceof Knight;
 		boolean isRightKnight = game.getPieceAt(0, 6) instanceof Knight;
 		boolean isLeftBlack = game.getPieceAt(0, 1).getColor() == PColor.Black;
 		boolean isRightBlack = game.getPieceAt(0, 6).getColor() == PColor.Black;
-	
+
 		assertTrue(isLeftKnight && isRightKnight && isLeftBlack && isRightBlack);
 	}
 
 	@Test
 	public void checkBlackBishopsPositions() {
-
+		// Black Bishops are at row 0, col 2 and 5
+		game = new Chess();
+		boolean isLeftBishop = game.getPieceAt(0, 2) instanceof Bishop;
+		boolean isRightBishop = game.getPieceAt(0, 5) instanceof Bishop;
+		boolean isLeftBlack = game.getPieceAt(0, 2).getColor() == PColor.Black;
+		boolean isRightBlack = game.getPieceAt(0, 5).getColor() == PColor.Black;
+		assertTrue(isLeftBishop && isRightBishop && isLeftBlack && isRightBlack);
 	}
 
 	@Test
 	public void checkBlackRooksPositions() {
-
+		// Black Rooks are at row 0, col 0 and 7
+		game = new Chess();
+		boolean isLeftRook = game.getPieceAt(0, 0) instanceof Rook;
+		boolean isRightRook = game.getPieceAt(0, 7) instanceof Rook;
+		boolean isLeftBlack = game.getPieceAt(0, 0).getColor() == PColor.Black;
+		boolean isRightBlack = game.getPieceAt(0, 7).getColor() == PColor.Black;
+		assertTrue(isLeftRook && isRightRook && isLeftBlack && isRightBlack);
 	}
 
 	@Test
 	public void checkBlackQueenPosition() {
-
+		// Black Queen is located at row 0, col 3
+		game = new Chess();
+		boolean isQueen = game.getPieceAt(0, 3) instanceof Queen;
+		boolean isQueenBlack = game.getPieceAt(0, 3).getColor() == PColor.Black;
+		assertTrue(isQueen && isQueenBlack);
 	}
 
 	@Test
 	public void checkBlackKingPosition() {
-
+		// White King is located at row 0, col 4
+		game = new Chess();
+		boolean isKing = game.getPieceAt(0, 4) instanceof King;
+		boolean isKingBlack = game.getPieceAt(0, 4).getColor() == PColor.Black;
+		assertTrue(isKing && isKingBlack);
 	}
 
 	@Test
