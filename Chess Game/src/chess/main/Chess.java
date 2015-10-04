@@ -45,6 +45,17 @@ public class Chess {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
+	
+	/*******************************************************************
+	 * Method that will set the specified Cell to the specified Piece
+	 * 
+	 * @param row is the row of the Cell
+	 * @param col is the col of the Cell
+	 * @param piece is the Piece to set
+	 ******************************************************************/
+	public void setPieceAt(int row, int col, Piece piece) {
+		getBoard().getCellAt(row, col).setChessPiece(piece);
+	}
 
 	/*******************************************************************
 	 * Makes it easier to get the piece
@@ -271,85 +282,6 @@ public class Chess {
 		} else { // Not a lateral movement
 			return false;
 		}
-	}
-
-	/*
-	 * Old checkRook
-	 */
-	private boolean checkRook2(int r1, int c1, int r2, int c2,
-			Rook rook) {
-
-		boolean RowChanged = false;
-		boolean ColChanged = false;
-
-		if (Math.abs(r2 - r1) > 0) {
-			System.out.println("The Row Has Changed");
-			RowChanged = true;
-		}
-		if (Math.abs(c2 - c1) > 0) {
-			System.out.println("The Column Has Changed");
-			ColChanged = true;
-		}
-
-		if ((Math.abs(r2 - r1) > 0) && (Math.abs(c2 - c1) > 0)) {
-			System.out.println("INVALID MOVE");
-			return false;
-		}
-
-		if (RowChanged) {
-
-			int loops = 0;
-			int max = 0;
-			if (r1 > r2) {
-				loops = r2;
-				max = r1;
-			} else {
-				loops = r1;
-				max = r2;
-			}
-
-			// max -= 1;
-			System.out.println(
-					"START ROW: " + loops + " AND END ROW: " + max);
-			for (int x = loops; x <= max; x++) {
-				System.out.println(
-						"CHECKING ROW: " + x + " AND COLUMN: " + c1);
-				if (x != r1 && x != r2) {
-					if (board.getCellAt(x, c1)
-							.getChessPiece() != null) {
-						System.out
-								.println("Not an empty Space for Row");
-						return false;
-					}
-				}
-			}
-			return true;
-		} else if (ColChanged) {
-
-			int loops2 = 0;
-			int max2 = 0;
-
-			if (c1 > c2) {
-				loops2 = c2;
-				max2 = c1;
-			} else {
-				loops2 = c1;
-				max2 = c2;
-			}
-			for (int y = loops2 + 1; y < max2; y++) {
-
-				if (board.getCellAt(r1, y).getChessPiece() != null) {
-					System.out.println("Empty Space for Col");
-					return false;
-				}
-
-			}
-
-			return true;
-		}
-
-		System.out.println("INVALID MOVE");
-		return false;
 	}
 
 	/*******************************************************************
