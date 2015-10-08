@@ -96,13 +96,18 @@ public class ChessGUI extends JFrame {
 		return board[row][col];
 	}
 	
+	/*******************************************************************
+	 * Resets the Board that the user sees
+	 ******************************************************************/
 	public void resetBoard() {
 		grid.removeAll();
 		resetButtons();
 		setCheckers();
 	}
 	
-	// new buttons and proper icon
+	/*******************************************************************
+	 * Resets each button and puts the proper icon in place
+	 ******************************************************************/
 	private void resetButtons() {
 		for(int row = 0; row < 8; row++) {
 			for(int col = 0; col < 8; col++) {
@@ -121,6 +126,9 @@ public class ChessGUI extends JFrame {
 		}
 	}
 	
+	/*******************************************************************
+	 * Creates the checkerboard pattern for the board
+	 ******************************************************************/
 	private void setCheckers() {
 		boolean isWhite = false;
 		for(int row = 0; row < 8; row++) {
@@ -140,10 +148,20 @@ public class ChessGUI extends JFrame {
 		}
 	}
 	
+	/*******************************************************************
+	 * Gets the menu item to start a new game
+	 * 
+	 * @return a JMenuItem of new game
+	 ******************************************************************/
 	public JMenuItem getNewItem() {
 		return newItem;
 	}
 	
+	/*******************************************************************
+	 * Gets the menu item to exit the game
+	 * 
+	 * @return a JMenuItem of exit game
+	 ******************************************************************/
 	public JMenuItem getExitItem() {
 		return exitItem;
 	}

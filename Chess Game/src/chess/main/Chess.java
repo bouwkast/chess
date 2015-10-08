@@ -115,6 +115,16 @@ public class Chess {
 		}
 	}
 
+	/*******************************************************************
+	 * Checks whether the white pawn is making a valid mov
+	 * 
+	 * @param r1 is the row of the first Cell w/ Pawn
+	 * @param c1 is the col of the first Cell w/ Pawn
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param pawn is the pawn we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
 	private boolean checkWPawn(int r1, int c1, int r2, int c2,
 			Pawn pawn) {
 		/*
@@ -158,6 +168,16 @@ public class Chess {
 		}
 	}
 
+	/*******************************************************************
+	 * Checks whether the black pawn is making a valid mov
+	 * 
+	 * @param r1 is the row of the first Cell w/ Pawn
+	 * @param c1 is the col of the first Cell w/ Pawn
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param pawn is the pawn we are checking
+	 * @return a boolean value whether the pawn was moved
+	 ******************************************************************/
 	private boolean checkBPawn(int r1, int c1, int r2, int c2,
 			Pawn pawn) {
 		// Pawn is only moving 1 row DOWN
@@ -257,6 +277,7 @@ public class Chess {
 			return false;
 		}
 	}
+	
 	/*******************************************************************
 	 * Checks the movement of the Rook in it's four possible directions.
 	 * Up, Right, Down, and Left. For each move, either the row or the
@@ -349,9 +370,8 @@ public class Chess {
 	}
 
 	/*******************************************************************
-	 * Checks the Lateral(PROPER WORD? Couldn't think of what to call
-	 * it) movement of the piece for its movement UP, RIGHT, DOWN, and
-	 * LEFT
+	 * Checks the Lateral movement of the piece for its movement UP, 
+	 * RIGHT, DOWN, and LEFT
 	 * 
 	 * @param r1 is the row for the first Cell
 	 * @param c1 is the col for the first Cell
@@ -655,15 +675,18 @@ public class Chess {
 		return false; // Invalid Move
 	}
 
-	/**
-	 * This method is not done yet, but is just to test how to check the
-	 * move for the pieces, right now it only works for Pawns and only
-	 * cares about vertical movement, no collision or anything, but it
-	 * works
-	 */
+	/*******************************************************************
+	 * Check the Piece's possible move, and move it if necessary
+	 * 
+	 * @param r1 is the row of the first Cell
+	 * @param c1 is the col of the first Cell
+	 * @param r2 is the row of the second Cell
+	 * @param c2 is the col of the second Cell
+	 * @param piece is the Piece that we are checking
+	 * @return a boolean value whether the Piece was moved
+	 ******************************************************************/
 	public boolean checkMove(int r1, int c1, int r2, int c2,
 			Piece piece) {
-		// Relatively decent checking style for pawn
 		if (piece instanceof Pawn) {
 			if (checkPawn(r1, c1, r2, c2, (Pawn) piece)) {
 				System.out.println("VALID MOVE");
