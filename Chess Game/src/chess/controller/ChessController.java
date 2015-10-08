@@ -55,6 +55,10 @@ public class ChessController {
 		this.gui.addChessListener(new ChessListener());
 	}
 
+	/****
+	 * 
+	 * @param An action event e
+	 */
 	private void findCell(ActionEvent e) {
 		for (int row = 0; row < 8; ++row) {
 			for (int col = 0; col < 8; ++col) {
@@ -68,14 +72,12 @@ public class ChessController {
 						c2 = col;
 						firstClick = true;
 					}
-					//System.out.println("The Row is: " + (row + 1)
-							//+ " and the Column is: " + (col + 1));
 				}
 			}
 		}
 	}
 
-	private int CheckWin(){
+	public int CheckWin(){
 		boolean WhiteKingAlive = false;
 		boolean BlackKingAlive = false;
 		String Options[] = new String[3];
@@ -137,7 +139,8 @@ public class ChessController {
 		}
 		else if (!WhiteKingAlive){
 			Winner = 1;
-			choice = JOptionPane.showOptionDialog(gui, "Game Over! Player 2 Wins!", "Player 2 Wins"
+			choice = JOptionPane.showOptionDialog(gui, "Game Over! "
+					+ "Player 2 Wins!", "Player 2 Wins"
 					,0,JOptionPane.INFORMATION_MESSAGE,null,Options,null);
 			if (choice ==  0){
 				game.reset();
@@ -239,10 +242,7 @@ public class ChessController {
 			Winner = CheckWin();
 			
 		}
-		//Insert Check King Here
-		
-		
+		//Insert Check King Here		
 	}
-	
 	
 }
