@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import chess.controller.ChessController;
+import chess.gui.ChessGUI;
 import chess.main.Chess;
 import chess.objects.Bishop;
 import chess.objects.Board;
@@ -1092,10 +1094,8 @@ public class ChessTester {
 		game.setPieceAt(5, 7, king);
 		assertFalse(game.checkMove(5, 7, 5, 0, king));
 	}
-	
 	/**
 	 * End of King testing
 	 */
 	
-
 }
