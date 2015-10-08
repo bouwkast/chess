@@ -103,10 +103,12 @@ public class ChessTester {
 				&& piece.getIcon().equals("\u2659")
 				&& !piece.isHasMoved() && piece.isAlive());
 	}
-	
+
 	@Test
 	public void pieceToString() {
-		String expected = "Piece name: Pawn" + "\nPiece color: White" + "\nisAlive: true" + "\nhasMoved: false" + "\nIcon: \u2659";
+		String expected = "Piece name: Pawn" + "\nPiece color: White"
+				+ "\nisAlive: true" + "\nhasMoved: false"
+				+ "\nIcon: \u2659";
 		assertEquals(expected, whitePawn.toString());
 	}
 
@@ -176,8 +178,8 @@ public class ChessTester {
 		boolean isCorrect = false;
 		for (int i = 0; i < 8; i++) {
 			boolean isPawn = game.getPieceAt(6, i) instanceof Pawn;
-			boolean isWhite =
-					game.getPieceAt(6, i).getColor() == PColor.White;
+			boolean isWhite = game.getPieceAt(6, i)
+					.getColor() == PColor.White;
 			isCorrect = (isPawn && isWhite);
 			if (!isCorrect)
 				return;
@@ -190,13 +192,14 @@ public class ChessTester {
 	public void checkWhiteKnightsPosition() {
 		// White Knights are at row 7, col 1 and 6
 		game = new Chess();
-		boolean isLeftKnight = game.getPieceAt(7, 1) instanceof Knight;
-		boolean isRightKnight =
-				game.getPieceAt(7, 6) instanceof Knight;
-		boolean isLeftWhite =
-				game.getPieceAt(7, 1).getColor() == PColor.White;
-		boolean isRightWhite =
-				game.getPieceAt(7, 6).getColor() == PColor.White;
+		boolean isLeftKnight = game.getPieceAt(7,
+				1) instanceof Knight;
+		boolean isRightKnight = game.getPieceAt(7,
+				6) instanceof Knight;
+		boolean isLeftWhite = game.getPieceAt(7, 1)
+				.getColor() == PColor.White;
+		boolean isRightWhite = game.getPieceAt(7, 6)
+				.getColor() == PColor.White;
 		assertTrue(isLeftKnight && isRightKnight && isLeftWhite
 				&& isRightWhite);
 	}
@@ -205,13 +208,14 @@ public class ChessTester {
 	public void checkWhiteBishopsPosition() {
 		// White Bishops are at row 7, col 2 and 5
 		game = new Chess();
-		boolean isLeftBishop = game.getPieceAt(7, 2) instanceof Bishop;
-		boolean isRightBishop =
-				game.getPieceAt(7, 5) instanceof Bishop;
-		boolean isLeftWhite =
-				game.getPieceAt(7, 2).getColor() == PColor.White;
-		boolean isRightWhite =
-				game.getPieceAt(7, 5).getColor() == PColor.White;
+		boolean isLeftBishop = game.getPieceAt(7,
+				2) instanceof Bishop;
+		boolean isRightBishop = game.getPieceAt(7,
+				5) instanceof Bishop;
+		boolean isLeftWhite = game.getPieceAt(7, 2)
+				.getColor() == PColor.White;
+		boolean isRightWhite = game.getPieceAt(7, 5)
+				.getColor() == PColor.White;
 		assertTrue(isLeftBishop && isRightBishop && isLeftWhite
 				&& isRightWhite);
 	}
@@ -222,10 +226,10 @@ public class ChessTester {
 		game = new Chess();
 		boolean isLeftRook = game.getPieceAt(7, 0) instanceof Rook;
 		boolean isRightRook = game.getPieceAt(7, 7) instanceof Rook;
-		boolean isLeftWhite =
-				game.getPieceAt(7, 0).getColor() == PColor.White;
-		boolean isRightWhite =
-				game.getPieceAt(7, 7).getColor() == PColor.White;
+		boolean isLeftWhite = game.getPieceAt(7, 0)
+				.getColor() == PColor.White;
+		boolean isRightWhite = game.getPieceAt(7, 7)
+				.getColor() == PColor.White;
 		assertTrue(isLeftRook && isRightRook && isLeftWhite
 				&& isRightWhite);
 	}
@@ -235,8 +239,8 @@ public class ChessTester {
 		// White Queen is located at row 7, col 3
 		game = new Chess();
 		boolean isQueen = game.getPieceAt(7, 3) instanceof Queen;
-		boolean isQueenWhite =
-				game.getPieceAt(7, 3).getColor() == PColor.White;
+		boolean isQueenWhite = game.getPieceAt(7, 3)
+				.getColor() == PColor.White;
 		assertTrue(isQueen && isQueenWhite);
 	}
 
@@ -245,8 +249,8 @@ public class ChessTester {
 		// White King is located at row 7, col 4
 		game = new Chess();
 		boolean isKing = game.getPieceAt(7, 4) instanceof King;
-		boolean isKingWhite =
-				game.getPieceAt(7, 4).getColor() == PColor.White;
+		boolean isKingWhite = game.getPieceAt(7, 4)
+				.getColor() == PColor.White;
 		assertTrue(isKing && isKingWhite);
 	}
 
@@ -257,8 +261,8 @@ public class ChessTester {
 		boolean isCorrect = false;
 		for (int i = 0; i < 8; i++) {
 			boolean isPawn = game.getPieceAt(1, i) instanceof Pawn;
-			boolean isWhite =
-					game.getPieceAt(1, i).getColor() == PColor.Black;
+			boolean isWhite = game.getPieceAt(1, i)
+					.getColor() == PColor.Black;
 			isCorrect = (isPawn && isWhite);
 			if (!isCorrect)
 				return;
@@ -270,13 +274,14 @@ public class ChessTester {
 	public void checkBlackKnightsPositions() {
 		// Black Knights are at row 0, col 1 and 6
 		game = new Chess();
-		boolean isLeftKnight = game.getPieceAt(0, 1) instanceof Knight;
-		boolean isRightKnight =
-				game.getPieceAt(0, 6) instanceof Knight;
-		boolean isLeftBlack =
-				game.getPieceAt(0, 1).getColor() == PColor.Black;
-		boolean isRightBlack =
-				game.getPieceAt(0, 6).getColor() == PColor.Black;
+		boolean isLeftKnight = game.getPieceAt(0,
+				1) instanceof Knight;
+		boolean isRightKnight = game.getPieceAt(0,
+				6) instanceof Knight;
+		boolean isLeftBlack = game.getPieceAt(0, 1)
+				.getColor() == PColor.Black;
+		boolean isRightBlack = game.getPieceAt(0, 6)
+				.getColor() == PColor.Black;
 
 		assertTrue(isLeftKnight && isRightKnight && isLeftBlack
 				&& isRightBlack);
@@ -286,13 +291,14 @@ public class ChessTester {
 	public void checkBlackBishopsPositions() {
 		// Black Bishops are at row 0, col 2 and 5
 		game = new Chess();
-		boolean isLeftBishop = game.getPieceAt(0, 2) instanceof Bishop;
-		boolean isRightBishop =
-				game.getPieceAt(0, 5) instanceof Bishop;
-		boolean isLeftBlack =
-				game.getPieceAt(0, 2).getColor() == PColor.Black;
-		boolean isRightBlack =
-				game.getPieceAt(0, 5).getColor() == PColor.Black;
+		boolean isLeftBishop = game.getPieceAt(0,
+				2) instanceof Bishop;
+		boolean isRightBishop = game.getPieceAt(0,
+				5) instanceof Bishop;
+		boolean isLeftBlack = game.getPieceAt(0, 2)
+				.getColor() == PColor.Black;
+		boolean isRightBlack = game.getPieceAt(0, 5)
+				.getColor() == PColor.Black;
 		assertTrue(isLeftBishop && isRightBishop && isLeftBlack
 				&& isRightBlack);
 	}
@@ -303,10 +309,10 @@ public class ChessTester {
 		game = new Chess();
 		boolean isLeftRook = game.getPieceAt(0, 0) instanceof Rook;
 		boolean isRightRook = game.getPieceAt(0, 7) instanceof Rook;
-		boolean isLeftBlack =
-				game.getPieceAt(0, 0).getColor() == PColor.Black;
-		boolean isRightBlack =
-				game.getPieceAt(0, 7).getColor() == PColor.Black;
+		boolean isLeftBlack = game.getPieceAt(0, 0)
+				.getColor() == PColor.Black;
+		boolean isRightBlack = game.getPieceAt(0, 7)
+				.getColor() == PColor.Black;
 		assertTrue(isLeftRook && isRightRook && isLeftBlack
 				&& isRightBlack);
 	}
@@ -316,8 +322,8 @@ public class ChessTester {
 		// Black Queen is located at row 0, col 3
 		game = new Chess();
 		boolean isQueen = game.getPieceAt(0, 3) instanceof Queen;
-		boolean isQueenBlack =
-				game.getPieceAt(0, 3).getColor() == PColor.Black;
+		boolean isQueenBlack = game.getPieceAt(0, 3)
+				.getColor() == PColor.Black;
 		assertTrue(isQueen && isQueenBlack);
 	}
 
@@ -326,8 +332,8 @@ public class ChessTester {
 		// White King is located at row 0, col 4
 		game = new Chess();
 		boolean isKing = game.getPieceAt(0, 4) instanceof King;
-		boolean isKingBlack =
-				game.getPieceAt(0, 4).getColor() == PColor.Black;
+		boolean isKingBlack = game.getPieceAt(0, 4)
+				.getColor() == PColor.Black;
 		assertTrue(isKing && isKingBlack);
 	}
 
@@ -717,7 +723,7 @@ public class ChessTester {
 		game.setPieceAt(5, 2, bishop);
 		assertTrue(game.checkMove(5, 2, 2, 5, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementUpRightPieceBlocking() {
 		game = new Chess();
@@ -726,7 +732,7 @@ public class ChessTester {
 		game.setPieceAt(3, 4, whitePawn);
 		assertFalse(game.checkMove(5, 2, 2, 5, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementUpRightSameColorInPlace() {
 		game = new Chess();
@@ -735,7 +741,7 @@ public class ChessTester {
 		game.setPieceAt(2, 5, blackPawn);
 		assertFalse(game.checkMove(5, 2, 2, 5, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownRight() {
 		game = new Chess();
@@ -743,7 +749,7 @@ public class ChessTester {
 		game.setPieceAt(2, 1, bishop);
 		assertTrue(game.checkMove(2, 1, 5, 4, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownRightPieceBlocking() {
 		game = new Chess();
@@ -752,7 +758,7 @@ public class ChessTester {
 		game.setPieceAt(4, 3, whitePawn);
 		assertFalse(game.checkMove(2, 1, 5, 4, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownRightSameColorInPlace() {
 		game = new Chess();
@@ -761,7 +767,7 @@ public class ChessTester {
 		game.setPieceAt(5, 4, blackPawn);
 		assertFalse(game.checkMove(2, 1, 5, 4, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownLeft() {
 		game = new Chess();
@@ -769,7 +775,7 @@ public class ChessTester {
 		game.setPieceAt(2, 5, bishop);
 		assertTrue(game.checkMove(2, 5, 5, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownLeftPieceBlocking() {
 		game = new Chess();
@@ -778,7 +784,7 @@ public class ChessTester {
 		game.setPieceAt(4, 3, whitePawn);
 		assertFalse(game.checkMove(2, 5, 5, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementDownLeftSameColorInPlace() {
 		game = new Chess();
@@ -787,7 +793,7 @@ public class ChessTester {
 		game.setPieceAt(5, 2, blackPawn);
 		assertFalse(game.checkMove(2, 5, 5, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementUpLeft() {
 		game = new Chess();
@@ -795,7 +801,7 @@ public class ChessTester {
 		game.setPieceAt(5, 5, bishop);
 		assertTrue(game.checkMove(5, 5, 2, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementUpLeftPieceBlocking() {
 		game = new Chess();
@@ -804,7 +810,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, whitePawn);
 		assertFalse(game.checkMove(5, 5, 2, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopMovementUpLeftSameColorInPlace() {
 		game = new Chess();
@@ -813,7 +819,7 @@ public class ChessTester {
 		game.setPieceAt(2, 2, blackPawn);
 		assertFalse(game.checkMove(5, 5, 2, 2, bishop));
 	}
-	
+
 	@Test
 	public void bishopInvalidMovement() {
 		game = new Chess();
@@ -821,11 +827,11 @@ public class ChessTester {
 		game.setPieceAt(5, 5, bishop);
 		assertFalse(game.checkMove(5, 5, 5, 2, bishop));
 	}
-	
+
 	/**
 	 * End of Bishop Testing
 	 */
-	
+
 	// Begin Rook Testing
 	@Test
 	public void rookMovementUp() {
@@ -834,7 +840,7 @@ public class ChessTester {
 		game.setPieceAt(5, 3, rook);
 		assertTrue(game.checkMove(5, 3, 2, 3, rook));
 	}
-	
+
 	@Test
 	public void rookMovementUpPieceBlocking() {
 		game = new Chess();
@@ -843,7 +849,7 @@ public class ChessTester {
 		game.setPieceAt(3, 3, whitePawn);
 		assertFalse(game.checkMove(5, 3, 2, 3, rook));
 	}
-	
+
 	@Test
 	public void rookMovementUpSameColorInPlace() {
 		game = new Chess();
@@ -852,7 +858,7 @@ public class ChessTester {
 		game.setPieceAt(2, 3, blackPawn);
 		assertFalse(game.checkMove(5, 3, 2, 3, rook));
 	}
-	
+
 	@Test
 	public void rookMovementRight() {
 		game = new Chess();
@@ -860,7 +866,7 @@ public class ChessTester {
 		game.setPieceAt(5, 0, rook);
 		assertTrue(game.checkMove(5, 0, 5, 7, rook));
 	}
-	
+
 	@Test
 	public void rookMovementRightPieceBlocking() {
 		game = new Chess();
@@ -869,7 +875,7 @@ public class ChessTester {
 		game.setPieceAt(5, 6, whitePawn);
 		assertFalse(game.checkMove(5, 0, 5, 7, rook));
 	}
-	
+
 	@Test
 	public void rookMovementRightSameColorInPlace() {
 		game = new Chess();
@@ -878,7 +884,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, blackPawn);
 		assertFalse(game.checkMove(5, 0, 5, 7, rook));
 	}
-	
+
 	@Test
 	public void rookMovementDown() {
 		game = new Chess();
@@ -886,7 +892,7 @@ public class ChessTester {
 		game.setPieceAt(2, 0, rook);
 		assertTrue(game.checkMove(2, 0, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookMovementDownPieceBlocking() {
 		game = new Chess();
@@ -895,7 +901,7 @@ public class ChessTester {
 		game.setPieceAt(4, 0, whitePawn);
 		assertFalse(game.checkMove(2, 0, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookMovementDownSameColorInPlace() {
 		game = new Chess();
@@ -904,7 +910,7 @@ public class ChessTester {
 		game.setPieceAt(5, 0, blackPawn);
 		assertFalse(game.checkMove(2, 0, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookMovementLeft() {
 		game = new Chess();
@@ -912,7 +918,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, rook);
 		assertTrue(game.checkMove(5, 7, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookMovementLeftPieceBlocking() {
 		game = new Chess();
@@ -921,7 +927,7 @@ public class ChessTester {
 		game.setPieceAt(5, 1, whitePawn);
 		assertFalse(game.checkMove(5, 7, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookMovementLeftSameColorInPlace() {
 		game = new Chess();
@@ -930,7 +936,7 @@ public class ChessTester {
 		game.setPieceAt(5, 0, blackPawn);
 		assertFalse(game.checkMove(5, 7, 5, 0, rook));
 	}
-	
+
 	@Test
 	public void rookInvalidMovement() {
 		game = new Chess();
@@ -938,13 +944,13 @@ public class ChessTester {
 		game.setPieceAt(5, 7, rook);
 		assertFalse(game.checkMove(5, 7, 4, 0, rook));
 	}
-	
+
 	/**
 	 * End of Testing Rook
 	 */
-	
+
 	// Begin Testing Queen
-	
+
 	@Test
 	public void queenMovementUp() {
 		game = new Chess();
@@ -952,7 +958,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, queen);
 		assertTrue(game.checkMove(4, 4, 2, 4, queen));
 	}
-	
+
 	@Test
 	public void queenMovementUpRight() {
 		game = new Chess();
@@ -960,7 +966,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, queen);
 		assertTrue(game.checkMove(4, 4, 2, 6, queen));
 	}
-	
+
 	@Test
 	public void queenMovementRight() {
 		game = new Chess();
@@ -968,7 +974,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, queen);
 		assertTrue(game.checkMove(4, 4, 4, 7, queen));
 	}
-	
+
 	@Test
 	public void queenMovementDownRight() {
 		game = new Chess();
@@ -976,7 +982,7 @@ public class ChessTester {
 		game.setPieceAt(2, 2, queen);
 		assertTrue(game.checkMove(2, 2, 5, 5, queen));
 	}
-	
+
 	@Test
 	public void queenMovementDown() {
 		game = new Chess();
@@ -984,7 +990,7 @@ public class ChessTester {
 		game.setPieceAt(2, 2, queen);
 		assertTrue(game.checkMove(2, 2, 5, 2, queen));
 	}
-	
+
 	@Test
 	public void queenMovementDownLeft() {
 		game = new Chess();
@@ -992,7 +998,7 @@ public class ChessTester {
 		game.setPieceAt(2, 5, queen);
 		assertTrue(game.checkMove(2, 5, 5, 2, queen));
 	}
-	
+
 	@Test
 	public void queenMovementLeft() {
 		game = new Chess();
@@ -1000,7 +1006,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, queen);
 		assertTrue(game.checkMove(5, 7, 5, 0, queen));
 	}
-	
+
 	@Test
 	public void queenMovementUpLeft() {
 		game = new Chess();
@@ -1008,7 +1014,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, queen);
 		assertTrue(game.checkMove(5, 7, 2, 4, queen));
 	}
-	
+
 	@Test
 	public void queenInvalidMovement() {
 		game = new Chess();
@@ -1016,13 +1022,13 @@ public class ChessTester {
 		game.setPieceAt(2, 2, queen);
 		assertFalse(game.checkMove(2, 2, 4, 3, queen));
 	}
-	
+
 	/**
 	 * End Queen Testing
 	 */
-	
+
 	// Begin King Testing
-	
+
 	@Test
 	public void kingMovementUp() {
 		game = new Chess();
@@ -1030,7 +1036,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, king);
 		assertTrue(game.checkMove(4, 4, 3, 4, king));
 	}
-	
+
 	@Test
 	public void kingMovementUpRight() {
 		game = new Chess();
@@ -1038,7 +1044,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, king);
 		assertTrue(game.checkMove(4, 4, 3, 5, king));
 	}
-	
+
 	@Test
 	public void kingMovementRight() {
 		game = new Chess();
@@ -1046,7 +1052,7 @@ public class ChessTester {
 		game.setPieceAt(4, 4, king);
 		assertTrue(game.checkMove(4, 4, 4, 5, king));
 	}
-	
+
 	@Test
 	public void kingMovementDownRight() {
 		game = new Chess();
@@ -1054,7 +1060,7 @@ public class ChessTester {
 		game.setPieceAt(2, 2, king);
 		assertTrue(game.checkMove(2, 2, 3, 3, king));
 	}
-	
+
 	@Test
 	public void kingMovementDown() {
 		game = new Chess();
@@ -1062,7 +1068,7 @@ public class ChessTester {
 		game.setPieceAt(2, 2, king);
 		assertTrue(game.checkMove(2, 2, 3, 2, king));
 	}
-	
+
 	@Test
 	public void kingMovementDownLeft() {
 		game = new Chess();
@@ -1070,7 +1076,7 @@ public class ChessTester {
 		game.setPieceAt(2, 5, king);
 		assertTrue(game.checkMove(2, 5, 3, 4, king));
 	}
-	
+
 	@Test
 	public void kingMovementLeft() {
 		game = new Chess();
@@ -1078,7 +1084,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, king);
 		assertTrue(game.checkMove(5, 7, 5, 6, king));
 	}
-	
+
 	@Test
 	public void kingMovementUpLeft() {
 		game = new Chess();
@@ -1086,7 +1092,7 @@ public class ChessTester {
 		game.setPieceAt(5, 7, king);
 		assertTrue(game.checkMove(5, 7, 4, 6, king));
 	}
-	
+
 	@Test
 	public void kingInvalidMovement() {
 		game = new Chess();
@@ -1097,5 +1103,5 @@ public class ChessTester {
 	/**
 	 * End of King testing
 	 */
-	
+
 }
