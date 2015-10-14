@@ -15,7 +15,7 @@ public class ChessGame {
 
 	public static void main(String[] args) {
 		ChessGUI theView = new ChessGUI();
-
+		
 		Chess theModel = new Chess();
 
 		ChessController theController =
