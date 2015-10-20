@@ -45,7 +45,7 @@ public class Chess {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
-	
+
 	/*******************************************************************
 	 * Method that will set the specified Cell to the specified Piece
 	 * 
@@ -83,7 +83,7 @@ public class Chess {
 	 * @param c2 is the col of the second cell
 	 * @param piece is the piece to move
 	 ******************************************************************/
-	private void movePieceTo(int r1, int c1, int r2, int c2,
+	public void movePieceTo(int r1, int c1, int r2, int c2,
 			Piece piece) {
 		// Set the second cell to the pawn
 		board.getCellAt(r2, c2).setChessPiece(piece);
@@ -92,6 +92,12 @@ public class Chess {
 		// If it was the Piece's first move, set that it has moved
 		if (!piece.isHasMoved()) {
 			piece.setHasMoved(true);
+		}
+		if (isWKingCheck()) {
+			System.out.println("In MovePieceTo WhiteKing");
+		}
+		if (isBKingCheck()) {
+			System.out.println("In MovePieceTo BlackKing");
 		}
 	}
 
@@ -133,7 +139,7 @@ public class Chess {
 		 */
 		if (r1 - r2 == 1 && c1 == c2) { // only moving one row UP
 			if (getPieceAt(r2, c2) == null) { // If Cell is empty
-				movePieceTo(r1, c1, r2, c2, pawn);
+				// movePieceTo(r1, c1, r2, c2, pawn);
 				return true; // Valid move
 			} else {
 				return false; // Piece is blocking the way
@@ -144,7 +150,7 @@ public class Chess {
 			if (getPieceAt(r2 + 1, c1) == null
 					&& getPieceAt(r2, c2) == null) {
 				// Check if both spots are empty, if so valid move
-				movePieceTo(r1, c1, r2, c2, pawn);
+				// movePieceTo(r1, c1, r2, c2, pawn);
 				return true;
 			} else {
 				return false; // There is a Piece blocking the way
@@ -155,7 +161,7 @@ public class Chess {
 			if (getPieceAt(r2, c2) != null && getPieceAt(r2, c2)
 					.getColor() != pawn.getColor()) {
 				// Check to make sure there is an enemy Piece there
-				
+
 				// White Pawns capture U and L or U and R
 				return cUpLeft(r1, c1, r2, c2, pawn)
 						|| cUpRight(r1, c1, r2, c2, pawn);
@@ -184,7 +190,7 @@ public class Chess {
 		if (r2 - r1 == 1 && c1 == c2) {
 			if (getPieceAt(r2, c2) == null) {
 				// If the Cell is empty, valid move
-				movePieceTo(r1, c1, r2, c2, pawn);
+				// movePieceTo(r1, c1, r2, c2, pawn);
 				return true;
 			} else {
 				return false; // Piece is blocking the way
@@ -195,7 +201,7 @@ public class Chess {
 			if (getPieceAt(r2 - 1, c1) == null
 					&& getPieceAt(r2, c2) == null) {
 				// Check both Cells to make sure they are empty
-				movePieceTo(r1, c1, r2, c2, pawn);
+				// movePieceTo(r1, c1, r2, c2, pawn);
 				return true;
 			} else {
 				return false; // There is a Piece blocking the way
@@ -206,7 +212,7 @@ public class Chess {
 			if (getPieceAt(r2, c2) != null && getPieceAt(r2, c2)
 					.getColor() != pawn.getColor()) {
 				// Make sure enemy Pawn is there
-				
+
 				// Black Pawns can only capture D and L, or D and R
 				return cDownLeft(r1, c1, r2, c2, pawn)
 						|| cDownRight(r1, c1, r2, c2, pawn);
@@ -243,7 +249,7 @@ public class Chess {
 			if (getPieceAt(r2, c2) == null || knight
 					.getColor() != getPieceAt(r2, c2).getColor()) {
 				// Valid move, we can move the Knight
-				movePieceTo(r1, c1, r2, c2, knight);
+				// movePieceTo(r1, c1, r2, c2, knight);
 				return true;
 
 			} else {
@@ -277,7 +283,7 @@ public class Chess {
 			return false;
 		}
 	}
-	
+
 	/*******************************************************************
 	 * Checks the movement of the Rook in it's four possible directions.
 	 * Up, Right, Down, and Left. For each move, either the row or the
@@ -350,7 +356,7 @@ public class Chess {
 			King king) {
 
 		/* King is similar to the queen, but can only move 1 spot */
-		
+
 		// Check if the attempted move is diagonal
 		if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
 			// Check to make sure it is one spot
@@ -370,7 +376,7 @@ public class Chess {
 	}
 
 	/*******************************************************************
-	 * Checks the Lateral movement of the piece for its movement UP, 
+	 * Checks the Lateral movement of the piece for its movement UP,
 	 * RIGHT, DOWN, and LEFT
 	 * 
 	 * @param r1 is the row for the first Cell
@@ -417,7 +423,7 @@ public class Chess {
 				// use c2 because we are at the second clicked Cell
 				if (getPieceAt(x, c2) == null || getPieceAt(x, c2)
 						.getColor() != piece.getColor()) {
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				} else {
 					return false; // same color piece is there
@@ -450,7 +456,7 @@ public class Chess {
 				// use r2 because we are at the second clicked Cell
 				if (getPieceAt(r2, y) == null || getPieceAt(r2, y)
 						.getColor() != piece.getColor()) {
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				} else {
 					return false; // same color piece is there
@@ -482,7 +488,7 @@ public class Chess {
 				// use c2 because we are at the second clicked Cell
 				if (getPieceAt(x, c2) == null || getPieceAt(x, c2)
 						.getColor() != piece.getColor()) {
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true; // Valid move
 				} else {
 					return false; // same color piece is there
@@ -514,7 +520,7 @@ public class Chess {
 				// use r2 because we are at the second clicked Cell
 				if (getPieceAt(r2, y) == null || getPieceAt(r2, y)
 						.getColor() != piece.getColor()) {
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true; // valid move
 				} else {
 					return false; // same color Piece is there
@@ -571,7 +577,7 @@ public class Chess {
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
 					// Cell is either empty or contains an enemy
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
@@ -603,7 +609,7 @@ public class Chess {
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
 					// Make sure Cell is empty or contains an enemy
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
@@ -635,7 +641,7 @@ public class Chess {
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
 					// Makes sure Cell is empty or contains an enemy
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
@@ -667,12 +673,106 @@ public class Chess {
 				if (getPieceAt(x, y) == null || getPieceAt(x, y)
 						.getColor() != piece.getColor()) {
 					// Cell is empty or contains an enemy
-					movePieceTo(r1, c1, r2, c2, piece);
+					// movePieceTo(r1, c1, r2, c2, piece);
 					return true;
 				}
 			}
 		}
 		return false; // Invalid Move
+	}
+
+	private boolean isBKingCheck() {
+		int[] location = board.findBKing();
+		int kRow = location[0];
+		int kCol = location[1];
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (getPieceAt(row, col) != null) {
+					Piece temp = getPieceAt(row, col);
+					if (temp.getColor() == PColor.White) {
+						// Try to move the piece to white king
+						if (checkMove(row, col, kRow, kCol, temp)) {
+							System.out.println("BK in Check");
+							return true; // white king is in check
+						}
+					}
+				}
+			}
+		}
+		System.out.println("BK not in Check");
+		return false;
+	}
+
+	private boolean isWKingCheck() {
+		/*
+		 * The idea is to try and move every single black piece to where
+		 * the king is, if they can move then it is in check.
+		 */
+		// First need to find the white king
+		int[] location = board.findWKing();
+		int kRow = location[0];
+		int kCol = location[1];
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (getPieceAt(row, col) != null) {
+					Piece temp = getPieceAt(row, col);
+					if (temp.getColor() == PColor.Black) {
+						// Try to move the piece to white king
+						if (checkMove(row, col, kRow, kCol, temp)) {
+							System.out.println("WK in Check");
+							return true; // white king is in check
+						}
+					}
+				}
+			}
+		}
+		System.out.println("WK not in Check");
+		return false;
+	}
+
+	private boolean isCheck() {
+
+		return false;
+	}
+
+	private boolean isFutureCheck(int r1, int c1, int r2, int c2,
+			Piece piece) {
+		Piece old = getPieceAt(r1, c1);
+		Piece pCellToCheck;
+		/* If result is 1 it means the move puts your king in check */
+		int result = -1; // 0 is false, 1 is true
+		if(getPieceAt(r2, c2) != null){
+			pCellToCheck = getPieceAt(r2, c2);
+		} else {
+			pCellToCheck = null;
+		}
+		movePieceTo(r1, c1, r2, c2, piece);
+		if(piece.getColor() == PColor.White) {
+			if(isWKingCheck()) {
+				// We can't move our piece to risk our king
+				result = 1;
+			} else {
+				result = 0;
+			}
+		} else {
+			if(isBKingCheck()) {
+				// We can't move our piece to risk our king
+				result = 1;
+			} else {
+				result = 0;
+			}
+		}
+		// Need to reset the pieces
+		setPieceAt(r1, c1, old);
+		setPieceAt(r2, c2, pCellToCheck);
+		
+		if(result == 1) {
+			System.out.println("result is 1");
+			return true;
+		}
+		System.out.println("result is 0");
+		return false;
+
 	}
 
 	/*******************************************************************
@@ -689,6 +789,11 @@ public class Chess {
 			Piece piece) {
 		if (piece instanceof Pawn) {
 			if (checkPawn(r1, c1, r2, c2, (Pawn) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE");
 				return true;
 			} else {
@@ -698,6 +803,11 @@ public class Chess {
 		} else if (piece instanceof Knight) {
 			System.out.println("KNIGHT");
 			if (checkKnight(r1, c1, r2, c2, (Knight) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE KNIGHT");
 				return true;
 			} else {
@@ -707,6 +817,11 @@ public class Chess {
 		} else if (piece instanceof Bishop) {
 			System.out.println("BISHOP");
 			if (checkBishop(r1, c1, r2, c2, (Bishop) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE BISHOP");
 				return true;
 			} else {
@@ -716,6 +831,11 @@ public class Chess {
 		} else if (piece instanceof Rook) {
 			System.out.println("ROOK");
 			if (checkRook(r1, c1, r2, c2, (Rook) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE ROOK");
 				return true;
 			} else {
@@ -724,6 +844,11 @@ public class Chess {
 			}
 		} else if (piece instanceof Queen) {
 			if (checkQueen(r1, c1, r2, c2, (Queen) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE QUEEN");
 				return true;
 			} else {
@@ -732,6 +857,11 @@ public class Chess {
 			}
 		} else if (piece instanceof King) {
 			if (checkKing(r1, c1, r2, c2, (King) piece)) {
+				// movePieceTo(r1, c1, r2, c2, piece);
+				if(isFutureCheck(r1, c1, r2, c2, piece)) {
+					System.out.println("MOVE PUTS KING IN CHECK!");
+					return false;
+				}
 				System.out.println("VALID MOVE KING");
 				return true;
 			} else {
@@ -740,6 +870,7 @@ public class Chess {
 
 			}
 		}
+
 		System.out.println("Something went wrong......");
 		return false;
 	}
