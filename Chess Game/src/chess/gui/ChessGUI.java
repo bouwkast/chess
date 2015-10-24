@@ -44,7 +44,13 @@ public class ChessGUI extends JFrame {
     /** Option to exit the game */
     private JMenuItem exitItem;
     /** Font for the JButtons */
-    
+    private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
+            48);
+    /** Screen dimension */
+    private Dimension screenSize = Toolkit.getDefaultToolkit()
+    .getScreenSize();
+    /** Dimension for board to make square */
+    private Dimension boardSize = new Dimension(screenSize.height, screenSize.height);
     private JPanel mainPanel;
     
     private JPanel menuPanel;
@@ -52,19 +58,17 @@ public class ChessGUI extends JFrame {
     private JLabel p1Time;
     private JLabel p2Time;
     
-    private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
-            48);
+    
             
     /*******************************************************************
      * Constructor for the View
      ******************************************************************/
     public ChessGUI() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit()
-                .getScreenSize();
         // Makes a square based on screen size, (x, y, size.x, size.y
-        int x = 275;
-        setBounds(0, 0, screenSize.height - x, screenSize.height - x);
+        int x = 50;
+        setBounds(0, 0, screenSize.width, screenSize.height);
+//        setBounds(0, 0, screenSize.height - x, screenSize.height - x);
         int xLoc = (screenSize.width - screenSize.height) / 2; // center
         setLocation(0, 0);
         chess = new Chess();
@@ -80,6 +84,9 @@ public class ChessGUI extends JFrame {
         setJMenuBar(menuBar);
         
         grid = new JPanel(new GridLayout(8, 8));
+//        grid.setPreferredSize(screenSize);
+//        grid.setBounds(0, 0, screenSize.height - x, screenSize.height - x);
+        grid.setPreferredSize(boardSize);
         createButtons();
         resetBoard();
         addPanel();
@@ -208,49 +215,64 @@ public class ChessGUI extends JFrame {
     }
     
     private void addPanel() {
-        mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(grid, BorderLayout.EAST);
-        menuPanel = new JPanel(new GridBagLayout());
+        mainPanel = new JPanel(new GridLayout(1, 2));
+        mainPanel.setPreferredSize(screenSize);
+        mainPanel.add(grid);
         
-        Container contentPane = this.getContentPane();
-        SpringLayout layout = new SpringLayout();
-        
-        contentPane.setLayout(layout);
-        contentPane.add(mainPanel);
-        
-        mainPanel.add(menuPanel, BorderLayout.WEST);
+        menuPanel = new JPanel(new GridLayout(2, 2));
         JLabel timeForP1 = new JLabel("Player 1's Time");
         JLabel timeForP2 = new JLabel("Player 2's Time");
-        
         p1Time = new JLabel("10:00");
         p2Time = new JLabel("10:00");
         
-        contentPane.add(timeForP1);
-        contentPane.add(timeForP2);
+        menuPanel.add(timeForP1);
+        menuPanel.add(p1Time); 
+        menuPanel.add(timeForP2);
+        menuPanel.add(p2Time); 
+//        menuPanel = new JPanel(new GridBagLayout());
         
-        contentPane.add(p1Time);
-        contentPane.add(p2Time);
         
-        layout.putConstraint(SpringLayout.WEST, timeForP2, 485,
-                SpringLayout.NORTH, contentPane);
-                
-        layout.putConstraint(SpringLayout.SOUTH, p2Time, 35,
-                SpringLayout.NORTH, timeForP2);
-                
-        layout.putConstraint(SpringLayout.WEST, p2Time, 515,
-                SpringLayout.NORTH, timeForP2);
-                
-        layout.putConstraint(SpringLayout.SOUTH, timeForP1, 540,
-                SpringLayout.NORTH, contentPane);
-                
-        layout.putConstraint(SpringLayout.WEST, timeForP1, 485,
-                SpringLayout.NORTH, contentPane);
-                
-        layout.putConstraint(SpringLayout.SOUTH, p1Time, 560,
-                SpringLayout.NORTH, contentPane);
-                
-        layout.putConstraint(SpringLayout.WEST, p1Time, 515,
-                SpringLayout.NORTH, contentPane);
+        
+//        Container contentPane = this.getContentPane();
+//        SpringLayout layout = new SpringLayout();
+//        
+//        contentPane.setLayout(layout);
+//        contentPane.add(mainPanel);
+        
+        mainPanel.add(menuPanel);
+        
+//        JLabel timeForP1 = new JLabel("Player 1's Time");
+//        JLabel timeForP2 = new JLabel("Player 2's Time");
+        
+//        p1Time = new JLabel("10:00");
+//        p2Time = new JLabel("10:00");
+        
+//        contentPane.add(timeForP1);
+//        contentPane.add(timeForP2);
+//        
+//        contentPane.add(p1Time);
+//        contentPane.add(p2Time);
+//        
+//        layout.putConstraint(SpringLayout.WEST, timeForP2, 485,
+//                SpringLayout.NORTH, contentPane);
+//                
+//        layout.putConstraint(SpringLayout.SOUTH, p2Time, 35,
+//                SpringLayout.NORTH, timeForP2);
+//                
+//        layout.putConstraint(SpringLayout.WEST, p2Time, 515,
+//                SpringLayout.NORTH, timeForP2);
+//                
+//        layout.putConstraint(SpringLayout.SOUTH, timeForP1, 540,
+//                SpringLayout.NORTH, contentPane);
+//                
+//        layout.putConstraint(SpringLayout.WEST, timeForP1, 485,
+//                SpringLayout.NORTH, contentPane);
+//                
+//        layout.putConstraint(SpringLayout.SOUTH, p1Time, 560,
+//                SpringLayout.NORTH, contentPane);
+//                
+//        layout.putConstraint(SpringLayout.WEST, p1Time, 515,
+//                SpringLayout.NORTH, contentPane);
                 
     }
     
