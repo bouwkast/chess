@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -12,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import chess.main.Chess;
@@ -50,7 +53,7 @@ public class ChessGUI extends JFrame {
     private Dimension screenSize = Toolkit.getDefaultToolkit()
     .getScreenSize();
     /** Dimension for board to make square */
-    private Dimension boardSize = new Dimension(screenSize.height, screenSize.height);
+    private Dimension boardSize = new Dimension(screenSize.height / 2, screenSize.height / 2);
     private JPanel mainPanel;
     
     private JPanel menuPanel;
@@ -67,10 +70,11 @@ public class ChessGUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Makes a square based on screen size, (x, y, size.x, size.y
         int x = 50;
-        setBounds(0, 0, screenSize.width, screenSize.height);
+        int width = screenSize.height - (screenSize.height/3);
+//        setBounds(0, 0, width, boardSize.height);
 //        setBounds(0, 0, screenSize.height - x, screenSize.height - x);
-        int xLoc = (screenSize.width - screenSize.height) / 2; // center
-        setLocation(0, 0);
+        int xLoc = ((screenSize.width - 100) - screenSize.height) / 2; // center
+        setLocation(xLoc, 0);
         chess = new Chess();
         board = new JButton[8][8];
         menuBar = new JMenuBar();
@@ -87,13 +91,16 @@ public class ChessGUI extends JFrame {
 //        grid.setPreferredSize(screenSize);
 //        grid.setBounds(0, 0, screenSize.height - x, screenSize.height - x);
         grid.setPreferredSize(boardSize);
+//        grid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         createButtons();
         resetBoard();
         addPanel();
         // this.add(grid);
         this.add(mainPanel);
         //setTimer();
+        this.pack();
         this.setVisible(true);
+        
         
     }
     
@@ -215,20 +222,29 @@ public class ChessGUI extends JFrame {
     }
     
     private void addPanel() {
-        mainPanel = new JPanel(new GridLayout(1, 2));
-        mainPanel.setPreferredSize(screenSize);
+        mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         mainPanel.add(grid);
         
-        menuPanel = new JPanel(new GridLayout(2, 2));
-        JLabel timeForP1 = new JLabel("Player 1's Time");
-        JLabel timeForP2 = new JLabel("Player 2's Time");
-        p1Time = new JLabel("10:00");
-        p2Time = new JLabel("10:00");
         
-        menuPanel.add(timeForP1);
-        menuPanel.add(p1Time); 
+        menuPanel = new JPanel(new GridLayout(2, 2, 0, 25));
+        menuPanel.setPreferredSize(new Dimension(boardSize.width / 3, boardSize.height));
+        JLabel timeForP1 = new JLabel("Player 1's Time");
+        timeForP1.setVerticalAlignment(SwingConstants.BOTTOM);
+        JLabel timeForP2 = new JLabel("Player 2's Time");
+        timeForP2.setVerticalAlignment(SwingConstants.TOP);
+        p1Time = new JLabel("10:00");
+        p1Time.setHorizontalAlignment(SwingConstants.CENTER);
+        p1Time.setVerticalAlignment(SwingConstants.BOTTOM);
+        p2Time = new JLabel("10:00");
+        p2Time.setVerticalAlignment(SwingConstants.TOP);
+        p2Time.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        
+        
         menuPanel.add(timeForP2);
         menuPanel.add(p2Time); 
+        menuPanel.add(timeForP1);
+        menuPanel.add(p1Time);
 //        menuPanel = new JPanel(new GridBagLayout());
         
         
