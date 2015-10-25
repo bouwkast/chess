@@ -529,11 +529,17 @@ public class ChessController {
             game.movePieceTo(rowOfKing, colOfKing, rowOfKing,
                     colOfKing - 2,
                     game.getPieceAt(rowOfKing, colOfKing));
+            
+           gui.getButtonAt(rowOfKing, colOfKing-2).setText("KING");
+           gui.getButtonAt(rowOfKing, colOfKing).setText("");
                     
             game.movePieceTo(rowOfRook, colOfRook, rowOfRook,
                     colOfRook + 3,
                     game.getPieceAt(rowOfRook, colOfRook));
                     
+            
+            gui.getButtonAt(rowOfRook, colOfRook+3).setText("ROOK");
+            gui.getButtonAt(rowOfRook, colOfRook).setText("");
             System.out.println(
                     "Pieces have been Castled from the leftmost Rook");
         } else if (colOfRook == 7) {
