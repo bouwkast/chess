@@ -94,13 +94,12 @@ public class Chess {
 			piece.setHasMoved(true);
 		}
 		if (isWKingCheck()) {
-			//System.out.println("In MovePieceTo WhiteKing");
+			// System.out.println("In MovePieceTo WhiteKing");
 		}
 		if (isBKingCheck()) {
-			//System.out.println("In MovePieceTo BlackKing");
+			// System.out.println("In MovePieceTo BlackKing");
 		}
-		
-		
+
 	}
 
 	/*******************************************************************
@@ -266,6 +265,22 @@ public class Chess {
 	}
 
 	/*******************************************************************
+	 * Checks to see if a pawn is up for promotion
+	 * 
+	 * @param row is the row of the Piece to check
+	 * @param col is the col of the Piece to check
+	 * @param piece is the Piece to check
+	 * @return a boolean value whether the Piece can be promoted
+	 ******************************************************************/
+	public boolean checkPawnPromotion(int row, int col, Piece piece) {
+		if (getPieceAt(row, col) instanceof Pawn) {
+			if (row == 0 || row == 7)
+				return true;
+		}
+		return false;
+	}
+
+	/*******************************************************************
 	 * Checks the movement of the Bishop Piece
 	 * 
 	 * @param r1 is the row of the first Cell w/ Bishop
@@ -356,7 +371,6 @@ public class Chess {
 	 ******************************************************************/
 	private boolean checkKing(int r1, int c1, int r2, int c2,
 			King king) {
-
 		/* King is similar to the queen, but can only move 1 spot */
 
 		// Check if the attempted move is diagonal
@@ -364,17 +378,148 @@ public class Chess {
 			// Check to make sure it is one spot
 			if (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 1)
 				return checkDiagonal(r1, c1, r2, c2, king);
-
 			// Check if the attempted move is lateral
 		} else if ((Math.abs(r1 - r2) == 0 && Math.abs(c1 - c2) == 1)
 				|| (Math.abs(r1 - r2) == 1
 						&& Math.abs(c1 - c2) == 0)) {
 			return checkLateral(r1, c1, r2, c2, king);
+		} else {
+			// Check for castling
+			return checkCastling(r1, c1, r2, c2, king);
 		}
-
 		// If neither, return false because it is an invalid move
 		return false;
 
+	}
+
+	/*******************************************************************
+	 * Checks to see if the move is a valid castle move
+	 * 
+	 * @param r1 is the row of the King to castle
+	 * @param c1 is the col of the King to castle
+	 * @param r2 is the row of the castling move
+	 * @param c2 is the col of the castling move
+	 * @param king is the King to castle
+	 * @return a boolean value whether the king can be castled
+	 ******************************************************************/
+	public boolean checkCastling(int r1, int c1, int r2, int c2,
+			King king) {
+		if (!king.isHasMoved()) { // King can't have moved yet
+			if ((r1 == 0 && r2 == 0) || (r1 == 7 && r2 == 7)) {
+				if (Math.abs(c1 - c2) == 2) { // moving two cols
+					if (c1 < c2) { // going to the right
+						return castleCheckRight(r1, c1, r2, c2, king);
+					} else { // going to the left
+						return castleCheckLeft(r1, c1, r2, c2, king);
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks to see if the "queenside" castle is valid
+	 * 
+	 * @param r1 is the row of the King
+	 * @param c1 is the col of the King
+	 * @param r2 is the row of the castling move
+	 * @param c2 is the col of the castling move
+	 * @param king is the King to castle
+	 * @return a boolean value whether the King can be castled
+	 ******************************************************************/
+	private boolean castleCheckLeft(int r1, int c1, int r2, int c2,
+			King king) {
+		if (Math.abs(c1 - c2) != 2) {
+			return false;
+		}
+		return checkLeftThreeCastle(r1, c1, r2, c2, king);
+	}
+
+	/*******************************************************************
+	 * Checks to see if the move is a valid "queenside" castle
+	 * 
+	 * @param r1 is the row of the king
+	 * @param c1 is the col of the king
+	 * @param r2 is the row of the castling move
+	 * @param c2 is the col of the castling move
+	 * @param king is the king to castle
+	 * @return a boolean value whether it is a valid "queenside" castle
+	 ******************************************************************/
+	private boolean checkLeftThreeCastle(int r1, int c1, int r2,
+			int c2, King king) {
+		if (getPieceAt(r2, c2 - 2) != null) {
+			Piece toCastle = getPieceAt(r2, c2 - 2);
+			if (toCastle instanceof Rook && !toCastle.isHasMoved()) {
+				// Need 3 empty and non-check cells
+				if (getPieceAt(r2, c2 - 1) != null)
+					return false;
+				if (getPieceAt(r2, c2) != null)
+					return false;
+				if (getPieceAt(r2, c2 + 1) != null)
+					return false;
+				if (isFutureCheck(r1, c1, r2, c2, king))
+					return false;
+				if (isFutureCheck(r1, c1, r2, c2 + 1, king))
+					return false;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks to see if move is a valid "kingside" castle
+	 * 
+	 * @param r1 is the row of the King
+	 * @param c1 is the col of the King
+	 * @param r2 is the row of the castling move
+	 * @param c2 is the col of the castling move
+	 * @param king is the King to castle
+	 * @return a boolean value whether it is a valid "kingside" castle
+	 ******************************************************************/
+	private boolean castleCheckRight(int r1, int c1, int r2, int c2,
+			King king) {
+		if (Math.abs(c1 - c2) != 2)
+			return false;
+		if (getPieceAt(r2, c2 + 1) != null) {
+			Piece toCastle = getPieceAt(r2, c2 + 1);
+			if (toCastle instanceof Rook && !toCastle.isHasMoved()) {
+				if (getPieceAt(r2, c2 - 1) != null)
+					return false;
+				if (getPieceAt(r2, c2) != null)
+					return false;
+				if (isFutureCheck(r1, c1, r2, c2 - 1, king))
+					return false;
+				if (isFutureCheck(r1, c1, r2, c2, king))
+					return false;
+				System.out.println(king.isHasMoved());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Executes the appropriate castling move
+	 * 
+	 * @param r1 is the row of the King to castle
+	 * @param c1 is the col of the King to castle
+	 * @param r2 is the row of the castling move
+	 * @param c2 is the col of the castling move
+	 * @param king is the King to castle
+	 ******************************************************************/
+	public void executeCastle(int r1, int c1, int r2, int c2,
+			King king) {
+		if(castleCheckRight(r1, c1, r2, c2, king)) { // kingside
+			movePieceTo(r1, c1, r2, c2, king);
+			Piece toCastle = getPieceAt(r2, c2 + 1);
+			movePieceTo(r1, c2 + 1, r1, c2 - 1, toCastle);
+		} else { // queenside
+			movePieceTo(r1, c1, r2, c2, king);
+			Piece toCastle = getPieceAt(r2, c2 - 2);
+			movePieceTo(r1, c2 - 2, r1, c2 + 1, toCastle);
+		}
 	}
 
 	/*******************************************************************
@@ -694,14 +839,14 @@ public class Chess {
 					if (temp.getColor() == PColor.White) {
 						// Try to move the piece to white king
 						if (checkMove(row, col, kRow, kCol, temp)) {
-							//System.out.println("BK in Check");
+							// System.out.println("BK in Check");
 							return true; // white king is in check
 						}
 					}
 				}
 			}
 		}
-		//System.out.println("BK not in Check");
+		// System.out.println("BK not in Check");
 		return false;
 	}
 
@@ -721,14 +866,14 @@ public class Chess {
 					if (temp.getColor() == PColor.Black) {
 						// Try to move the piece to white king
 						if (checkMove(row, col, kRow, kCol, temp)) {
-							//System.out.println("WK in Check");
+							// System.out.println("WK in Check");
 							return true; // white king is in check
 						}
 					}
 				}
 			}
 		}
-		//System.out.println("WK not in Check");
+		// System.out.println("WK not in Check");
 		return false;
 	}
 
@@ -740,24 +885,25 @@ public class Chess {
 	private boolean isFutureCheck(int r1, int c1, int r2, int c2,
 			Piece piece) {
 		Piece old = getPieceAt(r1, c1);
+		boolean moved = old.isHasMoved();
 		Piece pCellToCheck;
 		/* If result is 1 it means the move puts your king in check */
 		int result = -1; // 0 is false, 1 is true
-		if(getPieceAt(r2, c2) != null){
+		if (getPieceAt(r2, c2) != null) {
 			pCellToCheck = getPieceAt(r2, c2);
 		} else {
 			pCellToCheck = null;
 		}
 		movePieceTo(r1, c1, r2, c2, piece);
-		if(piece.getColor() == PColor.White) {
-			if(isWKingCheck()) {
+		if (piece.getColor() == PColor.White) {
+			if (isWKingCheck()) {
 				// We can't move our piece to risk our king
 				result = 1;
 			} else {
 				result = 0;
 			}
 		} else {
-			if(isBKingCheck()) {
+			if (isBKingCheck()) {
 				// We can't move our piece to risk our king
 				result = 1;
 			} else {
@@ -766,13 +912,14 @@ public class Chess {
 		}
 		// Need to reset the pieces
 		setPieceAt(r1, c1, old);
+		getPieceAt(r1, c1).setHasMoved(moved);
 		setPieceAt(r2, c2, pCellToCheck);
-		
-		if(result == 1) {
-			//System.out.println("result is 1");
+
+		if (result == 1) {
+			// System.out.println("result is 1");
 			return true;
 		}
-		//System.out.println("result is 0");
+		// System.out.println("result is 0");
 		return false;
 
 	}
@@ -791,83 +938,56 @@ public class Chess {
 			Piece piece) {
 		if (piece instanceof Pawn) {
 			if (checkPawn(r1, c1, r2, c2, (Pawn) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE");
 				return false;
 			}
 		} else if (piece instanceof Knight) {
-			//System.out.println("KNIGHT");
 			if (checkKnight(r1, c1, r2, c2, (Knight) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE KNIGHT");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE KNIGHT");
 				return false;
 			}
 		} else if (piece instanceof Bishop) {
-			//System.out.println("BISHOP");
 			if (checkBishop(r1, c1, r2, c2, (Bishop) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE BISHOP");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE BISHOP");
 				return false;
 			}
 		} else if (piece instanceof Rook) {
-			//System.out.println("ROOK");
 			if (checkRook(r1, c1, r2, c2, (Rook) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE ROOK");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE ROOK");
 				return false;
 			}
 		} else if (piece instanceof Queen) {
 			if (checkQueen(r1, c1, r2, c2, (Queen) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE QUEEN");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE QUEEN");
 				return false;
 			}
 		} else if (piece instanceof King) {
 			if (checkKing(r1, c1, r2, c2, (King) piece)) {
-				// movePieceTo(r1, c1, r2, c2, piece);
-				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					//System.out.println("MOVE PUTS KING IN CHECK!");
+				if (isFutureCheck(r1, c1, r2, c2, piece)) {
 					return false;
 				}
-				//System.out.println("VALID MOVE KING");
 				return true;
 			} else {
-				//System.out.println("INVALID MOVE KING");
 				return false;
 
 			}
@@ -876,7 +996,5 @@ public class Chess {
 		System.out.println("Something went wrong......");
 		return false;
 	}
-
-	
 
 }

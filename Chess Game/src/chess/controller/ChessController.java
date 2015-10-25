@@ -180,28 +180,45 @@ public class ChessController {
 		private void executeSecondClick() {
 			Piece first = game.getPieceAt(r1, c1);
 			if (game.checkMove(r1, c1, r2, c2, first)) {
+				// Castling is a unique king move
+				if(first instanceof King) {
+					if(game.checkCastling(r1, c1, r2, c2, (King)first)) {
+						updateCastlePieces(first);
+					}
+				}
+
 				// It is a valid move, tell the game to move the piece
 				game.movePieceTo(r1, c1, r2, c2, first);
-				
-				if (game.getPieceAt(r2, c2) instanceof Pawn) {
-					if (r2 == 0 || r2 == 7) {
-						pawnPromotion(r2, c2, game.getPieceAt(r2, c2));
-					}
+
+				if (game.checkPawnPromotion(r2, c2, first)) {
+					pawnPromotion(r2, c2, first);
 				}
 
 				whiteTurn = !whiteTurn;
 				TurnChange(whiteTurn);
-				
-				updateMovedPieceButtons();
-				
-			} else if (checkCastling(r1, c1, r2, c2)) {
-				castlingMove(r1, c1, r2, c2);
-				whiteTurn = !whiteTurn;
-				TurnChange(whiteTurn);
-				gui.revalidate();
-				gui.repaint();
-				System.out.println("Phase 11");
 
+				updateMovedPieceButtons();
+
+			} 
+		}
+
+		/*******************************************************************
+		 * Updates the buttons for the pieces that are castled
+		 * 
+		 * @param first is the first piece selected
+		 ******************************************************************/
+		private void updateCastlePieces(Piece first) {
+			game.executeCastle(r1, c1, r2, c2, (King)first);
+			if(c1 < c2) {
+				updateMovedPieceButtons();
+				Piece toCastle = game.getPieceAt(r2, c2 - 1);
+				gui.getButtonAt(r2, c2 + 1).setText("");
+				gui.getButtonAt(r2, c2 - 1).setText(toCastle.getIcon());
+			} else {
+				updateMovedPieceButtons();
+				Piece toCastle = game.getPieceAt(r2, c2 + 1);
+				gui.getButtonAt(r2, c2 - 2).setText("");
+				gui.getButtonAt(r2, c2 + 1).setText(toCastle.getIcon());
 			}
 		}
 
@@ -211,8 +228,8 @@ public class ChessController {
 		private void updateMovedPieceButtons() {
 			gui.getButtonAt(r1, c1).setText("");
 			if (game.getPieceAt(r2, c2) != null) {
-				gui.getButtonAt(r2, c2).setText(
-						game.getPieceAt(r2, c2).getIcon());
+				gui.getButtonAt(r2, c2)
+						.setText(game.getPieceAt(r2, c2).getIcon());
 				gui.revalidate();
 			}
 		}
@@ -280,8 +297,8 @@ public class ChessController {
 		 * Starts a new game if the new game option is selected
 		 **************************************************************/
 		private void startNewGame() {
-			game.reset();
-			gui.resetBoard();
+			game.reset(); // resets the board in Chess.java
+			gui.resetBoard(); // resets the buttons
 			gui.revalidate();
 			gui.repaint();
 
@@ -410,7 +427,7 @@ public class ChessController {
 	}
 
 	public void pawnPromotion(int row, int col, Piece piece) {
-
+		Piece toPromote = game.getPieceAt(row, col);
 		Object[] choices = { "Queen", "Bishop", "Knight", "Rook" };
 		String input = (String) JOptionPane.showInputDialog(null,
 				"Choose now...", "The Choice of a Lifetime",
@@ -418,29 +435,21 @@ public class ChessController {
 				choices[0]);
 
 		if (input.equals("Queen") || input.equals(null)) {
-			Queen promotedQueen =
-					new Queen(game.getPieceAt(row, col).getColor());
-			game.getBoard().getCellAt(row, col)
-					.setChessPiece(promotedQueen);
+			Queen promotedQueen = new Queen(toPromote.getColor());
+			game.setPieceAt(row, col, promotedQueen);
 		}
 
 		else if (input.equals("Bishop")) {
-			Bishop promotedBishop =
-					new Bishop(game.getPieceAt(row, col).getColor());
-			game.getBoard().getCellAt(row, col)
-					.setChessPiece(promotedBishop);
+			Bishop promotedBishop = new Bishop(toPromote.getColor());
+			game.setPieceAt(row, col, promotedBishop);
 		}
 
 		else if (input.equals("Knight")) {
-			Knight promotedKnight =
-					new Knight(game.getPieceAt(row, col).getColor());
-			game.getBoard().getCellAt(row, col)
-					.setChessPiece(promotedKnight);
+			Knight promotedKnight = new Knight(toPromote.getColor());
+			game.setPieceAt(row, col, promotedKnight);
 		} else if (input.equals("Rook")) {
-			Rook promotedRook =
-					new Rook(game.getPieceAt(row, col).getColor());
-			game.getBoard().getCellAt(row, col)
-					.setChessPiece(promotedRook);
+			Rook promotedRook = new Rook(toPromote.getColor());
+			game.setPieceAt(row, col, promotedRook);
 		}
 
 	}
