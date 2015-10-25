@@ -51,9 +51,10 @@ public class ChessGUI extends JFrame {
             48);
     /** Screen dimension */
     private Dimension screenSize = Toolkit.getDefaultToolkit()
-    .getScreenSize();
+            .getScreenSize();
     /** Dimension for board to make square */
-    private Dimension boardSize = new Dimension(screenSize.height / 2, screenSize.height / 2);
+    private Dimension boardSize = new Dimension(screenSize.height / 2,
+            screenSize.height / 2);
     private JPanel mainPanel;
     
     private JPanel menuPanel;
@@ -61,8 +62,6 @@ public class ChessGUI extends JFrame {
     private JLabel p1Time;
     private JLabel p2Time;
     
-    
-            
     /*******************************************************************
      * Constructor for the View
      ******************************************************************/
@@ -70,9 +69,10 @@ public class ChessGUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         // Makes a square based on screen size, (x, y, size.x, size.y
         int x = 50;
-        int width = screenSize.height - (screenSize.height/3);
-//        setBounds(0, 0, width, boardSize.height);
-//        setBounds(0, 0, screenSize.height - x, screenSize.height - x);
+        int width = screenSize.height - (screenSize.height / 3);
+        // setBounds(0, 0, width, boardSize.height);
+        // setBounds(0, 0, screenSize.height - x, screenSize.height -
+        // x);
         int xLoc = ((screenSize.width - 100) - screenSize.height) / 2; // center
         setLocation(xLoc, 0);
         chess = new Chess();
@@ -88,19 +88,19 @@ public class ChessGUI extends JFrame {
         setJMenuBar(menuBar);
         
         grid = new JPanel(new GridLayout(8, 8));
-//        grid.setPreferredSize(screenSize);
-//        grid.setBounds(0, 0, screenSize.height - x, screenSize.height - x);
+        // grid.setPreferredSize(screenSize);
+        // grid.setBounds(0, 0, screenSize.height - x, screenSize.height
+        // - x);
         grid.setPreferredSize(boardSize);
-//        grid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // grid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         createButtons();
         resetBoard();
         addPanel();
         // this.add(grid);
         this.add(mainPanel);
-        //setTimer();
+        // setTimer();
         this.pack();
         this.setVisible(true);
-        
         
     }
     
@@ -137,7 +137,7 @@ public class ChessGUI extends JFrame {
      ******************************************************************/
     public void resetBoard() {
         grid.removeAll();
-        //setTimer();
+        // setTimer();
         resetButtons();
         setCheckers();
     }
@@ -225,12 +225,12 @@ public class ChessGUI extends JFrame {
         mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         mainPanel.add(grid);
         
-        
         menuPanel = new JPanel(new GridLayout(2, 2, 0, 25));
-        menuPanel.setPreferredSize(new Dimension(boardSize.width / 3, boardSize.height));
-        JLabel timeForP1 = new JLabel("Player 1's Time");
+        menuPanel.setPreferredSize(
+                new Dimension(boardSize.width / 3, boardSize.height));
+        JLabel timeForP1 = new JLabel("P1's Time");
         timeForP1.setVerticalAlignment(SwingConstants.BOTTOM);
-        JLabel timeForP2 = new JLabel("Player 2's Time");
+        JLabel timeForP2 = new JLabel("P2's Time");
         timeForP2.setVerticalAlignment(SwingConstants.TOP);
         p1Time = new JLabel("10:00");
         p1Time.setHorizontalAlignment(SwingConstants.CENTER);
@@ -239,135 +239,131 @@ public class ChessGUI extends JFrame {
         p2Time.setVerticalAlignment(SwingConstants.TOP);
         p2Time.setHorizontalAlignment(SwingConstants.CENTER);
         
-        
-        
         menuPanel.add(timeForP2);
-        menuPanel.add(p2Time); 
+        menuPanel.add(p2Time);
         menuPanel.add(timeForP1);
         menuPanel.add(p1Time);
-//        menuPanel = new JPanel(new GridBagLayout());
+        // menuPanel = new JPanel(new GridBagLayout());
         
-        
-        
-//        Container contentPane = this.getContentPane();
-//        SpringLayout layout = new SpringLayout();
-//        
-//        contentPane.setLayout(layout);
-//        contentPane.add(mainPanel);
+        // Container contentPane = this.getContentPane();
+        // SpringLayout layout = new SpringLayout();
+        //
+        // contentPane.setLayout(layout);
+        // contentPane.add(mainPanel);
         
         mainPanel.add(menuPanel);
         
-//        JLabel timeForP1 = new JLabel("Player 1's Time");
-//        JLabel timeForP2 = new JLabel("Player 2's Time");
+        // JLabel timeForP1 = new JLabel("Player 1's Time");
+        // JLabel timeForP2 = new JLabel("Player 2's Time");
         
-//        p1Time = new JLabel("10:00");
-//        p2Time = new JLabel("10:00");
+        // p1Time = new JLabel("10:00");
+        // p2Time = new JLabel("10:00");
         
-//        contentPane.add(timeForP1);
-//        contentPane.add(timeForP2);
-//        
-//        contentPane.add(p1Time);
-//        contentPane.add(p2Time);
-//        
-//        layout.putConstraint(SpringLayout.WEST, timeForP2, 485,
-//                SpringLayout.NORTH, contentPane);
-//                
-//        layout.putConstraint(SpringLayout.SOUTH, p2Time, 35,
-//                SpringLayout.NORTH, timeForP2);
-//                
-//        layout.putConstraint(SpringLayout.WEST, p2Time, 515,
-//                SpringLayout.NORTH, timeForP2);
-//                
-//        layout.putConstraint(SpringLayout.SOUTH, timeForP1, 540,
-//                SpringLayout.NORTH, contentPane);
-//                
-//        layout.putConstraint(SpringLayout.WEST, timeForP1, 485,
-//                SpringLayout.NORTH, contentPane);
-//                
-//        layout.putConstraint(SpringLayout.SOUTH, p1Time, 560,
-//                SpringLayout.NORTH, contentPane);
-//                
-//        layout.putConstraint(SpringLayout.WEST, p1Time, 515,
-//                SpringLayout.NORTH, contentPane);
-                
+        // contentPane.add(timeForP1);
+        // contentPane.add(timeForP2);
+        //
+        // contentPane.add(p1Time);
+        // contentPane.add(p2Time);
+        //
+        // layout.putConstraint(SpringLayout.WEST, timeForP2, 485,
+        // SpringLayout.NORTH, contentPane);
+        //
+        // layout.putConstraint(SpringLayout.SOUTH, p2Time, 35,
+        // SpringLayout.NORTH, timeForP2);
+        //
+        // layout.putConstraint(SpringLayout.WEST, p2Time, 515,
+        // SpringLayout.NORTH, timeForP2);
+        //
+        // layout.putConstraint(SpringLayout.SOUTH, timeForP1, 540,
+        // SpringLayout.NORTH, contentPane);
+        //
+        // layout.putConstraint(SpringLayout.WEST, timeForP1, 485,
+        // SpringLayout.NORTH, contentPane);
+        //
+        // layout.putConstraint(SpringLayout.SOUTH, p1Time, 560,
+        // SpringLayout.NORTH, contentPane);
+        //
+        // layout.putConstraint(SpringLayout.WEST, p1Time, 515,
+        // SpringLayout.NORTH, contentPane);
+        
     }
     
-    public void UpdateTimer(String p1TimeUpdate, String p2TimeUpdate){
+    public void UpdateTimer(String p1TimeUpdate, String p2TimeUpdate) {
         p1Time.setText(p1TimeUpdate);
         p2Time.setText(p2TimeUpdate);
         
     }
     
-//    private void setTimer() {
-//        
-//        TimeRemainingP1 = 600;
-//        TimeRemainingP2 = 600;
-//        countdownTimerP1 = new Timer(1000, new Listener());
-//        countdownTimerP1.start();
-//    }
-//    
-//    class Listener implements ActionListener {
-//        
-//        @Override
-//        public void actionPerformed(ActionEvent arg0) {
-//            // TODO Auto-generated method stub
-//          
-//            if (PlayerTimer) {
-//                if (--TimeRemainingP1 > 0) {
-//                    
-//                    int minutes = TimeRemainingP1 / 60;
-//                    int seconds = TimeRemainingP1 % 60;
-//                    P1Time.setText(
-//                            String.valueOf(minutes) + ":" + seconds);
-//                            
-//                } else {
-//                    P1Time.setText("TIME'S UP!");
-//                    
-//                    
-//                }
-//            } else if (!PlayerTimer) {
-//                if (--TimeRemainingP2 > 0) {
-//                    
-//                    int minutes = TimeRemainingP2 / 60;
-//                    int seconds = TimeRemainingP2 % 60;
-//                    P2Time.setText(
-//                            String.valueOf(minutes) + ":" + seconds);
-//                            
-//                } else {
-//                    P2Time.setText("TIME'S UP!");
-//                    
-//                    
-//                }
-//            }
-//        }
-//        
-//    }
-//    
-//    public void TurnChange(boolean TurnPlayer) {
-//    
-//        PlayerTimer = TurnPlayer;
-//    }
+    // private void setTimer() {
+    //
+    // TimeRemainingP1 = 600;
+    // TimeRemainingP2 = 600;
+    // countdownTimerP1 = new Timer(1000, new Listener());
+    // countdownTimerP1.start();
+    // }
+    //
+    // class Listener implements ActionListener {
+    //
+    // @Override
+    // public void actionPerformed(ActionEvent arg0) {
+    // // TODO Auto-generated method stub
+    //
+    // if (PlayerTimer) {
+    // if (--TimeRemainingP1 > 0) {
+    //
+    // int minutes = TimeRemainingP1 / 60;
+    // int seconds = TimeRemainingP1 % 60;
+    // P1Time.setText(
+    // String.valueOf(minutes) + ":" + seconds);
+    //
+    // } else {
+    // P1Time.setText("TIME'S UP!");
+    //
+    //
+    // }
+    // } else if (!PlayerTimer) {
+    // if (--TimeRemainingP2 > 0) {
+    //
+    // int minutes = TimeRemainingP2 / 60;
+    // int seconds = TimeRemainingP2 % 60;
+    // P2Time.setText(
+    // String.valueOf(minutes) + ":" + seconds);
+    //
+    // } else {
+    // P2Time.setText("TIME'S UP!");
+    //
+    //
+    // }
+    // }
+    // }
+    //
+    // }
+    //
+    // public void TurnChange(boolean TurnPlayer) {
+    //
+    // PlayerTimer = TurnPlayer;
+    // }
     
-//    private void WinnerByTimeUp(boolean victory){
-//        
-//        int choice = -1;
-//        String Options[] = new String[3];
-//        Options[0] = "New Game";
-//        Options[1] = "Quit";
-//        Options[2] = "Cancel";
-//        
-//        if (victory){
-//                choice = JOptionPane.showOptionDialog(this,
-//                "Time Up! " + "Player 1 Wins!", "Player 1 Wins",
-//                0, JOptionPane.INFORMATION_MESSAGE, null, Options,
-//                null);
-//        }
-//        else{
-//            choice = JOptionPane.showOptionDialog(this,
-//                    "Game Over! " + "Player 2 Wins!", "Player 2 Wins",
-//                    0, JOptionPane.INFORMATION_MESSAGE, null, Options,
-//                    null);
-//        }
-//        
-//    }  
+    // private void WinnerByTimeUp(boolean victory){
+    //
+    // int choice = -1;
+    // String Options[] = new String[3];
+    // Options[0] = "New Game";
+    // Options[1] = "Quit";
+    // Options[2] = "Cancel";
+    //
+    // if (victory){
+    // choice = JOptionPane.showOptionDialog(this,
+    // "Time Up! " + "Player 1 Wins!", "Player 1 Wins",
+    // 0, JOptionPane.INFORMATION_MESSAGE, null, Options,
+    // null);
+    // }
+    // else{
+    // choice = JOptionPane.showOptionDialog(this,
+    // "Game Over! " + "Player 2 Wins!", "Player 2 Wins",
+    // 0, JOptionPane.INFORMATION_MESSAGE, null, Options,
+    // null);
+    // }
+    //
+    // }
 }

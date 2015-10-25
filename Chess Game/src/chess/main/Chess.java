@@ -94,11 +94,13 @@ public class Chess {
 			piece.setHasMoved(true);
 		}
 		if (isWKingCheck()) {
-			System.out.println("In MovePieceTo WhiteKing");
+			//System.out.println("In MovePieceTo WhiteKing");
 		}
 		if (isBKingCheck()) {
-			System.out.println("In MovePieceTo BlackKing");
+			//System.out.println("In MovePieceTo BlackKing");
 		}
+		
+		
 	}
 
 	/*******************************************************************
@@ -692,14 +694,14 @@ public class Chess {
 					if (temp.getColor() == PColor.White) {
 						// Try to move the piece to white king
 						if (checkMove(row, col, kRow, kCol, temp)) {
-							System.out.println("BK in Check");
+							//System.out.println("BK in Check");
 							return true; // white king is in check
 						}
 					}
 				}
 			}
 		}
-		System.out.println("BK not in Check");
+		//System.out.println("BK not in Check");
 		return false;
 	}
 
@@ -719,14 +721,14 @@ public class Chess {
 					if (temp.getColor() == PColor.Black) {
 						// Try to move the piece to white king
 						if (checkMove(row, col, kRow, kCol, temp)) {
-							System.out.println("WK in Check");
+							//System.out.println("WK in Check");
 							return true; // white king is in check
 						}
 					}
 				}
 			}
 		}
-		System.out.println("WK not in Check");
+		//System.out.println("WK not in Check");
 		return false;
 	}
 
@@ -767,10 +769,10 @@ public class Chess {
 		setPieceAt(r2, c2, pCellToCheck);
 		
 		if(result == 1) {
-			System.out.println("result is 1");
+			//System.out.println("result is 1");
 			return true;
 		}
-		System.out.println("result is 0");
+		//System.out.println("result is 0");
 		return false;
 
 	}
@@ -791,81 +793,81 @@ public class Chess {
 			if (checkPawn(r1, c1, r2, c2, (Pawn) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE");
+				//System.out.println("VALID MOVE");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE");
+				//System.out.println("INVALID MOVE");
 				return false;
 			}
 		} else if (piece instanceof Knight) {
-			System.out.println("KNIGHT");
+			//System.out.println("KNIGHT");
 			if (checkKnight(r1, c1, r2, c2, (Knight) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE KNIGHT");
+				//System.out.println("VALID MOVE KNIGHT");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE KNIGHT");
+				//System.out.println("INVALID MOVE KNIGHT");
 				return false;
 			}
 		} else if (piece instanceof Bishop) {
-			System.out.println("BISHOP");
+			//System.out.println("BISHOP");
 			if (checkBishop(r1, c1, r2, c2, (Bishop) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE BISHOP");
+				//System.out.println("VALID MOVE BISHOP");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE BISHOP");
+				//System.out.println("INVALID MOVE BISHOP");
 				return false;
 			}
 		} else if (piece instanceof Rook) {
-			System.out.println("ROOK");
+			//System.out.println("ROOK");
 			if (checkRook(r1, c1, r2, c2, (Rook) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE ROOK");
+				//System.out.println("VALID MOVE ROOK");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE ROOK");
+				//System.out.println("INVALID MOVE ROOK");
 				return false;
 			}
 		} else if (piece instanceof Queen) {
 			if (checkQueen(r1, c1, r2, c2, (Queen) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE QUEEN");
+				//System.out.println("VALID MOVE QUEEN");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE QUEEN");
+				//System.out.println("INVALID MOVE QUEEN");
 				return false;
 			}
 		} else if (piece instanceof King) {
 			if (checkKing(r1, c1, r2, c2, (King) piece)) {
 				// movePieceTo(r1, c1, r2, c2, piece);
 				if(isFutureCheck(r1, c1, r2, c2, piece)) {
-					System.out.println("MOVE PUTS KING IN CHECK!");
+					//System.out.println("MOVE PUTS KING IN CHECK!");
 					return false;
 				}
-				System.out.println("VALID MOVE KING");
+				//System.out.println("VALID MOVE KING");
 				return true;
 			} else {
-				System.out.println("INVALID MOVE KING");
+				//System.out.println("INVALID MOVE KING");
 				return false;
 
 			}
@@ -874,5 +876,7 @@ public class Chess {
 		System.out.println("Something went wrong......");
 		return false;
 	}
+
+	
 
 }
