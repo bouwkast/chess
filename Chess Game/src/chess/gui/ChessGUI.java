@@ -48,7 +48,7 @@ public class ChessGUI extends JFrame {
     private JMenuItem exitItem;
     /** Font for the JButtons */
     private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
-            48);
+            24);
     /** Screen dimension */
     private Dimension screenSize = Toolkit.getDefaultToolkit()
             .getScreenSize();
@@ -117,6 +117,7 @@ public class ChessGUI extends JFrame {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new JButton("");
+                board[row][col].setFont(FONT);
             }
         }
     }
@@ -148,7 +149,6 @@ public class ChessGUI extends JFrame {
     private void resetButtons() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                board[row][col].setFont(FONT);
                 if (chess.getPieceAt(row, col) != null) {
                     board[row][col].setText(
                             chess.getPieceAt(row, col).getIcon());
