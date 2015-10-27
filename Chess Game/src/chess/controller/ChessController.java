@@ -182,23 +182,21 @@ public class ChessController {
 			if (game.checkMove(r1, c1, r2, c2, first)) {
 				// Castling is a unique king move
 				if(first instanceof King) {
-					if(game.checkCastling(r1, c1, r2, c2, (King)first)) {
+					if(((King) first).checkCastling(r1, c1, r2, c2, (King)first, game)) {
 						updateCastlePieces(first);
 					}
+				} else {
+					// It is a valid move, tell the game to move the piece
+					game.movePieceTo(r1, c1, r2, c2, first);
+
+					if (game.checkPawnPromotion(r2, c2, first)) {
+						pawnPromotion(r2, c2, first);
+					}
 				}
-
-				// It is a valid move, tell the game to move the piece
-				game.movePieceTo(r1, c1, r2, c2, first);
-
-				if (game.checkPawnPromotion(r2, c2, first)) {
-					pawnPromotion(r2, c2, first);
-				}
-
 				whiteTurn = !whiteTurn;
 				TurnChange(whiteTurn);
 
 				updateMovedPieceButtons();
-
 			} 
 		}
 
@@ -313,23 +311,19 @@ public class ChessController {
 				}
 			}
 		}
-
 	}
 
 	private void setTimers() {
-
 		timeRemainingP1 = 600;
 		timeRemainingP2 = 600;
 		countdownTimerP1 = new Timer(1000, new Listener());
 		countdownTimerP1.start();
-
 	}
 
 	class Listener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			int p1minutes = timeRemainingP1 / 60;
 			int p1seconds = timeRemainingP1 % 60;
 			int p2minutes = timeRemainingP2 / 60;
@@ -423,7 +417,6 @@ public class ChessController {
 				}
 			}
 		}
-
 	}
 
 	public void pawnPromotion(int row, int col, Piece piece) {
@@ -450,175 +443,6 @@ public class ChessController {
 		} else if (input.equals("Rook")) {
 			Rook promotedRook = new Rook(toPromote.getColor());
 			game.setPieceAt(row, col, promotedRook);
-		}
-
-	}
-
-	/***
-	 * ****************************************************************
-	 * This method checks to see if the castling move, that is requested
-	 * by a user, is possible
-	 * 
-	 * @param r1 Row of the first piece that was clicked
-	 * @param c1 Column of the first piece that was clicked
-	 * @param r2 Row of the second piece that was clicked
-	 * @param c2 Column of the second piece that was clicked
-	 * @return True if castling can be done, false otherwise
-	 ***************************************************************** 
-	 */
-
-	public boolean checkCastling(int r1, int c1, int r2, int c2) {
-		boolean castling = true;
-		boolean matchColors = true;
-		boolean leftRook = false;
-		int rowOfKing = -1;
-		int colOfKing = -1;
-		int rowOfRook = -1;
-		int colOfRook = -1;
-
-		// Checks to see if the two pieces are a King and a Rook
-		if (!(game.getPieceAt(r1, c1) instanceof King
-				|| game.getPieceAt(r1, c1) instanceof Rook)) {
-
-			System.out.println("Phase 1");
-			castling = false;
-			return castling;
-		}
-
-		if (!(game.getPieceAt(r2, c2) instanceof King
-				|| game.getPieceAt(r2, c2) instanceof Rook)) {
-
-			System.out.println("Phase 2");
-			castling = false;
-			return castling;
-		}
-
-		// Determines which of the two pieces is the King and Rook
-		if (game.getPieceAt(r1, c1) instanceof King) {
-			rowOfKing = r1;
-			colOfKing = c1;
-			rowOfRook = r2;
-			colOfRook = c2;
-		} else {
-			rowOfKing = r2;
-			colOfKing = c2;
-			rowOfRook = r1;
-			colOfRook = c1;
-		}
-
-		// Checks to see if
-		if (game.getPieceAt(rowOfKing, colOfKing).getColor().equals(
-				game.getPieceAt(rowOfRook, colOfRook).getColor())) {
-			matchColors = false;
-		} else {
-			System.out.println("Phase 3");
-			castling = false;
-			return castling;
-		}
-
-		if (!(rowOfKing == 0) || (rowOfKing == 7)) {
-			if (colOfKing != 4) {
-				System.out.println("Phase 4");
-				castling = false;
-				return castling;
-			}
-		}
-
-		if (rowOfRook == 0 || rowOfRook == 7) {
-			if (!(colOfRook == 0 || colOfRook == 7)) {
-				System.out.println("Phase 5");
-				castling = false;
-				return castling;
-			}
-		}
-
-		if (colOfRook == 0) {
-			// System.out.println("Marvel's The Avengers");
-			leftRook = true;
-		}
-
-		if (leftRook) {
-			if (game.getPieceAt(rowOfKing, 1) != null) {
-				System.out.println("Phasre 6");
-				castling = false;
-				return castling;
-			}
-			if (game.getPieceAt(rowOfKing, 2) != null) {
-				System.out.println("Phase 7");
-				castling = false;
-				return castling;
-			}
-
-			if (game.getPieceAt(rowOfKing, 3) != null) {
-				System.out.println("Phase 8");
-				castling = false;
-				return castling;
-			}
-		} else {
-			if (game.getPieceAt(rowOfKing, 6) != null) {
-				System.out.println("Phase 9");
-				castling = false;
-				return castling;
-			}
-
-			if (game.getPieceAt(rowOfKing, 5) != null) {
-				System.out.println("Phase 10");
-				castling = false;
-				return castling;
-			}
-
-		}
-
-		return castling;
-
-	}
-
-	public void castlingMove(int r1, int c1, int r2, int c2) {
-
-		int rowOfKing = -1;
-		int colOfKing = -1;
-		int rowOfRook = -1;
-		int colOfRook = -1;
-
-		if (game.getPieceAt(r1, c1) instanceof King) {
-			rowOfKing = r1;
-			colOfKing = c1;
-			rowOfRook = r2;
-			colOfRook = c2;
-		} else {
-			rowOfKing = r2;
-			colOfKing = c2;
-			rowOfRook = r1;
-			colOfRook = c1;
-		}
-
-		if (colOfRook == 0) {
-			game.movePieceTo(rowOfKing, colOfKing, rowOfKing,
-					colOfKing - 2,
-					game.getPieceAt(rowOfKing, colOfKing));
-
-			gui.getButtonAt(rowOfKing, colOfKing - 2).setText("KING");
-			gui.getButtonAt(rowOfKing, colOfKing).setText("");
-
-			game.movePieceTo(rowOfRook, colOfRook, rowOfRook,
-					colOfRook + 3,
-					game.getPieceAt(rowOfRook, colOfRook));
-
-			gui.getButtonAt(rowOfRook, colOfRook + 3).setText("ROOK");
-			gui.getButtonAt(rowOfRook, colOfRook).setText("");
-			System.out.println(
-					"Pieces have been Castled from the leftmost Rook");
-		} else if (colOfRook == 7) {
-			game.movePieceTo(rowOfKing, colOfKing, rowOfKing,
-					colOfKing + 2,
-					game.getPieceAt(rowOfKing, colOfKing));
-
-			game.movePieceTo(rowOfRook, colOfRook, rowOfRook,
-					colOfRook - 2,
-					game.getPieceAt(rowOfRook, colOfRook));
-
-			System.out.println(
-					"Pieces have been Castled from the rightmost Rook");
 		}
 
 	}

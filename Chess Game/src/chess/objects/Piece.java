@@ -1,5 +1,7 @@
 package chess.objects;
 
+import chess.main.Chess;
+
 public class Piece {
 	/** The color of the Piece in an Enum */
 	protected PColor color;
@@ -177,6 +179,10 @@ public class Piece {
 				+ "\nisAlive: " + isAlive + "\nhasMoved: " + hasMoved
 				+ "\nIcon: " + icon;
 
+	}
+	
+	public boolean checkMovement(int r1, int c1, int r2, int c2, Chess chess) {
+		return false;
 	}
 
 }
