@@ -1,31 +1,24 @@
 package chess.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 
+import chess.controller.ChessController;
 import chess.main.Chess;
 
 public class ChessGUI extends JFrame {
@@ -217,8 +210,7 @@ public class ChessGUI extends JFrame {
             for (int col = 0; col < 8; ++col) {
                 board[row][col].addActionListener(listener);
             }
-        }
-        
+        }  
     }
     
     private void addPanel() {
@@ -243,49 +235,8 @@ public class ChessGUI extends JFrame {
         menuPanel.add(p2Time);
         menuPanel.add(timeForP1);
         menuPanel.add(p1Time);
-        // menuPanel = new JPanel(new GridBagLayout());
         
-        // Container contentPane = this.getContentPane();
-        // SpringLayout layout = new SpringLayout();
-        //
-        // contentPane.setLayout(layout);
-        // contentPane.add(mainPanel);
-        
-        mainPanel.add(menuPanel);
-        
-        // JLabel timeForP1 = new JLabel("Player 1's Time");
-        // JLabel timeForP2 = new JLabel("Player 2's Time");
-        
-        // p1Time = new JLabel("10:00");
-        // p2Time = new JLabel("10:00");
-        
-        // contentPane.add(timeForP1);
-        // contentPane.add(timeForP2);
-        //
-        // contentPane.add(p1Time);
-        // contentPane.add(p2Time);
-        //
-        // layout.putConstraint(SpringLayout.WEST, timeForP2, 485,
-        // SpringLayout.NORTH, contentPane);
-        //
-        // layout.putConstraint(SpringLayout.SOUTH, p2Time, 35,
-        // SpringLayout.NORTH, timeForP2);
-        //
-        // layout.putConstraint(SpringLayout.WEST, p2Time, 515,
-        // SpringLayout.NORTH, timeForP2);
-        //
-        // layout.putConstraint(SpringLayout.SOUTH, timeForP1, 540,
-        // SpringLayout.NORTH, contentPane);
-        //
-        // layout.putConstraint(SpringLayout.WEST, timeForP1, 485,
-        // SpringLayout.NORTH, contentPane);
-        //
-        // layout.putConstraint(SpringLayout.SOUTH, p1Time, 560,
-        // SpringLayout.NORTH, contentPane);
-        //
-        // layout.putConstraint(SpringLayout.WEST, p1Time, 515,
-        // SpringLayout.NORTH, contentPane);
-        
+        mainPanel.add(menuPanel);   
     }
     
     public void UpdateTimer(String p1TimeUpdate, String p2TimeUpdate) {
@@ -293,77 +244,5 @@ public class ChessGUI extends JFrame {
         p2Time.setText(p2TimeUpdate);
         
     }
-    
-    // private void setTimer() {
-    //
-    // TimeRemainingP1 = 600;
-    // TimeRemainingP2 = 600;
-    // countdownTimerP1 = new Timer(1000, new Listener());
-    // countdownTimerP1.start();
-    // }
-    //
-    // class Listener implements ActionListener {
-    //
-    // @Override
-    // public void actionPerformed(ActionEvent arg0) {
-    // // TODO Auto-generated method stub
-    //
-    // if (PlayerTimer) {
-    // if (--TimeRemainingP1 > 0) {
-    //
-    // int minutes = TimeRemainingP1 / 60;
-    // int seconds = TimeRemainingP1 % 60;
-    // P1Time.setText(
-    // String.valueOf(minutes) + ":" + seconds);
-    //
-    // } else {
-    // P1Time.setText("TIME'S UP!");
-    //
-    //
-    // }
-    // } else if (!PlayerTimer) {
-    // if (--TimeRemainingP2 > 0) {
-    //
-    // int minutes = TimeRemainingP2 / 60;
-    // int seconds = TimeRemainingP2 % 60;
-    // P2Time.setText(
-    // String.valueOf(minutes) + ":" + seconds);
-    //
-    // } else {
-    // P2Time.setText("TIME'S UP!");
-    //
-    //
-    // }
-    // }
-    // }
-    //
-    // }
-    //
-    // public void TurnChange(boolean TurnPlayer) {
-    //
-    // PlayerTimer = TurnPlayer;
-    // }
-    
-    // private void WinnerByTimeUp(boolean victory){
-    //
-    // int choice = -1;
-    // String Options[] = new String[3];
-    // Options[0] = "New Game";
-    // Options[1] = "Quit";
-    // Options[2] = "Cancel";
-    //
-    // if (victory){
-    // choice = JOptionPane.showOptionDialog(this,
-    // "Time Up! " + "Player 1 Wins!", "Player 1 Wins",
-    // 0, JOptionPane.INFORMATION_MESSAGE, null, Options,
-    // null);
-    // }
-    // else{
-    // choice = JOptionPane.showOptionDialog(this,
-    // "Game Over! " + "Player 2 Wins!", "Player 2 Wins",
-    // 0, JOptionPane.INFORMATION_MESSAGE, null, Options,
-    // null);
-    // }
-    //
-    // }
+   
 }
