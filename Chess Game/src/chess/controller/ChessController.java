@@ -42,9 +42,9 @@ public class ChessController {
 
 	/** check to see if the black king is alive */
 	private boolean blackKingAlive = false;
-	
+
 	/** Current selected piece */
-	private final Border BORDER	= new LineBorder(Color.BLUE, 2);
+	private final Border BORDER = new LineBorder(Color.BLUE, 2);
 
 	/**
 	 * A boolean value determining if the white player won or not if
@@ -102,14 +102,16 @@ public class ChessController {
 					if (firstClick) {
 						r1 = row;
 						c1 = col;
-						gui.getBoard()[row][col].setBorderPainted(true);
+						gui.getBoard()[row][col]
+								.setBorderPainted(true);
 						gui.getBoard()[row][col].setBorder(BORDER);
 						firstClick = false;
 
 					} else {
 						r2 = row;
 						c2 = col;
-						gui.getBoard()[r1][c1].setBorderPainted(false);
+						gui.getBoard()[r1][c1]
+								.setBorderPainted(false);
 						firstClick = true;
 
 					}
@@ -178,28 +180,26 @@ public class ChessController {
 				findCell(e);
 				executeSecondClick();
 			}
-//			if(game.isGameOver() != -1)
-				
-			Winner = CheckWin();
 		}
 
 		/***************************************************************
 		 * Executes the second click of the Player's turn
-		 * 
 		 **************************************************************/
 		private void executeSecondClick() {
 			Piece first = game.getPieceAt(r1, c1);
 			if (game.checkMove(r1, c1, r2, c2, first)) {
 				// Castling is a unique king move
-				if(first instanceof King) {
-					if(((King) first).checkCastling(r1, c1, r2, c2, (King)first, game)) {
+				if (first instanceof King) {
+					if (((King) first).checkCastling(r1, c1, r2, c2,
+							(King) first, game)) {
 						updateCastlePieces(first);
 					} else {
 						game.movePieceTo(r1, c1, r2, c2, first);
 						updateMovedPieceButtons();
 					}
 				} else {
-					// It is a valid move, tell the game to move the piece
+					// It is a valid move, tell the game to move the
+					// piece
 					game.movePieceTo(r1, c1, r2, c2, first);
 
 					if (game.checkPawnPromotion(r2, c2, first)) {
@@ -210,9 +210,28 @@ public class ChessController {
 				TurnChange(whiteTurn);
 
 				updateMovedPieceButtons();
-				System.out.println(game.isGameOver());
-			} 
-			
+				if (game.isGameOver() != -1) {
+					winner(game.isGameOver());
+				}
+			}
+		}
+
+		private void winner(int player) {
+			String options[] = new String[2];
+			options[0] = "New Game";
+			options[1] = "Quit";
+			String winner = player == 0 ? "Black" : "White";
+			String message = "Congratulations to " + winner
+					+ " for winning!";
+			int result = JOptionPane.showOptionDialog(gui, message,
+					winner + " Wins!", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE, null, options,
+					options[0]);
+			if (result == 0) {
+				startNewGame();
+			} else {
+				System.exit(0);
+			}
 		}
 
 		/*******************************************************************
@@ -221,17 +240,19 @@ public class ChessController {
 		 * @param first is the first piece selected
 		 ******************************************************************/
 		private void updateCastlePieces(Piece first) {
-			game.executeCastle(r1, c1, r2, c2, (King)first);
-			if(c1 < c2) {
+			game.executeCastle(r1, c1, r2, c2, (King) first);
+			if (c1 < c2) {
 				updateMovedPieceButtons();
 				Piece toCastle = game.getPieceAt(r2, c2 - 1);
 				gui.getButtonAt(r2, c2 + 1).setText("");
-				gui.getButtonAt(r2, c2 - 1).setText(toCastle.getIcon());
+				gui.getButtonAt(r2, c2 - 1)
+						.setText(toCastle.getIcon());
 			} else {
 				updateMovedPieceButtons();
 				Piece toCastle = game.getPieceAt(r2, c2 + 1);
 				gui.getButtonAt(r2, c2 - 2).setText("");
-				gui.getButtonAt(r2, c2 + 1).setText(toCastle.getIcon());
+				gui.getButtonAt(r2, c2 + 1)
+						.setText(toCastle.getIcon());
 			}
 		}
 
@@ -289,6 +310,7 @@ public class ChessController {
 					+ " Please select a square with a " + color
 					+ " piece in it for your first move.";
 			JOptionPane.showMessageDialog(gui, result);
+			gui.getBoard()[r1][c1].setBorderPainted(false);
 			firstClick = true;
 		}
 
@@ -397,14 +419,14 @@ public class ChessController {
 
 		if (victory) {
 			choice = JOptionPane.showOptionDialog(gui,
-					"Game Over" + "Player 1 Wins!", "Player 1 Wins", 0,
-					JOptionPane.INFORMATION_MESSAGE, null, Options,
-					null);
+					"Game Over" + "Player 1 Wins!", "Player 1 Wins",
+					0, JOptionPane.INFORMATION_MESSAGE, null,
+					Options, null);
 		} else {
 			choice = JOptionPane.showOptionDialog(gui,
-					"Game Over" + "Player 2 Wins!", "Player 2 Wins", 0,
-					JOptionPane.INFORMATION_MESSAGE, null, Options,
-					null);
+					"Game Over" + "Player 2 Wins!", "Player 2 Wins",
+					0, JOptionPane.INFORMATION_MESSAGE, null,
+					Options, null);
 		}
 
 		if (choice == 0) {
