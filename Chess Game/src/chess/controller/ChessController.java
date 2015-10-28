@@ -1,11 +1,14 @@
 package chess.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import chess.gui.ChessGUI;
 import chess.main.Chess;
@@ -13,7 +16,6 @@ import chess.objects.Bishop;
 import chess.objects.King;
 import chess.objects.Knight;
 import chess.objects.PColor;
-import chess.objects.Pawn;
 import chess.objects.Piece;
 import chess.objects.Queen;
 import chess.objects.Rook;
@@ -40,6 +42,9 @@ public class ChessController {
 
 	/** check to see if the black king is alive */
 	private boolean blackKingAlive = false;
+	
+	/** Current selected piece */
+	private final Border BORDER	= new LineBorder(Color.BLUE, 2);
 
 	/**
 	 * A boolean value determining if the white player won or not if
@@ -97,11 +102,14 @@ public class ChessController {
 					if (firstClick) {
 						r1 = row;
 						c1 = col;
+						gui.getBoard()[row][col].setBorderPainted(true);
+						gui.getBoard()[row][col].setBorder(BORDER);
 						firstClick = false;
 
 					} else {
 						r2 = row;
 						c2 = col;
+						gui.getBoard()[r1][c1].setBorderPainted(false);
 						firstClick = true;
 
 					}
@@ -170,6 +178,8 @@ public class ChessController {
 				findCell(e);
 				executeSecondClick();
 			}
+//			if(game.isGameOver() != -1)
+				
 			Winner = CheckWin();
 		}
 
@@ -184,6 +194,9 @@ public class ChessController {
 				if(first instanceof King) {
 					if(((King) first).checkCastling(r1, c1, r2, c2, (King)first, game)) {
 						updateCastlePieces(first);
+					} else {
+						game.movePieceTo(r1, c1, r2, c2, first);
+						updateMovedPieceButtons();
 					}
 				} else {
 					// It is a valid move, tell the game to move the piece
@@ -197,7 +210,9 @@ public class ChessController {
 				TurnChange(whiteTurn);
 
 				updateMovedPieceButtons();
+				System.out.println(game.isGameOver());
 			} 
+			
 		}
 
 		/*******************************************************************
@@ -288,6 +303,7 @@ public class ChessController {
 			String result = "It is Player " + turn + "'s turn."
 					+ "\n Please select a " + color + " piece.";
 			JOptionPane.showMessageDialog(gui, result);
+			gui.getBoard()[r1][c1].setBorderPainted(false);
 			firstClick = true;
 		}
 

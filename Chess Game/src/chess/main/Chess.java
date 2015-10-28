@@ -156,6 +156,41 @@ public class Chess {
 		}
 		return false;
 	}
+	
+	private boolean isKingInCheckmate(PColor color) {
+		if(isKingInCheck(color)) {
+			// If the king is in check try to see if it can get out
+			// check every move of their color to see if they can get out
+			
+			for(int row = 0; row < 8; row++) {
+				for(int col = 0; col < 8; col++) {
+					if(getPieceAt(row, col) != null) {
+						Piece toCheck = getPieceAt(row, col);
+						if(toCheck.getColor() == color) {
+							for(int r = 0; r < 8; r++) {
+								for(int c = 0; c < 8; c++) {
+									if(checkMove(row, col, r, c, toCheck)) {
+										return false;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public int isGameOver() {
+		int result = -1;
+		if(isKingInCheckmate(PColor.White))
+			result = 0;
+		else if(isKingInCheckmate(PColor.Black))
+			result = 1;
+		return result;
+	}
 
 	/*******************************************************************
 	 * Checks to see if a piece is moved to a cell if it will put their
