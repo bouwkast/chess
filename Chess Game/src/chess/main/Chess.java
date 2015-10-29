@@ -92,6 +92,7 @@ public class Chess {
 		}
 	}
 
+	// TODO move to the pawn class
 	/*******************************************************************
 	 * Checks to see if a pawn is up for promotion
 	 * 
@@ -156,20 +157,31 @@ public class Chess {
 		}
 		return false;
 	}
-	
+
+	/*******************************************************************
+	 * Checks to see if the specified king is in checkmate, it does this
+	 * by having the king in check and seeing if there are any valid
+	 * moves that can get the king out of the check. If not, then it is
+	 * considered to be a checkmate and the game is over.
+	 * 
+	 * @param color is the PColor to check
+	 * @return a boolean value whether color is in checkmate
+	 ******************************************************************/
 	private boolean isKingInCheckmate(PColor color) {
-		if(isKingInCheck(color)) {
+		if (isKingInCheck(color)) {
 			// If the king is in check try to see if it can get out
-			// check every move of their color to see if they can get out
-			
-			for(int row = 0; row < 8; row++) {
-				for(int col = 0; col < 8; col++) {
-					if(getPieceAt(row, col) != null) {
+			// check every move of their color to see if they can get
+			// out
+
+			for (int row = 0; row < 8; row++) {
+				for (int col = 0; col < 8; col++) {
+					if (getPieceAt(row, col) != null) {
 						Piece toCheck = getPieceAt(row, col);
-						if(toCheck.getColor() == color) {
-							for(int r = 0; r < 8; r++) {
-								for(int c = 0; c < 8; c++) {
-									if(checkMove(row, col, r, c, toCheck)) {
+						if (toCheck.getColor() == color) {
+							for (int r = 0; r < 8; r++) {
+								for (int c = 0; c < 8; c++) {
+									if (checkMove(row, col, r, c,
+											toCheck)) {
 										return false;
 									}
 								}
@@ -182,14 +194,77 @@ public class Chess {
 		}
 		return false;
 	}
-	
+
+	/*******************************************************************
+	 * Checks to see if the specified player, by color, is out of valid
+	 * moves.
+	 * 
+	 * @param color is the PColor to check
+	 * @return a boolean value whether the player has any valid moves
+	 ******************************************************************/
+	private boolean isOutOfMoves(PColor color) {
+
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				if (getPieceAt(row, col) != null) {
+					Piece toCheck = getPieceAt(row, col);
+					if (toCheck.getColor() == color) {
+						for (int r = 0; r < 8; r++) {
+							for (int c = 0; c < 8; c++) {
+								if (checkMove(row, col, r, c,
+										toCheck)) {
+									return false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/*******************************************************************
+	 * Checks to see if there is a stalemate in the game
+	 * 
+	 * @param color is the PColor to check is there is a stalemate
+	 * @return a boolean value whether there is a stalemate
+	 ******************************************************************/
+	private boolean isStalemate(PColor color) {
+		if (!isKingInCheck(color)) { // king can't be in check
+			// check to see if any valid moves are left for the player
+			return isOutOfMoves(color);
+		}
+		return false;
+	}
+
+	/*******************************************************************
+	 * Checks to see if the game is over, either by a player winning or
+	 * by stalemate.
+	 * 
+	 * If result is 0 it means that the white king is in checkmate and
+	 * Black wins.
+	 * 
+	 * If result is 1 it means that the black king is in checkmate and
+	 * White wins.
+	 * 
+	 * If result is 2 it means that there is a stalemate, nobody wins.
+	 * 
+	 * If result is -1 it means that the game is still going.
+	 * 
+	 * @return an integer value of whether the game is over
+	 ******************************************************************/
 	public int isGameOver() {
-		int result = -1;
-		if(isKingInCheckmate(PColor.White))
-			result = 0;
-		else if(isKingInCheckmate(PColor.Black))
-			result = 1;
-		return result;
+		int result = -1; // default assumption game is still going
+		if (isKingInCheckmate(PColor.White))
+			result = 0; // white in checkmate, black wins
+		else if (isKingInCheckmate(PColor.Black))
+			result = 1; // black in checkmate, white wins
+		else if (isStalemate(PColor.White)
+				|| isStalemate(PColor.Black))
+			result = 2; // stalemate, no winner
+		return result; // whether the game is over
 	}
 
 	/*******************************************************************

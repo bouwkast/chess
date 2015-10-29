@@ -82,7 +82,6 @@ public class ChessController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int Winner = -1;
 			if (e.getSource() == gui.getNewItem()) {
 				startNewGame();
 			} else if (e.getSource() == gui.getExitItem()) {
@@ -95,6 +94,28 @@ public class ChessController {
 			} else { // It is the second click of the Player's turn
 				findCell(e);
 				executeSecondClick();
+			}
+		}
+	}
+	
+	/***************************************************************
+	 * Starts a new game if the new game option is selected
+	 **************************************************************/
+	private void startNewGame() {
+		game.reset(); // resets the board in Chess.java
+		gui.resetBoard(); // resets the buttons
+		gui.revalidate();
+		gui.repaint();
+
+		firstClick = true;
+		whiteTurn = true;
+		
+		playerTimer = true; // TODO what does this mean???
+		setTimers();
+
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				gui.getButtonAt(x, y).setEnabled(true);
 			}
 		}
 	}
@@ -166,6 +187,19 @@ public class ChessController {
 //		}
 //		return Winner;
 //	}
+	
+	/***************************************************************
+	 * Executes the first click for either Player's turn. This method
+	 * checks whether the piece selected is valid for the Player and if
+	 * so it will allow the Player to make a second click. If the click
+	 * is invalid, it will restart the Player's turn.
+	 **************************************************************/
+	private void executeFirstClick() {
+		if (game.getPieceAt(r1, c1) != null) {
+			checkForCorrectColor();
+		} else
+			emptyCellSelected();
+	}
 
 	/***************************************************************
 	 * Executes the second click of the Player's turn
@@ -196,7 +230,7 @@ public class ChessController {
 
 			updateMovedPieceButtons();
 			if (game.isGameOver() != -1) {
-				winner(game.isGameOver());
+				displayWinner(game.isGameOver());
 			}
 		}
 	}
@@ -206,15 +240,16 @@ public class ChessController {
 	 * 
 	 * @param player is the player who won (0 is black) (1 is white)
 	 ******************************************************************/
-	private void winner(int player) {
+	private void displayWinner(int player) {
 		String options[] = new String[2];
 		options[0] = "New Game";
 		options[1] = "Quit";
 		String winner = player == 0 ? "Black" : "White";
 		String message =
 				"Congratulations to " + winner + " for winning!";
+		if(player == 2) message = "Stalemate. Nobody wins.";
 		int result = JOptionPane.showOptionDialog(gui, message,
-				winner + " Wins!", JOptionPane.YES_NO_OPTION,
+				"Game Over!", JOptionPane.YES_NO_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options,
 				options[0]);
 		if (result == 0) {
@@ -257,19 +292,6 @@ public class ChessController {
 	}
 
 	/***************************************************************
-	 * Executes the first click for either Player's turn. This method
-	 * checks whether the piece selected is valid for the Player and if
-	 * so it will allow the Player to make a second click. If the click
-	 * is invalid, it will restart the Player's turn.
-	 **************************************************************/
-	private void executeFirstClick() {
-		if (game.getPieceAt(r1, c1) != null) {
-			checkForCorrectColor();
-		} else
-			emptyCellSelected();
-	}
-
-	/***************************************************************
 	 * Checks to make sure that the Player's first click is on one of
 	 * their pieces.
 	 **************************************************************/
@@ -277,11 +299,11 @@ public class ChessController {
 		Piece selected = game.getPieceAt(r1, c1);
 		if (whiteTurn) {
 			if (selected.getColor().equals(PColor.Black)) {
-				incorrectColorPiece();
+				incorrectColorPiece(); // wrong color chosen
 			}
 		} else if (!whiteTurn) {
 			if (selected.getColor().equals(PColor.White)) {
-				incorrectColorPiece();
+				incorrectColorPiece(); // wrong color chosen
 			}
 		}
 	}
@@ -307,37 +329,24 @@ public class ChessController {
 	 * their first turn.
 	 **************************************************************/
 	private void incorrectColorPiece() {
-		int turn = (whiteTurn) ? 1 : 2;
-		String color = (whiteTurn) ? "white" : "black";
+		int turn = (whiteTurn) ? 1 : 2; // white is 1, black is 2
+		String color = (whiteTurn) ? "white" : "black"; 
 		String result = "It is Player " + turn + "'s turn."
 				+ "\n Please select a " + color + " piece.";
-		JOptionPane.showMessageDialog(gui, result);
+		JOptionPane.showMessageDialog(gui, result); // show error msg
 		gui.getBoard()[r1][c1].setBorderPainted(false);
 		firstClick = true;
 	}
-
-	/***************************************************************
-	 * Starts a new game if the new game option is selected
-	 **************************************************************/
-	private void startNewGame() {
-		game.reset(); // resets the board in Chess.java
-		gui.resetBoard(); // resets the buttons
-		gui.revalidate();
-		gui.repaint();
-
-		firstClick = true;
-		whiteTurn = true;
-		
-		playerTimer = true; // TODO what does this mean???
-		setTimers();
-
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++) {
-				gui.getButtonAt(x, y).setEnabled(true);
-			}
-		}
-	}
 	
+	/*******************************************************************
+	 * Simple getter method to get the piece at the specified location.
+	 * 
+	 * This is only done so you don't have to keep typing "game."
+	 * 
+	 * @param row is the row of the Piece to get
+	 * @param col is the col of the Piece to get
+	 * @return a Piece at the specified location
+	 ******************************************************************/
 	public Piece getPieceAt(int row, int col) {
 		return game.getPieceAt(row, col);
 	}
@@ -394,7 +403,8 @@ public class ChessController {
 //			}
 //		}
 //	}
-
+	
+	// TODO comments and more concise.
 	public void pawnPromotion(int row, int col, Piece piece) {
 		Piece toPromote = game.getPieceAt(row, col);
 		Object[] choices = { "Queen", "Bishop", "Knight", "Rook" };
@@ -422,6 +432,7 @@ public class ChessController {
 		}
 	}
 
+	// TODO comments and refractoring of code to make more concise
 	ActionListener timer = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -446,7 +457,7 @@ public class ChessController {
 				} else {
 					countdownTimerP1.stop();
 					int winner = 0;
-					winner(winner);
+					displayWinner(winner);
 //					declareWinner(whitePlayerWins);
 
 				}
@@ -462,7 +473,7 @@ public class ChessController {
 				} else {
 					countdownTimerP1.stop();
 					int winner = 1;
-					winner(winner);
+					displayWinner(winner);
 //					declareWinner(whitePlayerWins);
 
 				}
@@ -472,6 +483,11 @@ public class ChessController {
 
 	 
 	
+	/*******************************************************************
+	 * Sets some default values for the timers and their speeds.
+	 * 
+	 * TODO needs some work for pluggability, different times etc. 
+	 ******************************************************************/
 	private void setTimers() {
 		timeRemainingP1 = 300;
 		timeRemainingP2 = 300;

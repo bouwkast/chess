@@ -161,42 +161,4 @@ public class Board {
 		}
 		return coords;
 	}
-
-	public int[] findWKing() {
-		int[] coords = {-1, -1};
-		for (int row = 0; row < 8; row++) {
-			for (int col = 0; col < 8; col++) {
-				if(getCellAt(row, col).getChessPiece() != null) {
-					if (getCellAt(row, col).getChessPiece().getName()
-							.equals("King")
-							&& getCellAt(row, col).getChessPiece()
-									.getColor() == PColor.White) {
-						coords[0] = row;
-						coords[1] = col;
-						return coords;
-					}
-				}
-			}
-		}
-		return coords;
-	}
-	
-	public int[] findBKing() {
-		int[] coords = {-1, -1};
-		for (int row = 0; row < 8; row++) {
-			for (int col = 0; col < 8; col++) {
-				if(getCellAt(row, col).getChessPiece() != null) {
-					if (getCellAt(row, col).getChessPiece().getName()
-							.equals("King")
-							&& getCellAt(row, col).getChessPiece()
-									.getColor() == PColor.Black) {
-						coords[0] = row;
-						coords[1] = col;
-						return coords;
-					}
-				}
-			}
-		}
-		return coords;
-	}
 }
