@@ -66,6 +66,7 @@ public class Cell {
 	 * @return the isPassant is whether the cell is a passant cell
 	 ******************************************************************/
 	public boolean isPassant() {
+	    System.out.println("Value: " + isPassant);
 		return isPassant;
 	}
 

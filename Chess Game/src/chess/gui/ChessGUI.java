@@ -63,10 +63,8 @@ public class ChessGUI extends JFrame {
         // Makes a square based on screen size, (x, y, size.x, size.y
         int x = 50;
         int width = screenSize.height - (screenSize.height / 3);
-        // setBounds(0, 0, width, boardSize.height);
-        // setBounds(0, 0, screenSize.height - x, screenSize.height -
-        // x);
-        int xLoc = ((screenSize.width - 100) - screenSize.height) / 2; // center
+        int xLoc = ((screenSize.width - 100) - screenSize.height) / 2; 
+        // center
         setLocation(xLoc, 0);
         chess = new Chess();
         board = new JButton[8][8];
@@ -81,17 +79,11 @@ public class ChessGUI extends JFrame {
         setJMenuBar(menuBar);
         
         grid = new JPanel(new GridLayout(8, 8));
-        // grid.setPreferredSize(screenSize);
-        // grid.setBounds(0, 0, screenSize.height - x, screenSize.height
-        // - x);
         grid.setPreferredSize(boardSize);
-        // grid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         createButtons();
         resetBoard();
         addPanel();
-        // this.add(grid);
         this.add(mainPanel);
-        // setTimer();
         this.pack();
         this.setVisible(true);
         
@@ -210,7 +202,7 @@ public class ChessGUI extends JFrame {
             for (int col = 0; col < 8; ++col) {
                 board[row][col].addActionListener(listener);
             }
-        }  
+        }
     }
     
     private void addPanel() {
@@ -224,10 +216,10 @@ public class ChessGUI extends JFrame {
         timeForP1.setVerticalAlignment(SwingConstants.BOTTOM);
         JLabel timeForP2 = new JLabel("P2's Time");
         timeForP2.setVerticalAlignment(SwingConstants.TOP);
-        p1Time = new JLabel("10:00");
+        p1Time = new JLabel("");
         p1Time.setHorizontalAlignment(SwingConstants.CENTER);
         p1Time.setVerticalAlignment(SwingConstants.BOTTOM);
-        p2Time = new JLabel("10:00");
+        p2Time = new JLabel("");
         p2Time.setVerticalAlignment(SwingConstants.TOP);
         p2Time.setHorizontalAlignment(SwingConstants.CENTER);
         
@@ -236,7 +228,7 @@ public class ChessGUI extends JFrame {
         menuPanel.add(timeForP1);
         menuPanel.add(p1Time);
         
-        mainPanel.add(menuPanel);   
+        mainPanel.add(menuPanel);
     }
     
     public void UpdateTimer(String p1TimeUpdate, String p2TimeUpdate) {
@@ -244,5 +236,5 @@ public class ChessGUI extends JFrame {
         p2Time.setText(p2TimeUpdate);
         
     }
-   
+    
 }
