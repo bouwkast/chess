@@ -41,7 +41,6 @@ public class Pawn extends Piece {
                     chess.getBoard().setnewPassantMove(true);
                     chess.getBoard().setnewPassantRow(r1 - direction);
                     chess.getBoard().setnewPassantCol(c1);
-                    int printer = r1 - direction;
                     return true;
                 }
             } else if (r1 - r2 == (1 * direction) && c1 - c2 == 0) {

@@ -213,8 +213,6 @@ public class ChessController {
                 int direction = first.getColor() == PColor.White ? 1
                         : -1;
                 int PassRow = r2 + direction;
-                System.out
-                        .println(PassRow + " and the Column is: " + c2);
                 updatePassantPieces(PassRow, c2);
                 
             }

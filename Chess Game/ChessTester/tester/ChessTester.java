@@ -437,7 +437,7 @@ public class ChessTester {
 		boolean isCellEmpty = false;
 		if (game.getPieceAt(6, 1) == null)
 			isCellEmpty = true;
-		assertTrue(capture && isCellEmpty);
+		assertTrue(capture && !isCellEmpty);
 	}
 
 	@Test
@@ -1103,5 +1103,74 @@ public class ChessTester {
 	/**
 	 * End of King testing
 	 */
+	
+	/**
+	 * Beginning of Advanced Movement Checking
+	 */
+	
+	
+	@Test
+	public void enPassantValidMovement(){
+	  game = new Chess();
+	  Pawn whitePawn = new Pawn(PColor.White);
+	  Pawn blackPawn = new Pawn(PColor.Black);
+	  
+	  game.setPieceAt(6, 3, whitePawn);
+	  game.setPieceAt(4, 4, blackPawn);
+	  
+	  game.getBoard().setCurrentPassantMove(true);
+	  game.getBoard().setcurrentPassantRow(5);
+	  game.getBoard().setcurrentPassantCol(3);
+	  
+	  if (game.checkMove(6, 3, 4, 3, whitePawn)){
+	      game.movePieceTo(6,3, 4, 3, whitePawn);
+	  }
+	  assertTrue(game.checkMove(4, 4, 5, 3, blackPawn));
+	  
+	}
+	
+	
+	@Test
+	public void enPassantInvalidMovementMissedChance(){
+	    game = new Chess();
+	    Pawn whitePawn = new Pawn(PColor.White);
+	    Pawn blackPawn = new Pawn(PColor.Black);
+	      
+	    game.setPieceAt(6, 3, whitePawn);
+	    game.setPieceAt(4, 4, blackPawn);
+	    
+	    game.getBoard().setCurrentPassantMove(true);
+	    game.getBoard().setcurrentPassantRow(5);
+	    game.getBoard().setcurrentPassantCol(3);
+	    
+	    game.getBoard().resetnewPassantVal();  
+	      
+	    game.getBoard().setcurrentPassantRow(
+                game.getBoard().getnewPassantRow());
+                
+        game.getBoard().setcurrentPassantCol(
+                game.getBoard().getnewPassantCol());
+                
+        game.getBoard().setCurrentPassantMove(
+                game.getBoard().getnewPassantMove());
+        
+                
+      System.out.println( game.getBoard().getcurrentPassantRow());
+      System.out.println( game.getBoard().getcurrentPassantCol());    
+      System.out.println( game.getBoard().getCurrentPassantMove());
+	      
+	    if (game.checkMove(6, 3, 4, 3, whitePawn)){
+	        game.movePieceTo(6,3, 4, 3, whitePawn);
+	      }
+	    assertFalse(game.checkMove(4, 4, 5, 3, blackPawn));
+	}
+	
+	
+	
+	/**
+	 * Beginning of Check & Checkmate Tests
+	 */
+	
+	 
 
 }

@@ -316,7 +316,6 @@ public class Board {
         newPassantMove = false;
         newPassantRow = -1;
         newPassantCol = -1;
-        System.out.println("Passant Info Cleared");
         
     }
     
