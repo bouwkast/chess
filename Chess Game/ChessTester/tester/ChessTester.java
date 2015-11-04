@@ -6,13 +6,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.controller.ChessController;
-import chess.gui.ChessGUI;
 import chess.main.Chess;
 import chess.objects.Bishop;
 import chess.objects.Board;
 import chess.objects.King;
 import chess.objects.Knight;
+import chess.objects.Movement;
 import chess.objects.PColor;
 import chess.objects.Pawn;
 import chess.objects.Piece;
@@ -327,6 +326,14 @@ public class ChessTester {
         boolean isKingBlack = game.getPieceAt(0, 4)
                 .getColor() == PColor.Black;
         assertTrue(isKing && isKingBlack);
+    }
+    
+    @Test
+    public void movePieceThatHasMoved() {
+    	game = new Chess();
+    	whitePawn.setHasMoved(true);
+    	game.movePieceTo(6, 1, 5, 1, whitePawn);
+    	assertTrue(whitePawn.isHasMoved());
     }
     
     @Test
@@ -1208,6 +1215,53 @@ public class ChessTester {
                 whiteKing.checkCastling(7, 4, 7, 6, whiteKing, game));
     }
     
+    @Test
+    public void checkExecuteCastleRight() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        
+        game.getBoard().getCellAt(7, 5).setChessPiece(null);
+        game.getBoard().getCellAt(7, 6).setChessPiece(null);
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteRook);
+        game.executeCastle(7, 4, 7, 6, whiteKing);
+        assertTrue(game.getPieceAt(7, 6) instanceof King && game.getPieceAt(7, 5) instanceof Rook);
+    }
+    
+    @Test
+    public void checkExecuteCastleLeft() {
+        game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        
+        game.getBoard().getCellAt(7, 3).setChessPiece(null);
+        game.getBoard().getCellAt(7, 2).setChessPiece(null);
+        game.getBoard().getCellAt(7, 1).setChessPiece(null);
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        game.executeCastle(7, 4, 7, 2, whiteKing);
+        assertTrue(game.getPieceAt(7, 2) instanceof King && game.getPieceAt(7, 3) instanceof Rook);
+    }
+    
+//    @Test
+//    public void invalidCastleMoveTooManyCols() {
+//    	game = new Chess();
+//        King whiteKing = new King(PColor.White);
+//        Rook whiteRook = new Rook(PColor.White);
+//        
+//        game.getBoard().getCellAt(7, 3).setChessPiece(null);
+//        game.getBoard().getCellAt(7, 2).setChessPiece(null);
+//        game.getBoard().getCellAt(7, 1).setChessPiece(null);
+//        
+//        game.setPieceAt(7, 4, whiteKing);
+//        game.setPieceAt(7, 0, whiteRook);
+//        
+////    	assertFalse(game.checkMove(r1, c1, r2, c2, piece))
+//    }
+    
     /**
      * Beginning of Check & Checkmate Tests
      */
@@ -1296,6 +1350,113 @@ public class ChessTester {
         
         assertEquals(game.isGameOver(),1);
     }
+    
+    @Test
+    public void checkForPawnPromotionWhite() {
+    	game = new Chess();
+    	game.setPieceAt(0, 4, whitePawn);
+    	
+    	assertTrue(game.checkPawnPromotion(0, 4, whitePawn));
+    }
+    
+    @Test
+    public void checkForPawnPromotionBlack() {
+    	game = new Chess();
+    	game.setPieceAt(7, 4, blackPawn);
+    	
+    	assertTrue(game.checkPawnPromotion(7, 4, blackPawn));
+    }
+    
+    @Test
+    public void ensurePawnPromotionIvalid() {
+    	game = new Chess();
+    	game.setPieceAt(1, 4, whitePawn);
+    	
+    	assertFalse(game.checkPawnPromotion(1, 4, whitePawn));
+    }
+    
+    @Test
+    public void cantPromoteNonPawn() {
+    	game = new Chess();
+    	Knight toTest = new Knight(PColor.Black);
+    	game.setPieceAt(0, 4, toTest);
+    	
+    	assertFalse(game.checkPawnPromotion(0, 4, toTest));
+    }
+    
+    @Test
+    public void gameOverByStalemateBlackNoMoves() {
+    	game = new Chess();
+    	game.getBoard().reset();
+    	game.setPieceAt(0, 7, new King(PColor.Black));
+    	game.setPieceAt(2, 6, new Queen(PColor.White));
+    	game.setPieceAt(1, 5, new King(PColor.White));
+    	equals(game.isGameOver() == 2);
+    }
+    
+    @Test
+    public void gameOverByStalemateWhiteNoMoves() {
+    	game = new Chess();
+    	game.getBoard().reset();
+    	game.setPieceAt(0, 7, new King(PColor.White));
+    	game.setPieceAt(2, 6, new Queen(PColor.Black));
+    	game.setPieceAt(1, 5, new King(PColor.Black));
+    	equals(game.isGameOver() == 2);
+    }
+    
+    @Test
+    public void checkDefaultPieceCantMove() {
+    	game = new Chess();
+    	Piece toCheck = new Piece(PColor.Black);
+    	game.setPieceAt(4, 5, toCheck);
+    	assertFalse(game.checkMove(4, 5, 4, 3, toCheck));
+    }
+    
+    @Test
+    public void checkBasicInvalidLateralMovement() {
+    	game = new Chess();
+    	Rook toCheck = new Rook(PColor.Black);
+    	game.setPieceAt(4, 4, toCheck);
+    	Movement move = new Movement(4, 4, 5, 5, toCheck, game);
+    	assertFalse(move.checkLateral());
+    }
+    
+    @Test
+    public void checkBasicInvalidLateralMovement2() {
+    	game = new Chess();
+    	Rook toCheck = new Rook(PColor.Black);
+    	game.setPieceAt(4, 4, toCheck);
+    	Movement move = new Movement(4, 4, 4, 4, toCheck, game);
+    	assertFalse(move.checkLateral());;
+    }
+    
+    @Test
+    public void checkCantFindWhiteKing() {
+    	game = new Chess();
+    	game.setPieceAt(7, 4, null);
+    	int[] kCoords = game.getBoard().findKing(PColor.White);
+    	int[] coords = {-1, -1};
+    	equals(coords == kCoords);
+    }
+    
+    @Test
+    public void checkGetPassantCapture() {
+    	game = new Chess();
+    	boolean result = game.getBoard().getpassantCapture();
+    	assertFalse(result);
+    }
+    
+    @Test
+    public void checkBoardGetPiece() {
+    	game = new Chess();
+    	assertTrue(game.getBoard().getPieceAt(7, 4) instanceof King);
+    }
+    
+//    @Test
+//    public void checkChessGame() {
+//    	ChessGame game = new ChessGame();
+//    	game.main(null);
+//    }
     
     
 }

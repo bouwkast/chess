@@ -44,7 +44,7 @@ public class Board {
      * Goes through the Board and sets each Cell to be a new Cell, not
      * containing anything
      ******************************************************************/
-    private void reset() {
+    public void reset() {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 board[x][y] = new Cell();
