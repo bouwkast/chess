@@ -1039,6 +1039,7 @@ public class ChessTester {
     @Test
     public void kingMovementUpRight() {
         game = new Chess();
+        game.getBoard().reset();
         King king = new King(PColor.Black);
         game.setPieceAt(4, 4, king);
         assertTrue(game.checkMove(4, 4, 3, 5, king));
@@ -1055,6 +1056,7 @@ public class ChessTester {
     @Test
     public void kingMovementDownRight() {
         game = new Chess();
+        game.getBoard().reset();
         King king = new King(PColor.Black);
         game.setPieceAt(2, 2, king);
         assertTrue(game.checkMove(2, 2, 3, 3, king));
@@ -1071,6 +1073,7 @@ public class ChessTester {
     @Test
     public void kingMovementDownLeft() {
         game = new Chess();
+        game.getBoard().reset();
         King king = new King(PColor.Black);
         game.setPieceAt(2, 5, king);
         assertTrue(game.checkMove(2, 5, 3, 4, king));
@@ -1087,6 +1090,7 @@ public class ChessTester {
     @Test
     public void kingMovementUpLeft() {
         game = new Chess();
+        game.getBoard().reset();
         King king = new King(PColor.Black);
         game.setPieceAt(5, 7, king);
         assertTrue(game.checkMove(5, 7, 4, 6, king));
@@ -1098,6 +1102,24 @@ public class ChessTester {
         King king = new King(PColor.Black);
         game.setPieceAt(5, 7, king);
         assertFalse(game.checkMove(5, 7, 5, 0, king));
+    }
+    
+    @Test
+    public void kingInvalidMovementDiagCols() {
+    	game = new Chess();
+    	game.getBoard().reset();
+    	King king = new King(PColor.Black);
+    	game.setPieceAt(5, 5, king);
+    	assertFalse(king.checkMovement(5, 5, 4, 7, game));
+    }
+    
+    @Test
+    public void kingInvalidMovementDiagCols2() {
+    	game = new Chess();
+    	game.getBoard().reset();
+    	King king = new King(PColor.Black);
+    	game.setPieceAt(5, 5, king);
+    	assertFalse(king.checkMovement(5, 5, 4, 7, game));
     }
     /**
      * End of King testing
@@ -1246,21 +1268,173 @@ public class ChessTester {
         assertTrue(game.getPieceAt(7, 2) instanceof King && game.getPieceAt(7, 3) instanceof Rook);
     }
     
-//    @Test
-//    public void invalidCastleMoveTooManyCols() {
-//    	game = new Chess();
-//        King whiteKing = new King(PColor.White);
-//        Rook whiteRook = new Rook(PColor.White);
-//        
-//        game.getBoard().getCellAt(7, 3).setChessPiece(null);
-//        game.getBoard().getCellAt(7, 2).setChessPiece(null);
-//        game.getBoard().getCellAt(7, 1).setChessPiece(null);
-//        
-//        game.setPieceAt(7, 4, whiteKing);
-//        game.setPieceAt(7, 0, whiteRook);
-//        
-////    	assertFalse(game.checkMove(r1, c1, r2, c2, piece))
-//    }
+    @Test
+    public void invalidCastleKingHasMoved() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        whiteKing.setHasMoved(true);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        assertFalse(whiteKing.checkCastling(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidRightCastle() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 7, whiteKing, game));
+        
+    }
+    
+    @Test
+    public void invalidRightCastleNoRook() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Bishop whiteBishop = new Bishop(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteBishop);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidRightCastleRookHasMoved() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        whiteRook.setHasMoved(true);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteRook);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidRightCastleEndCellOccupied() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteRook);
+        game.setPieceAt(7, 6, whiteRook);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidRightCastleFirstCellOcc() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteRook);
+        game.setPieceAt(7, 5, whiteRook);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidRightCastleFirstCellInCheck() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        Rook blackRook = new Rook(PColor.Black);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 7, whiteRook);
+        game.setPieceAt(6, 5, blackRook);
+        assertFalse(whiteKing.castleCheckRight(7, 4, 7, 6, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastle() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 1, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastleNoRook() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Bishop whiteBishop = new Bishop(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteBishop);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 2, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastleRookHasMoved() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        whiteRook.setHasMoved(true);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 2, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastleEndCellOccupied() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        game.setPieceAt(7, 2, whiteRook);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 2, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastleFirstCellOcc() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        game.setPieceAt(7, 3, whiteRook);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 2, whiteKing, game));
+    }
+    
+    @Test
+    public void invalidLeftCastleFirstCellInCheck() {
+    	game = new Chess();
+        King whiteKing = new King(PColor.White);
+        Rook whiteRook = new Rook(PColor.White);
+        Rook blackRook = new Rook(PColor.Black);
+        game.getBoard().reset();
+        
+        game.setPieceAt(7, 4, whiteKing);
+        game.setPieceAt(7, 0, whiteRook);
+        game.setPieceAt(6, 3, blackRook);
+        assertFalse(whiteKing.castleCheckLeft(7, 4, 7, 2, whiteKing, game));
+    }
     
     /**
      * Beginning of Check & Checkmate Tests

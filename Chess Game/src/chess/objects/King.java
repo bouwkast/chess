@@ -27,8 +27,7 @@ public class King extends Piece {
         // Check if the attempted move is diagonal
         if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
             // Check to make sure it is one spot
-            if (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 1)
-                return move.checkDiagonal();
+            return move.checkDiagonal();
             // Check if the attempted move is lateral
         } else if ((Math.abs(r1 - r2) == 0 && Math.abs(c1 - c2) == 1)
                 || (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 0)) {
@@ -38,8 +37,6 @@ public class King extends Piece {
             return checkCastling(r1, c1, r2, c2, this, chess);
         }
         // If neither, return false because it is an invalid move
-        return false;
-        
     }
     
     /*******************************************************************

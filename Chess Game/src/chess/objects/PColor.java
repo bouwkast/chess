@@ -1,3 +1,4 @@
+
 package chess.objects;
 
 public enum PColor {
