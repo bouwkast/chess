@@ -119,8 +119,9 @@ public class Chess {
      * @param king is the King to castle
      ******************************************************************/
     public void executeCastle(int r1, int c1, int r2, int c2,
-            King king) {
-        if (king.castleCheckRight(r1, c1, r2, c2, king, this)) { 
+            Piece king) {
+    	King toCheck = (King) king;
+        if (toCheck.castleCheckRight(r1, c1, r2, c2, king, this)) { 
             // kingside
             movePieceTo(r1, c1, r2, c2, king);
             Piece toCastle = getPieceAt(r2, c2 + 1);

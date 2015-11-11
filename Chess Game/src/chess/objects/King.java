@@ -78,7 +78,7 @@ public class King extends Piece {
      * @return a boolean value whether the King can be castled
      ******************************************************************/
     public boolean castleCheckLeft(int r1, int c1, int r2, int c2,
-            King king, Chess chess) {
+            Piece king, Chess chess) {
         if (Math.abs(c1 - c2) != 2) {
             return false;
         }
@@ -111,7 +111,7 @@ public class King extends Piece {
      * @return a boolean value whether it is a valid "kingside" castle
      ******************************************************************/
     public boolean castleCheckRight(int r1, int c1, int r2, int c2,
-            King king, Chess chess) {
+            Piece king, Chess chess) {
         if (Math.abs(c1 - c2) != 2)
             return false;
         if (chess.getPieceAt(r2, c2 + 1) != null) {
