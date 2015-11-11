@@ -1,5 +1,7 @@
 package chess.objects;
 
+import javax.swing.Icon;
+
 import chess.main.Chess;
 
 public class Piece {
@@ -13,6 +15,10 @@ public class Piece {
     protected String icon;
     /** Whether the Piece has moved yet */
     protected boolean hasMoved;
+    /** The set of icons to use for black pieces */
+	private static IconSet blackIconSet;
+	/** The set of icons to use for white pieces */
+	private static IconSet whiteIconSet;
     
     /*******************************************************************
      * Constructor for Piece with one parameter for the Piece's color
@@ -25,6 +31,12 @@ public class Piece {
         hasMoved = false;
         name = "";
         icon = "";
+        
+        /** Prevents previously set icon sets from being reset */
+        if(blackIconSet == null)
+        	blackIconSet = new IconSet("black");
+        if(whiteIconSet == null)
+        	whiteIconSet = new IconSet("white");
     }
     
     /*******************************************************************
@@ -40,6 +52,12 @@ public class Piece {
         hasMoved = false;
         name = "";
         icon = "";
+        
+        /** Prevents previously set icon sets from being reset */
+        if(blackIconSet == null)
+        	blackIconSet = new IconSet("black");
+        if(whiteIconSet == null)
+        	whiteIconSet = new IconSet("white");
     }
     
     /*******************************************************************
@@ -55,6 +73,12 @@ public class Piece {
         this.setName(name);
         this.setHasMoved(false);
         icon = "";
+        
+        /** Prevents previously set icon sets from being reset */
+        if(blackIconSet == null)
+        	blackIconSet = new IconSet("black");
+        if(whiteIconSet == null)
+        	whiteIconSet = new IconSet("white");
     }
     
     /*******************************************************************
@@ -72,6 +96,12 @@ public class Piece {
         this.setName(name);
         this.setHasMoved(hasMoved);
         icon = "";
+        
+        /** Prevents previously set icon sets from being reset */
+        if(blackIconSet == null)
+        	blackIconSet = new IconSet("black");
+        if(whiteIconSet == null)
+        	whiteIconSet = new IconSet("white");
     }
     
     /*******************************************************************
@@ -86,6 +116,8 @@ public class Piece {
         this.name = otherPiece.name;
         this.hasMoved = otherPiece.hasMoved;
         this.icon = otherPiece.icon;
+        blackIconSet = otherPiece.blackIconSet;
+		whiteIconSet = otherPiece.whiteIconSet;
     }
     
     /*******************************************************************
@@ -180,6 +212,37 @@ public class Piece {
                 + "\nIcon: " + icon;
                 
     }
+    
+    /*******************************************************************
+	 * Gets the Image Icon that corresponds to the Piece
+	 * 
+	 * @return an Icon object corresponding to the piece's name and
+	 * color
+	 ******************************************************************/
+	public Icon getImageIcon() {
+		if ( color == PColor.Black)
+			return blackIconSet.getIcon(name);
+		else
+			return whiteIconSet.getIcon(name);
+	}
+	
+	/*******************************************************************
+	 * Setter for the icon set for black pieces
+	 * 
+	 * @param set is the string name of the set
+	 ******************************************************************/
+	public static void setBlackIconSet ( String set ) {
+		blackIconSet.setIconSet(set);
+	}
+	
+	/*******************************************************************
+	 * Setter for the icon set for white pieces
+	 * 
+	 * @param set is the string name of the set
+	 ******************************************************************/
+	public static void setWhiteIconSet ( String set ) {
+		whiteIconSet.setIconSet(set);
+	}
     
     public boolean checkMovement(int r1, int c1, int r2, int c2,
             Chess chess) {

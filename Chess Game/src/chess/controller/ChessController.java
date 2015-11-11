@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -11,6 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import chess.gui.ChessGUI;
+import chess.gui.IconSetDialog;
 import chess.main.Chess;
 import chess.objects.Bishop;
 import chess.objects.King;
@@ -87,9 +90,11 @@ public class ChessController {
                 startNewGame();
             } else if (e.getSource() == gui.getExitItem()) {
                 System.exit(0);
+            } else if (e.getSource() == gui.getIconSetItem()) {
+            	setIconSets();
             }
             
-            if (firstClick) { // Stores pieces location or resets turn
+            else if (firstClick) { // Stores pieces location or resets turn
                 findCell(e);
                 executeFirstClick();
             } else { // It is the second click of the Player's turn
@@ -120,6 +125,44 @@ public class ChessController {
                 gui.getButtonAt(x, y).setEnabled(true);
             }
         }
+    }
+    
+    /***************************************************************
+     * Calls dialog box to select the icon sets for black and
+     * white pieces
+     **************************************************************/
+    private void setIconSets() {
+    	String message = "Changing icon sets will start a new game. "
+    			+ "Continue?";
+    	String options[] = new String[2];
+        options[0] = "Continue";
+        options[1] = "Cancel";
+    	
+    	int result = JOptionPane.showOptionDialog(gui, message,
+                "Game Over!", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null, options,
+                options[0]);
+        if (result == 0) {
+        	IconSetDialog iconDialogWhite = new IconSetDialog();
+        	JDialog dialogWhite = iconDialogWhite.createDialog(null,
+        			"Select White Icon Set");
+        	dialogWhite.setVisible(true);
+        	if(!iconDialogWhite.getSelected().equals("")){
+        		Piece.setWhiteIconSet(iconDialogWhite.getSelected());
+        	}
+        	
+        	IconSetDialog iconDialogBlack = new IconSetDialog();
+        	JDialog dialogBlack = iconDialogBlack.createDialog(null,
+        			"Select Black Icon Set");
+        	dialogBlack.setVisible(true);
+        	if(!iconDialogBlack.getSelected().equals("")){
+        		Piece.setBlackIconSet(iconDialogBlack.getSelected());
+        	}
+        	
+            startNewGame();
+        }
+    	
+    	
     }
     
     /*******************************************************************
@@ -271,10 +314,10 @@ public class ChessController {
      * Updates the two buttons' icons after moving a piece
      **************************************************************/
     private void updateMovedPieceButtons() {
-        gui.getButtonAt(r1, c1).setText("");
+        gui.getButtonAt(r1, c1).setIcon(new ImageIcon());
         if (game.getPieceAt(r2, c2) != null) {
-            gui.getButtonAt(r2, c2)
-                    .setText(game.getPieceAt(r2, c2).getIcon());
+        	gui.setCellIcon(gui.getButtonAt(r2, c2),
+        			(ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
             gui.revalidate();
         }
     }
