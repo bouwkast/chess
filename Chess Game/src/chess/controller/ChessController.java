@@ -118,7 +118,7 @@ public class ChessController {
         
         //By default, the white player's time goes down first
         whitePlayerTimer = true; 
-        setTimers();
+        resetTimers();
         
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -460,7 +460,7 @@ public class ChessController {
                     p1seconds = timeRemainingP1 % 60;
                     p1Time = String.format("%d", p1minutes) + ":"
                             + String.format("%02d", p1seconds);
-                    gui.UpdateTimer(p1Time, p2Time);
+                    gui.getTimerGUI().updateTimer(p1Time, p2Time);
                     
                 } else {
                     countdownTimer.stop();
@@ -475,13 +475,12 @@ public class ChessController {
                     p2seconds = timeRemainingP2 % 60;
                     p2Time = String.format("%d", p2minutes) + ":"
                             + String.format("%02d", p2seconds);
-                    gui.UpdateTimer(p1Time, p2Time);
+                    gui.getTimerGUI().updateTimer(p1Time, p2Time);
                     
                 } else {
                     countdownTimer.stop();
                     int winner = 1;
                     displayWinner(winner);
-                    
                 }
             }
         }
@@ -497,5 +496,15 @@ public class ChessController {
         timeRemainingP2 = 300;
         countdownTimer = new Timer(1000, timer);
         countdownTimer.start();
+    }
+    
+    /*******************************************************************
+     * Resets the timers to their initial values
+     * 
+     * TODO needs some work for pluggability, different times etc.
+     ******************************************************************/
+    private void resetTimers() {
+    	timeRemainingP1 = 300;
+    	timeRemainingP2 = 300;
     }
 }

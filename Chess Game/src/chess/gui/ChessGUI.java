@@ -1,5 +1,6 @@
 package chess.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,7 +24,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import chess.controller.ChessController;
 import chess.main.Chess;
 
 public class ChessGUI extends JFrame {
@@ -33,7 +33,7 @@ public class ChessGUI extends JFrame {
     /** Is the 2D array of JButtons to use for the board */
     private JButton[][] board;
     /** Is the panel that contains the JButtons */
-    private JPanel grid;
+    private JPanel gridPanel;
     /** Is the instance of the chess game */
     private Chess chess;
     /** Menu Bar for the game */
@@ -53,26 +53,23 @@ public class ChessGUI extends JFrame {
     private Dimension screenSize = Toolkit.getDefaultToolkit()
             .getScreenSize();
     /** Dimension for board to make square */
-    private Dimension boardSize = new Dimension(screenSize.height / 2,
-            screenSize.height / 2);
+    private Dimension boardSize = new Dimension(screenSize.height - 250,
+            screenSize.height - 250);
+    /** Main JPanel for the entire GUI */
     private JPanel mainPanel;
-    
-    private JPanel menuPanel;
-    
-    private JLabel p1Time;
-    private JLabel p2Time;
+    /** GUI that has the timers in it */
+    private TimerGUI timerGUI;
     
     /*******************************************************************
      * Constructor for the View
      ******************************************************************/
     public ChessGUI() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        // Makes a square based on screen size, (x, y, size.x, size.y
-        int x = 50;
-        int width = screenSize.height - (screenSize.height / 3);
-        int xLoc = ((screenSize.width - 100) - screenSize.height) / 2; 
-        // center
-        setLocation(xLoc, 0);
+        FlowLayout layout = new FlowLayout();
+        layout.setHgap(0);
+        layout.setVgap(0);;
+        this.setLayout(layout);
+        
         chess = new Chess();
         board = new JButton[8][8];
         menuBar = new JMenuBar();
@@ -80,6 +77,13 @@ public class ChessGUI extends JFrame {
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
         iconSetItem = new JMenuItem("Select Icon Set");
+        
+        timerGUI = new TimerGUI();
+        
+        mainPanel = new JPanel(new BorderLayout());
+        gridPanel = new JPanel(new GridLayout(8, 8));
+        gridPanel.setPreferredSize(boardSize);
+        
         add(menuBar);
         menuBar.add(menu);
         menu.add(newItem);
@@ -87,15 +91,15 @@ public class ChessGUI extends JFrame {
         menu.add(iconSetItem);
         setJMenuBar(menuBar);
         
-        grid = new JPanel(new GridLayout(8, 8));
-        grid.setPreferredSize(boardSize);
+        mainPanel.add(timerGUI, BorderLayout.NORTH);
+        mainPanel.add(gridPanel);
+        
         createButtons();
         resetBoard();
-        addPanel();
+        
         this.add(mainPanel);
         this.pack();
         this.setVisible(true);
-        
     }
     
     /******************************************************************
@@ -107,6 +111,9 @@ public class ChessGUI extends JFrame {
         return board;
     }
     
+    /******************************************************************
+     * Creates all of the buttons and creates an ImageIcon in each
+     *****************************************************************/
     public void createButtons() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -131,8 +138,7 @@ public class ChessGUI extends JFrame {
      * Resets the Board that the user sees
      ******************************************************************/
     public void resetBoard() {
-        grid.removeAll();
-        // setTimer();
+        gridPanel.removeAll();
         resetButtons();
         setCheckers();
     }
@@ -153,7 +159,7 @@ public class ChessGUI extends JFrame {
                 board[row][col].setMargin(new Insets(0, 0, 0, 0));
                 board[row][col].setBorderPainted(false);
                 board[row][col].setFocusPainted(false);
-                grid.add(board[row][col]);
+                gridPanel.add(board[row][col]);
             }
         }
     }
@@ -224,38 +230,6 @@ public class ChessGUI extends JFrame {
         }
     }
     
-    private void addPanel() {
-        mainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        mainPanel.add(grid);
-        
-        menuPanel = new JPanel(new GridLayout(2, 2, 0, 25));
-        menuPanel.setPreferredSize(
-                new Dimension(boardSize.width / 3, boardSize.height));
-        JLabel timeForP1 = new JLabel("P1's Time");
-        timeForP1.setVerticalAlignment(SwingConstants.BOTTOM);
-        JLabel timeForP2 = new JLabel("P2's Time");
-        timeForP2.setVerticalAlignment(SwingConstants.TOP);
-        p1Time = new JLabel("");
-        p1Time.setHorizontalAlignment(SwingConstants.CENTER);
-        p1Time.setVerticalAlignment(SwingConstants.BOTTOM);
-        p2Time = new JLabel("");
-        p2Time.setVerticalAlignment(SwingConstants.TOP);
-        p2Time.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        menuPanel.add(timeForP2);
-        menuPanel.add(p2Time);
-        menuPanel.add(timeForP1);
-        menuPanel.add(p1Time);
-        
-        mainPanel.add(menuPanel);
-    }
-    
-    public void UpdateTimer(String p1TimeUpdate, String p2TimeUpdate) {
-        p1Time.setText(p1TimeUpdate);
-        p2Time.setText(p2TimeUpdate);
-        
-    }
-    
     /*******************************************************************
 	 * Sets the icon to be displayed by a JButton
 	 * 
@@ -288,6 +262,15 @@ public class ChessGUI extends JFrame {
 		g.dispose();
 		
 		return resize;
+	}
+	
+	/*******************************************************************
+	 * Gets the TimerGUI that holds both of the times for the players
+	 * 
+	 * @return the TimerGUI
+	 ******************************************************************/
+	public TimerGUI getTimerGUI() {
+		return timerGUI;
 	}
     
 }
