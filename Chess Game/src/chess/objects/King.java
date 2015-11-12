@@ -26,8 +26,13 @@ public class King extends Piece {
         Movement move = new Movement(r1, c1, r2, c2, this, chess);
         // Check if the attempted move is diagonal
         if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
+        	if(Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 1) {
+        		 return move.checkDiagonal();
+        	} else {
+        		return false;
+        	}
             // Check to make sure it is one spot
-            return move.checkDiagonal();
+           
             // Check if the attempted move is lateral
         } else if ((Math.abs(r1 - r2) == 0 && Math.abs(c1 - c2) == 1)
                 || (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 0)) {

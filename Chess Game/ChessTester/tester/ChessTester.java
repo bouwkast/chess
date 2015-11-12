@@ -1481,6 +1481,16 @@ public class ChessTester {
     }
     
     @Test
+    public void whiteKingInCheckmateTrue2() {
+    	game = new Chess();
+    	game.movePieceTo(6, 6, 4, 6, game.getPieceAt(6, 6));
+    	game.movePieceTo(1, 4, 3, 4, game.getPieceAt(1, 4));
+    	game.movePieceTo(6, 5, 5, 5, game.getPieceAt(6, 5));
+    	game.movePieceTo(0, 3, 4, 7, game.getPieceAt(0, 3));
+    	assertTrue(game.isGameOver() == 0);
+    }
+    
+    @Test
     public void whiteKingInCheckmateFalse(){
         game = new Chess();
         King whiteKing = new King(PColor.White);
