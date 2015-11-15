@@ -9,13 +9,21 @@ public class Bishop extends Piece {
 	 * @param color is the PColor of the Bishop
 	 ******************************************************************/
 	public Bishop(PColor color) {
-		super(color, true, "Bishop"); // Set the color and make it alive
-		this.color = color;
-
+		super(color, "Bishop"); // Set the color and make it alive
 		if (color.equals(PColor.White))
 			this.icon = "\u2657"; // white
 		else
 			this.icon = "\u265d"; // black
+		this.score = 30;
+	}
+	
+	/*******************************************************************
+	 * Copy constructor for the Bishop 
+	 * 
+	 * @param other is the Bishop to copy
+	 ******************************************************************/
+	public Bishop(Bishop other) {
+		super(other);
 	}
 
 	@Override

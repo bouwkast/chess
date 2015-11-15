@@ -25,7 +25,6 @@ public class Cell {
 	 ******************************************************************/
 	public void setChessPiece(Piece piece) {
 		this.piece = piece;
-		isPassant = false;
 	}
 
 	/*******************************************************************
@@ -66,7 +65,6 @@ public class Cell {
 	 * @return the isPassant is whether the cell is a passant cell
 	 ******************************************************************/
 	public boolean isPassant() {
-	    System.out.println("Value: " + isPassant);
 		return isPassant;
 	}
 

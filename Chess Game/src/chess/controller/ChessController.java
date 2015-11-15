@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -18,7 +17,9 @@ import chess.main.Chess;
 import chess.objects.Bishop;
 import chess.objects.King;
 import chess.objects.Knight;
+import chess.objects.Move;
 import chess.objects.PColor;
+import chess.objects.Pawn;
 import chess.objects.Piece;
 import chess.objects.Queen;
 import chess.objects.Rook;
@@ -52,6 +53,11 @@ public class ChessController {
 	/** Boolean to indicate which player's timer should go down */
 	private boolean whitePlayerTimer;
 
+	/** Whether the AI is enabled or disabled */
+	private boolean aiEnabled;
+	/** A simple counter to tell when to reset the Passant fields */
+	private int resetPassant;
+
 	/*******************************************************************
 	 * Constructor for the Controller part of the MVC Takes in both the
 	 * GUI and the game as parameters and adds the ChessListener onto
@@ -75,8 +81,9 @@ public class ChessController {
 		whiteTurn = true;
 		whitePlayerTimer = true;
 		setTimers();
-
+		aiEnabled = false;
 		this.gui.addChessListener(new ChessListener());
+		resetPassant = 0;
 	}
 
 	/*******************************************************************
@@ -92,15 +99,39 @@ public class ChessController {
 				System.exit(0);
 			} else if (e.getSource() == gui.getIconSetItem()) {
 				setIconSets();
+			} else if (e.getSource() == gui.getEnableItem()) {
+				startStopAI();
 			}
 
 			else if (firstClick) { // Stores pieces location or resets
-									// turn
 				findCell(e);
 				executeFirstClick();
 			} else { // It is the second click of the Player's turn
 				findCell(e);
 				executeSecondClick();
+//				if (resetPassant == 1) {
+//					game.getBoard().resetPassant();
+//					resetPassant = 0;
+//				} else {
+//					resetPassant++;
+//				}
+			}
+			printPassant();
+			if (!whiteTurn && aiEnabled) {
+				executeAITurn(PColor.Black);
+			}
+			if (game.isGameOver() != -1) {
+				displayWinner(game.isGameOver());
+			}
+		}
+	}
+	
+	private void printPassant() {
+		for(int row = 0; row < 8; row++) {
+			for(int col = 0; col < 8; col++) {
+				if(game.getBoard().getCellAt(row, col).isPassant()) {
+					System.out.println("(" + row + ", " + col + ") ");
+				}
 			}
 		}
 	}
@@ -216,8 +247,55 @@ public class ChessController {
 		if (game.checkMove(r1, c1, r2, c2, first)) {
 			// Castling is a unique king move
 			if (first instanceof King) {
-				if (((King) first).checkCastling(r1, c1, r2, c2,
-						(King) first, game)) {
+				if (r1 == r2 && Math.abs(c1 - c2) == 2) {
+					updateCastlePieces(first);
+				} else {
+					game.movePieceTo(r1, c1, r2, c2, first);
+					updateMovedPieceButtons();
+
+				}
+				
+			} else if (first instanceof Pawn) {
+				if (game.isEnPassCap()) {
+					updatePassantPieces(first);
+				} else {
+					game.movePieceTo(r1, c1, r2, c2, first);
+					updateMovedPieceButtons();
+				}
+			} else {
+				// It is a valid move, tell the game to move the
+				// piece
+				game.movePieceTo(r1, c1, r2, c2, first);
+
+				if (game.checkPawnPromotion(r2, c2, first)) {
+					pawnPromotion(r2, c2, first);
+				}
+			}
+
+			whiteTurn = !whiteTurn;
+			TurnChange(whiteTurn);
+			updateMovedPieceButtons();
+
+		}
+	}
+	
+	/*******************************************************************
+	 * Executes the AI's turn
+	 * 
+	 * @param color is the PColor of the AI
+	 ******************************************************************/
+	private void executeAITurn(PColor color) {
+		Move move = game.getBestMove(color);
+		r1 = move.getR1();
+		c1 = move.getC1();
+		r2 = move.getR2();
+		c2 = move.getC2();
+		Piece first = game.getPieceAt(r1, c1);
+
+		if (game.checkMove(r1, c1, r2, c2, first)) {
+			// Castling is a unique king move
+			if (first instanceof King) {
+				if (r1 == r2 && Math.abs(c1 - c2) == 2) {
 					updateCastlePieces(first);
 				} else {
 
@@ -234,35 +312,40 @@ public class ChessController {
 					pawnPromotion(r2, c2, first);
 				}
 			}
-			// Set the appropriate Passant Information
-			game.getBoard().setcurrentPassantRow(
-					game.getBoard().getnewPassantRow());
-
-			game.getBoard().setcurrentPassantCol(
-					game.getBoard().getnewPassantCol());
-
-			game.getBoard().setCurrentPassantMove(
-					game.getBoard().getnewPassantMove());
-
-			game.getBoard().resetnewPassantVal();
+			// // Set the appropriate Passant Information
+			// game.getBoard().setcurrentPassantRow(
+			// game.getBoard().getnewPassantRow());
+			//
+			// game.getBoard().setcurrentPassantCol(
+			// game.getBoard().getnewPassantCol());
+			//
+			// game.getBoard().setCurrentPassantMove(
+			// game.getBoard().getnewPassantMove());
+			//
+			// game.getBoard().resetnewPassantVal();
 
 			whiteTurn = !whiteTurn;
 			TurnChange(whiteTurn);
 			updateMovedPieceButtons();
 
-			// Checks to see if there was a Passant Capture
-			if (game.getBoard().getpassantCapture()) {
-				game.getBoard().setpassantCapture(false);
-
-				int direction =
-						first.getColor() == PColor.White ? 1 : -1;
-				int PassRow = r2 + direction;
-				updatePassantPieces(PassRow, c2);
-
-			}
+			// // Checks to see if there was a Passant Capture
+			// if (game.getBoard().getpassantCapture()) {
+			// game.getBoard().setpassantCapture(false);
+			//
+			// int direction =
+			// first.getColor() == PColor.White ? 1 : -1;
+			// int PassRow = r2 + direction;
+			// if(PassRow > -1) {
+			// System.out.println(PassRow);
+			// updatePassantPieces(PassRow, c2);
+			// }
+			//
+			//
+			// }
 			if (game.isGameOver() != -1) {
 				displayWinner(game.isGameOver());
 			}
+			// gui.updateButtons();
 		}
 	}
 
@@ -329,10 +412,11 @@ public class ChessController {
 	 * Updates the two buttons' icons after moving a piece for the case
 	 * of a en Passant move
 	 **************************************************************/
-	private void updatePassantPieces(int row, int col) {
-		gui.getButtonAt(row, col).setIcon(new ImageIcon());
-		game.getBoard().getCellAt(row, col).setChessPiece(null);
-		gui.revalidate();
+	private void updatePassantPieces(Piece piece) {
+		game.executeEnPassant(r1, c1, r2, c2, (Pawn) piece);
+		gui.setCellIcon(gui.getButtonAt(r2, c2), (ImageIcon) game
+				.getPieceAt(r2, c2).getImageIcon());
+		gui.getButtonAt(r1, c2).setIcon(new ImageIcon());
 	}
 
 	/***************************************************************
@@ -380,6 +464,20 @@ public class ChessController {
 		JOptionPane.showMessageDialog(gui, result); // show error msg
 		gui.getBoard()[r1][c1].setBorderPainted(false);
 		firstClick = true;
+	}
+
+	/*******************************************************************
+	 * Enables or disables the AI, also sets the menu item's text to be
+	 * the appropriate option
+	 ******************************************************************/
+	private void startStopAI() {
+		if (!aiEnabled) {
+			aiEnabled = true;
+			gui.getEnableItem().setText("Disable AI");
+		} else {
+			aiEnabled = false;
+			gui.getEnableItem().setText("Enable AI");
+		}
 	}
 
 	/*******************************************************************

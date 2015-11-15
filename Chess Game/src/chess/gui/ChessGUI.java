@@ -46,6 +46,8 @@ public class ChessGUI extends JFrame {
     private JMenuItem exitItem;
     /** Option to set the icon set */
 	private JMenuItem iconSetItem;
+	/** Option to enable the AI */
+	private JMenuItem enableItem;
     /** Font for the JButtons */
     private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
             24);
@@ -77,6 +79,7 @@ public class ChessGUI extends JFrame {
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
         iconSetItem = new JMenuItem("Select Icon Set");
+        enableItem = new JMenuItem("Enable AI");
         
         timerGUI = new TimerGUI();
         
@@ -89,6 +92,7 @@ public class ChessGUI extends JFrame {
         menu.add(newItem);
         menu.add(exitItem);
         menu.add(iconSetItem);
+        menu.add(enableItem);
         setJMenuBar(menuBar);
         
         mainPanel.add(timerGUI, BorderLayout.NORTH);
@@ -212,6 +216,15 @@ public class ChessGUI extends JFrame {
 	public JMenuItem getIconSetItem() {
 		return iconSetItem;
 	}
+	
+	/*******************************************************************
+	 * Gets the JMenuItem that allows the user to enable the AI
+	 * 
+	 * @return a JMenuItem to enable the AI
+	 ******************************************************************/
+	public JMenuItem getEnableItem() {
+		return enableItem;
+	}
     
     /*******************************************************************
      * Adds the Controller to the JButtons
@@ -222,6 +235,7 @@ public class ChessGUI extends JFrame {
         exitItem.addActionListener(listener);
         newItem.addActionListener(listener);
         iconSetItem.addActionListener(listener);
+        enableItem.addActionListener(listener);
         
         for (int row = 0; row < 8; ++row) {
             for (int col = 0; col < 8; ++col) {

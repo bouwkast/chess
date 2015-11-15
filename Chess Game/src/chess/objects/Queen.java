@@ -9,12 +9,22 @@ public class Queen extends Piece {
 	 * @param color is the PColor to set the Queen to
 	 ******************************************************************/
 	public Queen(PColor color) {
-		super(color, true, "Queen"); // Set the color and make it alive
+		super(color, "Queen"); // Set the color and make it alive
 		this.color = color;
 		if (color.equals(PColor.White))
 			this.icon = "\u2655"; // white
 		else
 			this.icon = "\u265b"; // black
+		this.score = 90;
+	}
+	
+	/*******************************************************************
+	 * Copy constructor for the Queen 
+	 * 
+	 * @param other is the Queen to copy
+	 ******************************************************************/
+	public Queen(Queen other) {
+		super(other);
 	}
 	
 	@Override

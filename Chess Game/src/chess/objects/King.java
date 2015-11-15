@@ -11,12 +11,22 @@ public class King extends Piece {
      * @param color is the PColor of the King to make
      ******************************************************************/
     public King(PColor color) {
-        super(color, true, "King");
+        super(color, "King");
         this.color = color;
         if (color.equals(PColor.White))
             this.icon = "\u2654"; // white
         else
             this.icon = "\u265a"; // black
+        this.score = 99999;
+    }
+    
+    /*******************************************************************
+     * Copy constructor for the King 
+     * 
+     * @param other is the King to copy
+     ******************************************************************/
+    public King(King other) {
+    	super(other);
     }
     
     @Override
@@ -56,9 +66,9 @@ public class King extends Piece {
      ******************************************************************/
     public boolean checkCastling(int r1, int c1, int r2, int c2,
             King king, Chess chess) {
-        if (!king.isHasMoved()) { // King can't have moved yet
+        if (!king.hasMoved()) { // King can't have moved yet
             if ((r1 == 0 && r2 == 0) || (r1 == 7 && r2 == 7)) {
-                if (Math.abs(c1 - c2) == 2) { // moving two cols
+                if (Math.abs(c1 - c2) == 2 && c2 == 6 || c2 == 2) { // moving two cols
                     if (c1 < c2) { // going to the right
                         return castleCheckRight(r1, c1, r2, c2, king,
                                 chess);
@@ -87,9 +97,11 @@ public class King extends Piece {
         if (Math.abs(c1 - c2) != 2) {
             return false;
         }
+        if(c2 < 2)
+        	System.out.print("OOOOOOOOOOOPSS" + c2);
         if (chess.getPieceAt(r2, c2 - 2) != null) {
             Piece toCastle = chess.getPieceAt(r2, c2 - 2);
-            if (toCastle instanceof Rook && !toCastle.isHasMoved()) {
+            if (toCastle instanceof Rook && !toCastle.hasMoved()) {
                 // Need 3 empty and non-check cells
                 if (chess.getPieceAt(r2, c2 - 1) != null)
                     return false;
@@ -121,7 +133,7 @@ public class King extends Piece {
             return false;
         if (chess.getPieceAt(r2, c2 + 1) != null) {
             Piece toCastle = chess.getPieceAt(r2, c2 + 1);
-            if (toCastle instanceof Rook && !toCastle.isHasMoved()) {
+            if (toCastle instanceof Rook && !toCastle.hasMoved()) {
                 if (chess.getPieceAt(r2, c2 - 1) != null)
                     return false;
                 if (chess.getPieceAt(r2, c2) != null)
