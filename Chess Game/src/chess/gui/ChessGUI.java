@@ -45,9 +45,11 @@ public class ChessGUI extends JFrame {
     /** Option to exit the game */
     private JMenuItem exitItem;
     /** Option to set the icon set */
-	private JMenuItem iconSetItem;
-	/** Option to enable the AI */
-	private JMenuItem enableItem;
+    private JMenuItem iconSetItem;
+    /** Option to enable the AI */
+    private JMenuItem enableItem;
+    /** Option to undo previous move(s) */
+    private JMenuItem undoItem;
     /** Font for the JButtons */
     private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
             24);
@@ -69,7 +71,8 @@ public class ChessGUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         FlowLayout layout = new FlowLayout();
         layout.setHgap(0);
-        layout.setVgap(0);;
+        layout.setVgap(0);
+        ;
         this.setLayout(layout);
         
         chess = new Chess();
@@ -80,6 +83,7 @@ public class ChessGUI extends JFrame {
         exitItem = new JMenuItem("Exit Game");
         iconSetItem = new JMenuItem("Select Icon Set");
         enableItem = new JMenuItem("Enable AI");
+        undoItem = new JMenuItem("Undo");
         
         timerGUI = new TimerGUI();
         
@@ -93,6 +97,7 @@ public class ChessGUI extends JFrame {
         menu.add(exitItem);
         menu.add(iconSetItem);
         menu.add(enableItem);
+        menu.add(undoItem);
         setJMenuBar(menuBar);
         
         mainPanel.add(timerGUI, BorderLayout.NORTH);
@@ -121,8 +126,8 @@ public class ChessGUI extends JFrame {
     public void createButtons() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-            	board[row][col] = new JButton(new ImageIcon());
-                //board[row][col].setFont(FONT);
+                board[row][col] = new JButton(new ImageIcon());
+                // board[row][col].setFont(FONT);
             }
         }
     }
@@ -153,12 +158,12 @@ public class ChessGUI extends JFrame {
     public void resetButtons() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-            	if(chess.getPieceAt(row, col) != null) {
-					setCellIcon(board[row][col], (ImageIcon)
-							chess.getPieceAt(row, col).getImageIcon());
-				} else {
-					board[row][col].setIcon(new ImageIcon());
-				}
+                if (chess.getPieceAt(row, col) != null) {
+                    setCellIcon(board[row][col], (ImageIcon) chess
+                            .getPieceAt(row, col).getImageIcon());
+                } else {
+                    board[row][col].setIcon(new ImageIcon());
+                }
                 board[row][col].getModel().setPressed(false);
                 board[row][col].setMargin(new Insets(0, 0, 0, 0));
                 board[row][col].setBorderPainted(false);
@@ -209,22 +214,32 @@ public class ChessGUI extends JFrame {
     }
     
     /*******************************************************************
-	 * Gets the icon set item to change the icon set
-	 * 
-	 * @return a JMenuItem of icon set
-	 ******************************************************************/
-	public JMenuItem getIconSetItem() {
-		return iconSetItem;
-	}
-	
-	/*******************************************************************
-	 * Gets the JMenuItem that allows the user to enable the AI
-	 * 
-	 * @return a JMenuItem to enable the AI
-	 ******************************************************************/
-	public JMenuItem getEnableItem() {
-		return enableItem;
-	}
+     * Gets the icon set item to change the icon set
+     * 
+     * @return a JMenuItem of icon set
+     ******************************************************************/
+    public JMenuItem getIconSetItem() {
+        return iconSetItem;
+    }
+    
+    /*******************************************************************
+     * Gets the JMenuItem that allows the user to enable the AI
+     * 
+     * @return a JMenuItem to enable the AI
+     ******************************************************************/
+    public JMenuItem getEnableItem() {
+        return enableItem;
+    }
+    
+    
+    /*******************************************************************
+     * Gets the JMenuItem that allows the user to undo a move
+     * 
+     * @return a JMenuItem to undo a previous move
+     ******************************************************************/
+    public JMenuItem getUndoItem() {
+        return undoItem;
+    }
     
     /*******************************************************************
      * Adds the Controller to the JButtons
@@ -236,6 +251,7 @@ public class ChessGUI extends JFrame {
         newItem.addActionListener(listener);
         iconSetItem.addActionListener(listener);
         enableItem.addActionListener(listener);
+        undoItem.addActionListener(listener);
         
         for (int row = 0; row < 8; ++row) {
             for (int col = 0; col < 8; ++col) {
@@ -245,46 +261,48 @@ public class ChessGUI extends JFrame {
     }
     
     /*******************************************************************
-	 * Sets the icon to be displayed by a JButton
-	 * 
-	 * @param button is the the JButton to modify
-	 * @param ico is the icon to set button to display
-	 ******************************************************************/
-	public void setCellIcon(JButton button, ImageIcon ico) {
-		int h = (int) (boardSize.getHeight() / 8);
-		int w = (int) (boardSize.getWidth() / 8);
-		ImageIcon scaled = new ImageIcon(getScaledIcon(ico.getImage(), w, h));
-		button.setIcon(scaled);
-	}
-	
-	/*******************************************************************
-	 * Returns a scaled image from the icon passed to it, scaled to the
-	 * passed height and width
-	 * 
-	 * @param src is the icon from which the image will be scaled
-	 * @param w is the width to scale the image to
-	 * @param h is the height to scale the image to
-	 * @return resize is the scaled image
-	 ******************************************************************/
-	private Image getScaledIcon( Image src, int w, int h) {
-		BufferedImage resize = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = resize.createGraphics();
-		
-		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g.drawImage(src, 0, 0, w, h, null);
-		g.dispose();
-		
-		return resize;
-	}
-	
-	/*******************************************************************
-	 * Gets the TimerGUI that holds both of the times for the players
-	 * 
-	 * @return the TimerGUI
-	 ******************************************************************/
-	public TimerGUI getTimerGUI() {
-		return timerGUI;
-	}
+     * Sets the icon to be displayed by a JButton
+     * 
+     * @param button is the the JButton to modify
+     * @param ico is the icon to set button to display
+     ******************************************************************/
+    public void setCellIcon(JButton button, ImageIcon ico) {
+        int h = (int) (boardSize.getHeight() / 8);
+        int w = (int) (boardSize.getWidth() / 8);
+        ImageIcon scaled = new ImageIcon(
+                getScaledIcon(ico.getImage(), w, h));
+        button.setIcon(scaled);
+    }
+    
+    /*******************************************************************
+     * Returns a scaled image from the icon passed to it, scaled to the
+     * passed height and width
+     * 
+     * @param src is the icon from which the image will be scaled
+     * @param w is the width to scale the image to
+     * @param h is the height to scale the image to
+     * @return resize is the scaled image
+     ******************************************************************/
+    private Image getScaledIcon(Image src, int w, int h) {
+        BufferedImage resize = new BufferedImage(w, h,
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = resize.createGraphics();
+        
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(src, 0, 0, w, h, null);
+        g.dispose();
+        
+        return resize;
+    }
+    
+    /*******************************************************************
+     * Gets the TimerGUI that holds both of the times for the players
+     * 
+     * @return the TimerGUI
+     ******************************************************************/
+    public TimerGUI getTimerGUI() {
+        return timerGUI;
+    }
     
 }

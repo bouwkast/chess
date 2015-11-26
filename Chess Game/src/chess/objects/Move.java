@@ -8,7 +8,7 @@ public class Move {
 	private Piece selPiece;
 	/** Piece that is targeted, can be null */
 	private Piece tarPiece;
-
+	
 	/*******************************************************************
 	 * Move constructor to create a new move based on the selected row
 	 * and column and the targeted row and column. Each move contains a
@@ -184,5 +184,5 @@ public class Move {
 	public void setTarPiece(Piece tarPiece) {
 		this.tarPiece = tarPiece;
 	}
-
+	
 }
