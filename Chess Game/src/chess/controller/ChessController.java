@@ -58,7 +58,7 @@ public class ChessController {
     /** Whether the AI is enabled or disabled */
     private boolean aiEnabled;
     /** A simple counter to tell when to reset the Passant fields */
-    private int resetPassant;
+    private int resetPassant, resetPassantB;
     
     /*******************************************************************
      * Constructor for the Controller part of the MVC Takes in both the
@@ -86,6 +86,7 @@ public class ChessController {
         aiEnabled = false;
         this.gui.addChessListener(new ChessListener());
         resetPassant = 0;
+        resetPassantB = 0;
     }
     
     /*******************************************************************
@@ -134,12 +135,12 @@ public class ChessController {
                 
                 executeSecondClick();
                 
-                // if (resetPassant == 1) {
-                // game.getBoard().resetPassant();
-                // resetPassant = 0;
-                // } else {
-                // resetPassant++;
-                // }
+//                 if (resetPassant == 1) {
+//                 game.getBoard().resetPassant();
+//                 resetPassant = 0;
+//                 } else {
+//                 resetPassant++;
+//                 }
             }
             printPassant();
             if (!whiteTurn && aiEnabled) {
@@ -282,6 +283,7 @@ public class ChessController {
             } else if (first instanceof Pawn) {
                 if (game.isEnPassCap()) {
                     updatePassantPieces(first);
+                    game.setEnPassCap(false);
                 } else {
                     game.movePieceTo(r1, c1, r2, c2, first);
                     updateMovedPieceButtons();
@@ -299,6 +301,12 @@ public class ChessController {
             whiteTurn = !whiteTurn;
             turnChange(whiteTurn);
             updateMovedPieceButtons();
+            if (resetPassant == 1) {
+              game.getBoard().resetPassant();
+              resetPassant = 0;
+              } else {
+              resetPassant++;
+             }
             
         }
     }
@@ -322,10 +330,16 @@ public class ChessController {
                 if (r1 == r2 && Math.abs(c1 - c2) == 2) {
                     updateCastlePieces(first);
                 } else {
-                    
                     game.movePieceTo(r1, c1, r2, c2, first);
                     updateMovedPieceButtons();
-                    
+                }
+            } else if (first instanceof Pawn) {
+            	if (game.isEnPassCap()) {
+                    updatePassantPieces(first);
+                    game.setEnPassCap(false);
+                } else {
+                    game.movePieceTo(r1, c1, r2, c2, first);
+                    updateMovedPieceButtons();
                 }
             } else {
                 // It is a valid move, tell the game to move the
@@ -351,6 +365,12 @@ public class ChessController {
             whiteTurn = !whiteTurn;
             turnChange(whiteTurn);
             updateMovedPieceButtons();
+            if (resetPassantB == 1) {
+                game.getBoard().resetPassant();
+                resetPassantB = 0;
+                } else {
+                resetPassantB++;
+               }
             
             // // Checks to see if there was a Passant Capture
             // if (game.getBoard().getpassantCapture()) {

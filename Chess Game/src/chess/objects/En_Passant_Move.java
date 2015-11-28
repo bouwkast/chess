@@ -93,7 +93,10 @@ public class En_Passant_Move extends Move {
         selectClone = new Pawn((Pawn) super.getSelPiece());
         targetClone = null;
         
-        capturedPieceCopy = new Pawn((Pawn) capturedPiece);
+        if(capturedPiece != null)
+        	capturedPieceCopy = new Pawn((Pawn) capturedPiece);
+        else
+        	capturedPieceCopy = null;
         
         En_Passant_Move clonedMove = new En_Passant_Move(r1, c1, r2, c2,
                 selectClone, targetClone, capturedPieceCopy);

@@ -242,6 +242,7 @@ public class Chess {
                     
             setPieceAt(passantR1, passantC2,
                     createCopy(passant.getCapturedPiece()));
+            getBoard().getCellAt(passantR2, passantC2).setPassant(true);
             
             
                     
@@ -564,16 +565,16 @@ public class Chess {
                     // it is a black piece
                     for (int r2 = 0; r2 < 8; r2++) {
                         for (int c2 = 0; c2 < 8; c2++) {
-                            if (r2 - direction > -1
-                                    && r2 - direction < 8) {
+                            if (r1 - direction > -1
+                                    && r1 - direction < 8) {
                                 passVal = getBoard()
                                         .getCellAt(r1 - direction, c2)
                                         .isPassant();
                             }
                             if (checkMove(r1, c1, r2, c2,
                                     getPieceAt(r1, c1))) {
-                                if (r2 - direction > -1
-                                        && r2 - direction < 8) {
+                                if (r1 - direction > -1
+                                        && r1 - direction < 8) {
                                     getBoard()
                                             .getCellAt(r1 - direction,
                                                     c2)
@@ -615,7 +616,7 @@ public class Chess {
             
             movePieceTo(r1, c1, r2, c2, createCopy(move.getSelPiece()));
             
-            int result = -1 * negaMax(depth, color);
+            int result = negaMax(depth, color);
             unMakeMove();
             if (result > bestResult) {
                 bestResult = result;
@@ -653,14 +654,14 @@ public class Chess {
             
             movePieceTo(r1, c1, r2, c2,
                     createCopy(currentMove.getSelPiece()));
-            int score = -1 * negaMax(depth - 1, color);
+            int score = negaMax(depth - 1, color);
             
             unMakeMove();
             if (score > currentMax) {
                 currentMax = score;
             }
         }
-        return currentMax;
+        return -currentMax;
     }
     
     /*******************************************************************
@@ -680,8 +681,10 @@ public class Chess {
                     if (getPieceAt(row, col)
                             .getColor() == PColor.Black) {
                         scoreBlack += getPieceAt(row, col).getScore();
+                        scoreBlack += getPositionScore(row, col);
                     } else {
                         scoreWhite += getPieceAt(row, col).getScore();
+                        scoreWhite += getPositionScore(row, col);
                     }
                 }
             }
@@ -691,6 +694,22 @@ public class Chess {
         
         return scoreBlack - scoreWhite;
     }
+    
+    /*******************************************************************
+     * This makes the AI favor the middle of the board
+     * 
+     * @param row is the row
+     * @param col is the col
+     * @return the score of that position on the board
+     ******************************************************************/
+    private int getPositionScore(int row, int col) {
+		byte[][] positionWeight = { { 1, 1, 1, 1, 1, 1, 1, 1 },
+				{ 2, 2, 2, 2, 2, 2, 2, 2 }, { 2, 2, 3, 3, 3, 3, 2, 2 },
+				{ 2, 2, 3, 4, 4, 3, 2, 2 }, { 2, 2, 3, 4, 4, 3, 2, 2 },
+				{ 2, 2, 3, 3, 3, 3, 2, 2 }, { 2, 2, 2, 2, 2, 2, 2, 2 },
+				{ 1, 1, 1, 1, 1, 1, 1, 1 } };
+		return positionWeight[row][col];
+	}
     
     /*******************************************************************
      * DESCRIPTION
