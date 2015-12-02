@@ -26,6 +26,8 @@ public class Chess {
     /** Boolean to tell if a move is en passant */
     private boolean enPassCap;
     
+    private List<Move> historyOfMoves;
+    
     /*******************************************************************
      * Default constructor - in the future we may add some parameters
      * like opening from a new board, number of players, level of AI,
@@ -35,6 +37,7 @@ public class Chess {
         board = new Board();
         moves = new Stack<Move>();
         enPassCap = false;
+        historyOfMoves = new ArrayList();
     }
     
     // TODO delete, this serves no purpose Chess() is the same
@@ -107,7 +110,7 @@ public class Chess {
     }
     
     /*******************************************************************
-     * Performs the En Passant Move with the given rows and columns. 
+     * Performs the En Passant Move with the given rows and columns.
      * Also creates the appropriate En_Passant_Move object to be stored
      * in the stack
      * 
@@ -116,7 +119,7 @@ public class Chess {
      * @param r2 the targeted row
      * @param c2 the targeted col
      * @param pawn which contains the Pawn piece
-    *******************************************************************/
+     *******************************************************************/
     public void moveEnPassant(int r1, int c1, int r2, int c2,
             Pawn pawn) {
             
@@ -129,6 +132,7 @@ public class Chess {
                 c2, selection, target, piece);
                 
         moves.add(passantMove.cloneMove());
+        historyOfMoves.add(passantMove.cloneMove());
         
         // Set the second cell to the pawn
         setPieceAt(r2, c2, pawn);
@@ -137,9 +141,9 @@ public class Chess {
     }
     
     /******************************************************************
-     * Performs the Castling Move with the given rows and columns. 
-     * Also creates the appropriate Castling_Move object to be stored
-     * in the stack
+     * Performs the Castling Move with the given rows and columns. Also
+     * creates the appropriate Castling_Move object to be stored in the
+     * stack
      * 
      * @param kingRow1 contains the row of the selected King
      * @param kingCol1 contains the column of the selected King
@@ -151,7 +155,7 @@ public class Chess {
      * @param rookRow2 contains the row where the Rook will go
      * @param rookCol2 contains the column where the Rook will go
      * @param rookPiece contains the Rook piece
-    *****************************************************************
+     *****************************************************************            
      */
     public void moveCastlingPieces(int kingRow1, int kingCol1,
             int kingRow2, int kingCol2, Piece kingPiece, int rookRow1,
@@ -166,6 +170,7 @@ public class Chess {
                 rookTarget);
                 
         moves.add(castlingMove.cloneCastling());
+        historyOfMoves.add(castlingMove.cloneCastling());
         
         // Set the second cell to the King
         setPieceAt(kingRow2, kingCol2, kingPiece);
@@ -192,6 +197,7 @@ public class Chess {
         
         Move toMake = new Move(r1, c1, r2, c2, selPiece, tarPiece);
         moves.add(toMake.clone());
+        historyOfMoves.add(toMake.clone());
     }
     
     /*******************************************************************
@@ -199,6 +205,8 @@ public class Chess {
      ******************************************************************/
     public void unMakeMove() {
         Move toUnMake = moves.pop();
+        historyOfMoves.remove(historyOfMoves.size() - 1);
+        
         if (toUnMake instanceof Castling_Move) {
             Castling_Move temp = (Castling_Move) toUnMake;
             
@@ -242,10 +250,9 @@ public class Chess {
                     
             setPieceAt(passantR1, passantC2,
                     createCopy(passant.getCapturedPiece()));
+                    
             getBoard().getCellAt(passantR2, passantC2).setPassant(true);
             
-            
-                    
         } else {
             int r1 = toUnMake.getR1();
             int c1 = toUnMake.getC1();
@@ -306,10 +313,10 @@ public class Chess {
      * @return a boolean value whether the Piece can be promoted
      ******************************************************************/
     public boolean checkPawnPromotion(int row, int col, Piece piece) {
-        if (getPieceAt(row, col) instanceof Pawn) {
-            if (row == 0 || row == 7)
+            if (row == 0 || row == 7){
+             System.out.println("SUCCESS!");
                 return true;
-        }
+            }   
         return false;
     }
     
@@ -703,13 +710,13 @@ public class Chess {
      * @return the score of that position on the board
      ******************************************************************/
     private int getPositionScore(int row, int col) {
-		byte[][] positionWeight = { { 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 2, 2, 2, 2, 2, 2, 2, 2 }, { 2, 2, 3, 3, 3, 3, 2, 2 },
-				{ 2, 2, 3, 4, 4, 3, 2, 2 }, { 2, 2, 3, 4, 4, 3, 2, 2 },
-				{ 2, 2, 3, 3, 3, 3, 2, 2 }, { 2, 2, 2, 2, 2, 2, 2, 2 },
-				{ 1, 1, 1, 1, 1, 1, 1, 1 } };
-		return positionWeight[row][col];
-	}
+        byte[][] positionWeight = { { 1, 1, 1, 1, 1, 1, 1, 1 },
+                { 2, 2, 2, 2, 2, 2, 2, 2 }, { 2, 2, 3, 3, 3, 3, 2, 2 },
+                { 2, 2, 3, 4, 4, 3, 2, 2 }, { 2, 2, 3, 4, 4, 3, 2, 2 },
+                { 2, 2, 3, 3, 3, 3, 2, 2 }, { 2, 2, 2, 2, 2, 2, 2, 2 },
+                { 1, 1, 1, 1, 1, 1, 1, 1 } };
+        return positionWeight[row][col];
+    }
     
     /*******************************************************************
      * DESCRIPTION
@@ -743,13 +750,114 @@ public class Chess {
             Piece piece) {
             
         if (piece.checkMovement(r1, c1, r2, c2, this)) {
+            
             if (isFutureCheck(r1, c1, r2, c2, piece)) {
                 return false;
             }
-            if (!piece.hasMoved())
-                piece.setHasMoved(true);
+            // if (!piece.hasMoved())
+            // piece.setHasMoved(true);
+            
             return true;
         }
+        
         return false;
     }
+    
+    /******************************************************************
+     * Method to produce an ArrayList containing all possible moves with
+     * the given piece at the row and column, if there is a piece at
+     * that location
+     * 
+     * @param row the Row where the selected piece is at
+     * @param col the Column where the selected piece is at
+     * @return ArrayList containing all possible moves with given piece
+     *******************************************************************/
+    public List<Move> generatePossibleMoves(int row, int col) {
+        List<Move> possibleMoves = new ArrayList<Move>();
+        int pieceRow = row;
+        int pieceCol = col;
+        Move temp;
+        Piece selected = board.getPieceAt(pieceRow, pieceCol);
+        
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                
+                if (checkMove(pieceRow, pieceCol, r, c, selected)) {
+                    temp = new Move(pieceRow, pieceCol, r, c, selected,
+                            getPieceAt(r, c));
+                    possibleMoves.add(temp.clone());
+                    // System.out.println("Row: " + r + "\tColumn: " +
+                    // c);
+                }
+                
+                // selected.setHasMoved(false);
+                
+            }
+        }
+        
+        return possibleMoves;
+        
+    }
+    
+    public List<String> getHistoryArrayList() {
+        
+        List<String> contentToDisplay = new ArrayList();
+        String temp;
+        int tempRow1;
+        int tempCol1;
+        int tempRow2;
+        int tempCol2;
+        char letterCol1;
+        char letterCol2;
+        
+        for (int x = 0; x < historyOfMoves.size(); x++) {
+            
+            if (historyOfMoves.get(x) instanceof Castling_Move) {
+                Castling_Move castles = (Castling_Move) historyOfMoves
+                        .get(x);
+                        
+                tempRow1 = castles.getR1() + 1;
+                tempCol1 = castles.getC1() + 1;
+                tempRow2 = castles.getR2() + 1;
+                tempCol2 = castles.getC2() + 1;
+                
+                letterCol1 = (char) (tempCol1 + 96);
+                letterCol2 = (char) (tempCol2 + 96);
+                
+                temp = letterCol1 + "" + tempRow1 + " to " + letterCol2
+                        + tempRow2;
+                        
+                contentToDisplay.add(x, temp);
+                
+                tempRow1 = castles.getRowOfRook1() + 1;
+                tempCol1 = castles.getColOfRook1() + 1;
+                tempRow2 = castles.getRowOfRook2() + 1;
+                tempCol2 = castles.getColOfRook2() + 1;
+                
+                letterCol1 = (char) (tempCol1 + 96);
+                letterCol2 = (char) (tempCol2 + 96);
+                
+                temp = letterCol1 + "" + tempRow1 + " to " + letterCol2
+                        + tempRow2;
+                        
+                contentToDisplay.add(x, temp);
+            } else {
+                tempRow1 = historyOfMoves.get(x).getR1() + 1;
+                tempCol1 = historyOfMoves.get(x).getC1() + 1;
+                tempRow2 = historyOfMoves.get(x).getR2() + 1;
+                tempCol2 = historyOfMoves.get(x).getC2() + 1;
+                
+                letterCol1 = (char) (tempCol1 + 96);
+                letterCol2 = (char) (tempCol2 + 96);
+                
+                temp = letterCol1 + "" + tempRow1 + " to " + letterCol2
+                        + tempRow2;
+                        
+                contentToDisplay.add(x, temp);
+            }
+        }
+        
+        return contentToDisplay;
+    }
+    
 }

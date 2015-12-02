@@ -3,6 +3,7 @@ package chess.controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -55,6 +56,12 @@ public class ChessController {
     /** Boolean to indicate which player's timer should go down */
     private boolean whitePlayerTimer;
     
+    /** Boolean to determine whether the timer is enabled or disabled*/
+    private boolean timerSwitch;
+    
+    /**Int to store the current time limit selected by the player*/
+    private int currentTimeLimit;
+    
     /** Whether the AI is enabled or disabled */
     private boolean aiEnabled;
     /** A simple counter to tell when to reset the Passant fields */
@@ -86,6 +93,8 @@ public class ChessController {
         aiEnabled = false;
         this.gui.addChessListener(new ChessListener());
         resetPassant = 0;
+        timerSwitch = true;
+        currentTimeLimit = 300;
         resetPassantB = 0;
     }
     
@@ -96,6 +105,8 @@ public class ChessController {
         
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+        
             if (e.getSource() == gui.getNewItem()) {
                 startNewGame();
             } else if (e.getSource() == gui.getExitItem()) {
@@ -123,13 +134,47 @@ public class ChessController {
                     turnChange(whiteTurn);
                 }
                 
+                updateHistory();
                 gui.revalidate();
                 gui.repaint();
+            }
+            
+            else if (e.getSource() == gui.getRestTimerItem()){
+                resetTimers(currentTimeLimit);
+            }
+            
+            else if (e.getSource() == gui.getTwoMinutesItem()){
+                currentTimeLimit = 120;
+                resetTimers(currentTimeLimit);
+
+            }
+            
+            else if (e.getSource() == gui.getFiveMinutesItem()){
+                currentTimeLimit = 300;
+                resetTimers(currentTimeLimit);
+            }
+            
+            else if (e.getSource() == gui.getTenMinutesItem()){
+                currentTimeLimit = 600;
+                resetTimers(currentTimeLimit);
+
+            }
+            
+            else if (e.getSource() == gui.getEnableTimerItem()){
+                switchTimerOnOff(true);
+                
+            }
+            
+            else if (e.getSource() == gui.getDisableTimerItem()){
+                switchTimerOnOff(false);
             }
             
             else if (firstClick) { // Stores pieces location or resets
                 findCell(e);
                 executeFirstClick();
+                if (!firstClick){
+                   highlightPossibleMoves(game.getPieceAt(r1, c1));
+                }
             } else { // It is the second click of the Player's turn
                 findCell(e);
                 
@@ -142,6 +187,7 @@ public class ChessController {
 //                 resetPassant++;
 //                 }
             }
+            //unHighlightCells();
             printPassant();
             if (!whiteTurn && aiEnabled) {
                 executeAITurn(PColor.Black);
@@ -242,6 +288,7 @@ public class ChessController {
                         r2 = row;
                         c2 = col;
                         gui.getBoard()[r1][c1].setBorderPainted(false);
+                        unHighlightCells();
                         firstClick = true;
                         
                     }
@@ -280,27 +327,42 @@ public class ChessController {
                     
                 }
                 
+                
             } else if (first instanceof Pawn) {
-                if (game.isEnPassCap()) {
+                
+                if (game.checkPawnPromotion(r2, c2, first)) {
+                    pawnPromotion(r1, c1, first);
+                }
+                
+                else if (game.isEnPassCap()) {
                     updatePassantPieces(first);
                     game.setEnPassCap(false);
                 } else {
                     game.movePieceTo(r1, c1, r2, c2, first);
                     updateMovedPieceButtons();
                 }
+                
+              
+                
             } else {
                 // It is a valid move, tell the game to move the
                 // piece
                 game.movePieceTo(r1, c1, r2, c2, first);
                 
-                if (game.checkPawnPromotion(r2, c2, first)) {
-                    pawnPromotion(r2, c2, first);
-                }
+               
+            }
+            
+            if (!first.hasMoved()){
+                first.setHasMoved(true);
             }
             
             whiteTurn = !whiteTurn;
             turnChange(whiteTurn);
             updateMovedPieceButtons();
+
+            unHighlightCells();
+            updateHistory();
+
             if (resetPassant == 1) {
               game.getBoard().resetPassant();
               resetPassant = 0;
@@ -334,7 +396,7 @@ public class ChessController {
                     updateMovedPieceButtons();
                 }
             } else if (first instanceof Pawn) {
-            	if (game.isEnPassCap()) {
+                if (game.isEnPassCap()) {
                     updatePassantPieces(first);
                     game.setEnPassCap(false);
                 } else {
@@ -478,6 +540,8 @@ public class ChessController {
                 incorrectColorPiece(); // wrong color chosen
             }
         }
+        
+        
     }
     
     /***************************************************************
@@ -599,7 +663,7 @@ public class ChessController {
                     
             String p2Time = String.format("%d", p2minutes) + ":"
                     + String.format("%02d", p2seconds);
-            if (whitePlayerTimer) {
+            if (whitePlayerTimer && timerSwitch) {
                 if (--timeRemainingP1 > 0) {
                     
                     p1minutes = timeRemainingP1 / 60;
@@ -614,7 +678,7 @@ public class ChessController {
                     displayWinner(winner);
                     
                 }
-            } else if (!whitePlayerTimer) {
+            } else if (!whitePlayerTimer && timerSwitch) {
                 if (--timeRemainingP2 > 0) {
                     
                     p2minutes = timeRemainingP2 / 60;
@@ -644,14 +708,40 @@ public class ChessController {
         countdownTimer.start();
     }
     
-    /*******************************************************************
+    /******************************************************************
      * Resets the timers to their initial values
      * 
+     * 
+     * 
      * TODO needs some work for pluggability, different times etc.
-     ******************************************************************/
+     * MAY NOT BE NEEDED
+     *****************************************************************/
     private void resetTimers() {
         timeRemainingP1 = 300;
         timeRemainingP2 = 300;
+    }
+    
+    
+    /******************************************************************
+     * Resets the timers to given amount 
+     * 
+     * @param time which contains the amount of time to reset to
+    ******************************************************************/
+    private void resetTimers(int time){
+        timeRemainingP1 = time;
+        timeRemainingP2 = time;
+    }
+    
+    /*******************************************************************
+     * Enables or disables the timer with the given boolean. True is
+     * when the timer is enabled and false is when the timer is 
+     * disabled
+     * 
+     * @param OnorOff a boolean value to enable or disable the timer
+    ******************************************************************/
+    
+    private void switchTimerOnOff(boolean OnorOff){
+        timerSwitch = OnorOff;
     }
     
     /******************************************************************
@@ -746,4 +836,48 @@ public class ChessController {
                 gui.getButtonAt(r2, c2).setIcon(new ImageIcon());
         }
     }
+   
+    
+    /******************************************************************
+     * Method to highlight the spaces in which the selected piece can
+     * move to
+     * 
+     * @param piece which contains the selected piece
+    ******************************************************************/
+    
+    public void highlightPossibleMoves(Piece piece){
+        List<Move> possibleMoves = game.generatePossibleMoves(r1, c1);
+        Move temp;
+        int row;
+        int col;
+        for (int x = 0; x<possibleMoves.size(); x++){
+            temp = possibleMoves.get(x);
+            row = temp.getR2();
+            col = temp.getC2();
+            gui.getBoard()[row][col].setBorderPainted(true);
+            gui.getBoard()[row][col].setBorder(BORDER);      
+        }
+    }
+
+    /******************************************************************
+     * Method to "unhighlight" the spaces that were highlighted from 
+     * the highlightPossibleMoves method
+     * 
+    ******************************************************************/
+    public void unHighlightCells(){
+        for (int x = 0; x<8; x++){
+            for (int y = 0; y<8; y++){
+                gui.getBoard()[x][y].setBorderPainted(false);
+                
+            }
+        }
+    }
+    
+    public void updateHistory(){
+      List<String> temp = game.getHistoryArrayList();
+      gui.updateHistory(temp);
+    }
+    
+   
+    
 }

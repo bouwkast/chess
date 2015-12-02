@@ -13,16 +13,19 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import chess.main.Chess;
 
@@ -63,6 +66,31 @@ public class ChessGUI extends JFrame {
     private JPanel mainPanel;
     /** GUI that has the timers in it */
     private TimerGUI timerGUI;
+    /** Timer Menu */
+    private JMenu timerMenu;
+     /** Option to reset the Timer */
+    private JMenuItem resetTimerItem;
+    /** Option to change the time limit to Two Minutes */
+    private JMenuItem twoMinutesItem;
+    /** Option to change the time limit to Five Minutes */
+    private JMenuItem fiveMinutesItem;
+    /** Option to change the time limit to Ten Minutes */
+    private JMenuItem tenMinutesItem;
+    /** Option to enable the timer */
+    private JMenuItem enableTimerItem;
+    
+    /** Option to disable the timer */
+    private JMenuItem disableTimerItem;
+    
+    private JPanel historyPanel;
+    
+    private JList ListBox;
+    
+    private DefaultListModel<String> listModel;
+    
+    private JScrollPane listScroll;
+    
+    
     
     /*******************************************************************
      * Constructor for the View
@@ -79,11 +107,19 @@ public class ChessGUI extends JFrame {
         board = new JButton[8][8];
         menuBar = new JMenuBar();
         menu = new JMenu("File");
+        timerMenu = new JMenu("Timer");
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
         iconSetItem = new JMenuItem("Select Icon Set");
         enableItem = new JMenuItem("Enable AI");
         undoItem = new JMenuItem("Undo");
+        
+        resetTimerItem = new JMenuItem("Reset");
+        twoMinutesItem = new JMenuItem("2 Minutes");
+        fiveMinutesItem = new JMenuItem("5 Minutes");
+        tenMinutesItem = new JMenuItem("10 Minutes");
+        enableTimerItem = new JMenuItem("Enable Timer");
+        disableTimerItem = new JMenuItem("Disable Timer");
         
         timerGUI = new TimerGUI();
         
@@ -98,13 +134,24 @@ public class ChessGUI extends JFrame {
         menu.add(iconSetItem);
         menu.add(enableItem);
         menu.add(undoItem);
-        setJMenuBar(menuBar);
+        menuBar.add(timerMenu);
+        timerMenu.add(resetTimerItem);
+        timerMenu.add(twoMinutesItem);
+        timerMenu.add(fiveMinutesItem);
+        timerMenu.add(tenMinutesItem);
+        timerMenu.add(enableTimerItem);
+        timerMenu.add(disableTimerItem);
         
+        setJMenuBar(menuBar);
+
+                
         mainPanel.add(timerGUI, BorderLayout.NORTH);
         mainPanel.add(gridPanel);
         
         createButtons();
         resetBoard();
+        
+        addHistoryList();
         
         this.add(mainPanel);
         this.pack();
@@ -231,7 +278,6 @@ public class ChessGUI extends JFrame {
         return enableItem;
     }
     
-    
     /*******************************************************************
      * Gets the JMenuItem that allows the user to undo a move
      * 
@@ -239,6 +285,30 @@ public class ChessGUI extends JFrame {
      ******************************************************************/
     public JMenuItem getUndoItem() {
         return undoItem;
+    }
+    
+    public JMenuItem getRestTimerItem() {
+        return resetTimerItem;
+    }
+    
+    public JMenuItem getTwoMinutesItem() {
+        return twoMinutesItem;
+    }
+    
+    public JMenuItem getFiveMinutesItem() {
+        return fiveMinutesItem;
+    }
+    
+    public JMenuItem getTenMinutesItem() {
+        return tenMinutesItem;
+    }
+    
+    public JMenuItem getEnableTimerItem() {
+        return enableTimerItem;
+    }
+    
+    public JMenuItem getDisableTimerItem() {
+        return disableTimerItem;
     }
     
     /*******************************************************************
@@ -250,8 +320,15 @@ public class ChessGUI extends JFrame {
         exitItem.addActionListener(listener);
         newItem.addActionListener(listener);
         iconSetItem.addActionListener(listener);
+        
         enableItem.addActionListener(listener);
         undoItem.addActionListener(listener);
+        resetTimerItem.addActionListener(listener);
+        twoMinutesItem.addActionListener(listener);
+        fiveMinutesItem.addActionListener(listener);
+        tenMinutesItem.addActionListener(listener);
+        enableTimerItem.addActionListener(listener);
+        disableTimerItem.addActionListener(listener);
         
         for (int row = 0; row < 8; ++row) {
             for (int col = 0; col < 8; ++col) {
@@ -305,4 +382,42 @@ public class ChessGUI extends JFrame {
         return timerGUI;
     }
     
+    public void addHistoryList(){
+        
+        historyPanel = new JPanel();
+        listModel = new DefaultListModel();
+        ListBox = new JList(listModel);
+        listScroll = new JScrollPane(ListBox);
+        
+        ListBox.setPreferredSize(new Dimension(100, 1000));
+        ListBox.setSelectionMode(
+                ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        ListBox.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        ListBox.setVisibleRowCount(-1);
+        ListBox.setVisible(true);
+        
+        listScroll = new JScrollPane(ListBox);
+        listScroll.setPreferredSize(new Dimension(100, 750));
+        
+        historyPanel.add(listScroll);
+        
+        mainPanel.add(historyPanel,BorderLayout.WEST);
+    }
+    
+  public DefaultListModel<String> getHistory(){
+      return listModel;
+  }
+  
+  public void setHistory(DefaultListModel<String> historyTemp){
+      listModel = historyTemp;
+  }
+  
+  public void updateHistory(List<String> historyList){
+      listModel.clear();
+      for (int x = 0; x<historyList.size(); x++){
+          listModel.addElement(historyList.get(x));
+      }
+  }
+  
+  
 }
