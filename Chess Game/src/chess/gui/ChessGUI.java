@@ -82,12 +82,16 @@ public class ChessGUI extends JFrame {
     /** Option to disable the timer */
     private JMenuItem disableTimerItem;
     
+    /** Panel to contain the list of moves made throughout the game */
     private JPanel historyPanel;
     
+    /**List to display moves made throughout the game*/
     private JList ListBox;
     
+    /**DESCRIPTION*/
     private DefaultListModel<String> listModel;
     
+    /**Scroll pane to allow scrolling through the list of moves */
     private JScrollPane listScroll;
     
     
@@ -382,6 +386,12 @@ public class ChessGUI extends JFrame {
         return timerGUI;
     }
     
+    /*******************************************************************
+     * Method to add the necessary components to the GUI to create
+     * the history list of moves made throughout the game 
+     * 
+    *******************************************************************/
+    
     public void addHistoryList(){
         
         historyPanel = new JPanel();
@@ -404,13 +414,12 @@ public class ChessGUI extends JFrame {
         mainPanel.add(historyPanel,BorderLayout.WEST);
     }
     
-  public DefaultListModel<String> getHistory(){
-      return listModel;
-  }
-  
-  public void setHistory(DefaultListModel<String> historyTemp){
-      listModel = historyTemp;
-  }
+   /********************************************************************
+   * Method to update the history list of moves and display the 
+   * appropriate Strings
+   * 
+   * @param historyList containing the Strings to display
+  *********************************************************************/
   
   public void updateHistory(List<String> historyList){
       listModel.clear();

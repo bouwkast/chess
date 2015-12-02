@@ -25,7 +25,7 @@ public class Chess {
     private Stack<Move> moves;
     /** Boolean to tell if a move is en passant */
     private boolean enPassCap;
-    
+    /** ArrayList of Moves to keep track of movements made in the game*/
     private List<Move> historyOfMoves;
     
     /*******************************************************************
@@ -728,7 +728,8 @@ public class Chess {
     }
     
     /*******************************************************************
-     * DESCRIPTION
+     * Set method that sets a boolean value to the global boolean
+     * variable enPassCap 
      *
      * @param enPassCap the enPassCap to set
      ******************************************************************/
@@ -798,6 +799,13 @@ public class Chess {
         return possibleMoves;
         
     }
+    
+    /*******************************************************************
+     * Method to convert all the moves in an array list to specific
+     * Strings for printing on the list object in the GUI
+     * 
+     * @return ArrayList of strings
+    ******************************************************************/
     
     public List<String> getHistoryArrayList() {
         

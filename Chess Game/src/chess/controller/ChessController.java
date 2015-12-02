@@ -31,37 +31,27 @@ public class ChessController {
     
     /** Is the ChessGUI to add to the Controller */
     private ChessGUI gui;
-    
     /** Is the Chess to add to the controller */
     private Chess game;
-    
     /** These are the row values for first and second click */
     private int r1 = -1, c1 = -1, r2 = -1, c2 = -1;
-    
     /** Track whether it is the first click for that player's turn */
     private boolean firstClick;
-    
     /** If it is the white player's turn */
     private boolean whiteTurn;
-    
     /** Border for the selected piece */
     private final Border BORDER = new LineBorder(Color.BLUE, 2);
-    
+    /**Tracks the amount of time each player has left */
     private int timeRemainingP1;
     private int timeRemainingP2;
-    
+    /**DESCRIPTION*/
     private Timer countdownTimer;
-    // private Timer countdownTimerp2;
-    
     /** Boolean to indicate which player's timer should go down */
     private boolean whitePlayerTimer;
-    
     /** Boolean to determine whether the timer is enabled or disabled*/
     private boolean timerSwitch;
-    
     /**Int to store the current time limit selected by the player*/
     private int currentTimeLimit;
-    
     /** Whether the AI is enabled or disabled */
     private boolean aiEnabled;
     /** A simple counter to tell when to reset the Passant fields */
@@ -396,7 +386,10 @@ public class ChessController {
                     updateMovedPieceButtons();
                 }
             } else if (first instanceof Pawn) {
-                if (game.isEnPassCap()) {
+                if (game.checkPawnPromotion(r2, c2, first)) {
+                    pawnPromotion(r2, c2, first);
+                }
+                else if (game.isEnPassCap()) {
                     updatePassantPieces(first);
                     game.setEnPassCap(false);
                 } else {
@@ -408,9 +401,7 @@ public class ChessController {
                 // piece
                 game.movePieceTo(r1, c1, r2, c2, first);
                 
-                if (game.checkPawnPromotion(r2, c2, first)) {
-                    pawnPromotion(r2, c2, first);
-                }
+              
             }
             // // Set the appropriate Passant Information
             // game.getBoard().setcurrentPassantRow(
@@ -872,6 +863,12 @@ public class ChessController {
             }
         }
     }
+    
+    /*******************************************************************
+     * Method to obtain the array list of strings and then send them to
+     * the GUI to print them on the list object
+     * 
+    *******************************************************************/
     
     public void updateHistory(){
       List<String> temp = game.getHistoryArrayList();
