@@ -530,31 +530,75 @@ public class Chess {
         } else {
             pCellToCheck = null;
         }
+        
         movePieceTo(r1, c1, r2, c2, piece);
+        
         if (piece.getColor() == PColor.White) {
             if (isKingInCheck(PColor.White)) {
-                result = 1;
+            	unMakeMove();
+                return true;
             } else {
-                result = 0;
+            	if(isKingInCheckStill(PColor.White)) {
+            		unMakeMove();
+            		return true;
+            	}
+            	unMakeMove();
+                return false;
             }
         } else {
             if (isKingInCheck(PColor.Black)) {
-                result = 1;
+            	
+            	unMakeMove();
+                return true;
             } else {
-                result = 0;
+            	if(isKingInCheckStill(PColor.Black)) {
+            		unMakeMove();
+            		return true;
+            	}
+            	unMakeMove();
+                return false;
             }
         }
         // Need to reset the pieces
-        unMakeMove();
+        
         // setPieceAt(r1, c1, old);
         // getPieceAt(r1, c1).setHasMoved(moved);
         // setPieceAt(r2, c2, pCellToCheck);
-        
-        if (result == 1) {
+
+    }
+    
+    public boolean checkMoveNoCheck(int r1, int c1, int r2, int c2,
+            Piece piece) {
+    	
+//    	boolean check = isKingInCheck(piece.getColor());
+             
+    	boolean isFirst = true;
+        if (piece.checkMovement(r1, c1, r2, c2, this)) {
             return true;
         }
-        return false;
         
+        return false;
+    }
+    
+    public boolean isKingInCheckStill(PColor color) {
+    	 int[] location = board.findKing(color);
+         int kRow = location[0];
+         int kCol = location[1];
+         // Want to try to move opposite colors to the king specified
+         for (int row = 0; row < 8; row++) {
+             for (int col = 0; col < 8; col++) {
+                 if (getPieceAt(row, col) != null) {
+                     Piece temp = getPieceAt(row, col);
+                     if (temp.getColor() != color) {
+                         // Try to move the piece to king
+                         if (checkMoveNoCheck(row, col, kRow, kCol, temp)) {
+                             return true; // white king is in check
+                         }
+                     }
+                 }
+             }
+         }
+         return false;
     }
     
     /*******************************************************************
