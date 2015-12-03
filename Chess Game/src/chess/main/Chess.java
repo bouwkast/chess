@@ -615,6 +615,7 @@ public class Chess {
      ******************************************************************/
     public Move getBestMove(PColor color) {
         List<Move> validMoves = generateMoves(color);
+        if(validMoves == null) return null;
         int bestResult = Integer.MIN_VALUE;
         Move bestMove = null;
         int depth = 2;
