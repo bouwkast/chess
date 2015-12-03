@@ -802,7 +802,7 @@ public class Chess {
                     // c);
                 }
                 
-                selected.setHasMoved(false);
+                selected.setHasMoved(movedStatus);
                 
             }
         }

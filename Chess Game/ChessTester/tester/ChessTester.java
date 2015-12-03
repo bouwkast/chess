@@ -330,7 +330,7 @@ public class ChessTester {
         game = new Chess();
         game.checkMove(1, 1, 2, 1, (blackPawn));
         game.movePieceTo(1, 1, 2, 1, (blackPawn));
-       
+        
         assertTrue(blackPawn.hasMoved());
     }
     
@@ -378,7 +378,7 @@ public class ChessTester {
     public void whitePawnCantMoveOneThenTwo() {
         game = new Chess();
         game.checkMove(6, 1, 5, 1, whitePawn);
-        game.movePieceTo(6, 1, 5, 1,game.getPieceAt(6, 1));
+        game.movePieceTo(6, 1, 5, 1, game.getPieceAt(6, 1));
         assertFalse(game.checkMove(5, 1, 3, 1, whitePawn));
     }
     
@@ -1598,8 +1598,7 @@ public class ChessTester {
     @Test
     public void validMovesToMake() {
         game = new Chess();
-        List<Move> test = new ArrayList();
-        test = game.generatePossibleMoves(6, 0);
+        List<Move> test = game.generatePossibleMoves(6, 0);
         List<Move> validMoves = new ArrayList();
         
         Move pawnTemp1 = new Move(6, 0, 5, 0, game.getPieceAt(6, 0),
@@ -1611,12 +1610,50 @@ public class ChessTester {
         validMoves.add(pawnTemp2);
         validMoves.add(pawnTemp1);
         
-        assertEquals(validMoves.get(0).getR2(),test.get(0).getR2());
-        assertEquals(validMoves.get(0).getC2(),test.get(0).getC2());
-        assertEquals(validMoves.get(1).getR2(),test.get(1).getR2());
-        assertEquals(validMoves.get(1).getC2(),test.get(1).getC2());
-
-        
+        assertEquals(validMoves.get(0).getR2(), test.get(0).getR2());
+        assertEquals(validMoves.get(0).getC2(), test.get(0).getC2());
+        assertEquals(validMoves.get(1).getR2(), test.get(1).getR2());
+        assertEquals(validMoves.get(1).getC2(), test.get(1).getC2());
     }
     
+    @Test
+    public void invalidMovesToMake() {
+        game = new Chess();
+        System.out.println("INITIATING");
+        List<Move> test = game.generatePossibleMoves(6, 0);
+        
+        List<Move> invalidMoves = new ArrayList();
+        
+        Move pawnTemp1 = new Move(6, 0, 3, 1, game.getPieceAt(6, 0),
+                game.getPieceAt(3, 0));
+                
+        Move pawnTemp2 = new Move(6, 0, 2, 1, game.getPieceAt(6, 0),
+                game.getPieceAt(2, 0));
+        
+        invalidMoves.add(pawnTemp1);
+        invalidMoves.add(pawnTemp2);
+                
+        boolean result1 = (test.get(0).getR2() == invalidMoves.get(0)
+                .getR2());
+        
+        boolean result2 = (test.get(0).getC2() == invalidMoves.get(0)
+                .getC2());
+        
+        boolean result3 = (test.get(1).getR2() == invalidMoves.get(1)
+                .getR2());
+        
+        boolean result4 = (test.get(1).getC2() == invalidMoves.get(1)
+                .getC2());
+        
+        
+        assertFalse(result1);
+        assertFalse(result2);
+        assertFalse(result3);
+        assertFalse(result4);
+
+        
+        
+    }
+
+   
 }

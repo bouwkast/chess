@@ -565,7 +565,7 @@ public class ChessController {
 		whitePlayerTimer = TurnPlayer;
 	}
 
-	public void pawnPromotion(int row, int col, Piece piece) {
+    public void pawnPromotion(int row, int col, Piece piece) {
 
 		// Gets the pawn that is going to be promoted
 		Piece toPromote = game.getPieceAt(row, col);
