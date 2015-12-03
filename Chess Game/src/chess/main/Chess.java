@@ -561,44 +561,48 @@ public class Chess {
      * @return a List of all valid Moves
      ******************************************************************/
     public List<Move> generateMoves(PColor color) {
-        List<Move> validMoves = new ArrayList<Move>();
-        int direction = color == PColor.White ? 1 : -1;
-        boolean passVal = false;
-        for (int r1 = 0; r1 < 8; r1++) {
-            for (int c1 = 0; c1 < 8; c1++) {
-                // First two loops go through board looking for color
-                if (getPieceAt(r1, c1) != null
-                        && getPieceAt(r1, c1).getColor() == color) {
-                    // it is a black piece
-                    for (int r2 = 0; r2 < 8; r2++) {
-                        for (int c2 = 0; c2 < 8; c2++) {
-                            if (r1 - direction > -1
-                                    && r1 - direction < 8) {
-                                passVal = getBoard()
-                                        .getCellAt(r1 - direction, c2)
-                                        .isPassant();
-                            }
-                            if (checkMove(r1, c1, r2, c2,
-                                    getPieceAt(r1, c1))) {
+    	if(!isKingInCheckmate(color)) {
+    		List<Move> validMoves = new ArrayList<Move>();
+            int direction = color == PColor.White ? 1 : -1;
+            boolean passVal = false;
+            for (int r1 = 0; r1 < 8; r1++) {
+                for (int c1 = 0; c1 < 8; c1++) {
+                    // First two loops go through board looking for color
+                    if (getPieceAt(r1, c1) != null
+                            && getPieceAt(r1, c1).getColor() == color) {
+                        // it is a black piece
+                        for (int r2 = 0; r2 < 8; r2++) {
+                            for (int c2 = 0; c2 < 8; c2++) {
                                 if (r1 - direction > -1
                                         && r1 - direction < 8) {
-                                    getBoard()
-                                            .getCellAt(r1 - direction,
-                                                    c2)
-                                            .setPassant(passVal);
+                                    passVal = getBoard()
+                                            .getCellAt(r1 - direction, c2)
+                                            .isPassant();
                                 }
-                                Move toAdd = new Move(r1, c1, r2, c2,
-                                        getPieceAt(r1, c1),
-                                        getPieceAt(r2, c2));
-                                validMoves.add(toAdd.clone());
-                                
+                                if (checkMove(r1, c1, r2, c2,
+                                        getPieceAt(r1, c1))) {
+                                    if (r1 - direction > -1
+                                            && r1 - direction < 8) {
+                                        getBoard()
+                                                .getCellAt(r1 - direction,
+                                                        c2)
+                                                .setPassant(passVal);
+                                    }
+                                    Move toAdd = new Move(r1, c1, r2, c2,
+                                            getPieceAt(r1, c1),
+                                            getPieceAt(r2, c2));
+                                    validMoves.add(toAdd.clone());
+                                    
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        return validMoves;
+            return validMoves;
+    	} else {
+    		return null;
+    	}
     }
     
     /*******************************************************************
