@@ -152,11 +152,11 @@ public class ChessGUI extends JFrame {
         mainPanel.add(timerGUI, BorderLayout.NORTH);
         mainPanel.add(gridPanel);
         
-        createButtons();
-        resetBoard();
         
         addHistoryList();
-        
+        createButtons();
+        resetBoard();
+                
         this.add(mainPanel);
         this.pack();
         this.setVisible(true);
@@ -201,6 +201,7 @@ public class ChessGUI extends JFrame {
         gridPanel.removeAll();
         resetButtons();
         setCheckers();
+        listModel.clear();
     }
     
     /*******************************************************************
@@ -407,7 +408,7 @@ public class ChessGUI extends JFrame {
         ListBox.setVisible(true);
         
         listScroll = new JScrollPane(ListBox);
-        listScroll.setPreferredSize(new Dimension(100, 750));
+        listScroll.setPreferredSize(new Dimension(100, 650));
         
         historyPanel.add(listScroll);
         

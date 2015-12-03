@@ -25,7 +25,9 @@ public class Chess {
     private Stack<Move> moves;
     /** Boolean to tell if a move is en passant */
     private boolean enPassCap;
-    /** ArrayList of Moves to keep track of movements made in the game*/
+    /**
+     * ArrayList of Moves to keep track of movements made in the game
+     */
     private List<Move> historyOfMoves;
     
     /*******************************************************************
@@ -313,10 +315,12 @@ public class Chess {
      * @return a boolean value whether the Piece can be promoted
      ******************************************************************/
     public boolean checkPawnPromotion(int row, int col, Piece piece) {
-            if (row == 0 || row == 7){
-             System.out.println("SUCCESS!");
+        if (row == 0 || row == 7){
+            if (piece instanceof Pawn)
                 return true;
-            }   
+
+        }
+        
         return false;
     }
     
@@ -561,13 +565,14 @@ public class Chess {
      * @return a List of all valid Moves
      ******************************************************************/
     public List<Move> generateMoves(PColor color) {
-    	if(!isKingInCheckmate(color)) {
-    		List<Move> validMoves = new ArrayList<Move>();
+        if (!isKingInCheckmate(color)) {
+            List<Move> validMoves = new ArrayList<Move>();
             int direction = color == PColor.White ? 1 : -1;
             boolean passVal = false;
             for (int r1 = 0; r1 < 8; r1++) {
                 for (int c1 = 0; c1 < 8; c1++) {
-                    // First two loops go through board looking for color
+                    // First two loops go through board looking for
+                    // color
                     if (getPieceAt(r1, c1) != null
                             && getPieceAt(r1, c1).getColor() == color) {
                         // it is a black piece
@@ -576,20 +581,20 @@ public class Chess {
                                 if (r1 - direction > -1
                                         && r1 - direction < 8) {
                                     passVal = getBoard()
-                                            .getCellAt(r1 - direction, c2)
+                                            .getCellAt(r1 - direction,
+                                                    c2)
                                             .isPassant();
                                 }
                                 if (checkMove(r1, c1, r2, c2,
                                         getPieceAt(r1, c1))) {
                                     if (r1 - direction > -1
                                             && r1 - direction < 8) {
-                                        getBoard()
-                                                .getCellAt(r1 - direction,
-                                                        c2)
+                                        getBoard().getCellAt(
+                                                r1 - direction, c2)
                                                 .setPassant(passVal);
                                     }
-                                    Move toAdd = new Move(r1, c1, r2, c2,
-                                            getPieceAt(r1, c1),
+                                    Move toAdd = new Move(r1, c1, r2,
+                                            c2, getPieceAt(r1, c1),
                                             getPieceAt(r2, c2));
                                     validMoves.add(toAdd.clone());
                                     
@@ -600,9 +605,9 @@ public class Chess {
                 }
             }
             return validMoves;
-    	} else {
-    		return null;
-    	}
+        } else {
+            return null;
+        }
     }
     
     /*******************************************************************
@@ -615,7 +620,8 @@ public class Chess {
      ******************************************************************/
     public Move getBestMove(PColor color) {
         List<Move> validMoves = generateMoves(color);
-        if(validMoves == null) return null;
+        if (validMoves == null)
+            return null;
         int bestResult = Integer.MIN_VALUE;
         Move bestMove = null;
         int depth = 2;
@@ -734,7 +740,7 @@ public class Chess {
     
     /*******************************************************************
      * Set method that sets a boolean value to the global boolean
-     * variable enPassCap 
+     * variable enPassCap
      *
      * @param enPassCap the enPassCap to set
      ******************************************************************/
@@ -760,8 +766,8 @@ public class Chess {
             if (isFutureCheck(r1, c1, r2, c2, piece)) {
                 return false;
             }
-            // if (!piece.hasMoved())
-            // piece.setHasMoved(true);
+             if (!piece.hasMoved())
+             piece.setHasMoved(true);
             
             return true;
         }
@@ -784,7 +790,7 @@ public class Chess {
         int pieceCol = col;
         Move temp;
         Piece selected = board.getPieceAt(pieceRow, pieceCol);
-        
+        boolean movedStatus = selected.hasMoved();
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
                 
@@ -796,11 +802,12 @@ public class Chess {
                     // c);
                 }
                 
-                // selected.setHasMoved(false);
+                selected.setHasMoved(false);
                 
             }
         }
         
+        selected.setHasMoved(movedStatus);
         return possibleMoves;
         
     }
@@ -810,7 +817,7 @@ public class Chess {
      * Strings for printing on the list object in the GUI
      * 
      * @return ArrayList of strings
-    ******************************************************************/
+     ******************************************************************/
     
     public List<String> getHistoryArrayList() {
         

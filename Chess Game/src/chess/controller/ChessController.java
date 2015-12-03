@@ -328,9 +328,9 @@ public class ChessController {
 				// piece
 				game.movePieceTo(r1, c1, r2, c2, first);
 			}
-			if (!first.hasMoved()) {
-				first.setHasMoved(true);
-			}
+//			if (!first.hasMoved()) {
+//				first.setHasMoved(true);
+//			}
 			if (resetPassant == 2) {
 				game.getBoard().resetPassant();
 				resetPassant = 0;
