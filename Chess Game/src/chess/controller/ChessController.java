@@ -1,6 +1,12 @@
 package chess.controller;
 
+import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSLUCENT;
+import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSPARENT;
+import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
+
 import java.awt.Color;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -41,6 +47,7 @@ public class ChessController {
 	private boolean whiteTurn;
 	/** Border for the selected piece */
 	private final Border BORDER = new LineBorder(Color.BLUE, 2);
+	private final Border HIGHLIGHT = new LineBorder(new Color(124, 252, 0), 2);
 	/** Tracks the amount of time each player has left */
 	private int timeRemainingP1;
 	private int timeRemainingP2;
@@ -56,6 +63,9 @@ public class ChessController {
 	private boolean aiEnabled;
 	/** A simple counter to tell when to reset the Passant fields */
 	private int resetPassant, resetPassantB;
+	
+
+	
 
 	/*******************************************************************
 	 * Constructor for the Controller part of the MVC Takes in both the
@@ -156,9 +166,7 @@ public class ChessController {
 
 			else if (e.getSource() == gui.getDisableTimerItem()) {
 				switchTimerOnOff(false);
-			}
-
-			else if (firstClick) { // Stores pieces location or resets
+			} else if (firstClick) { // Stores pieces location or resets
 				findCell(e);
 				executeFirstClick();
 				if (!firstClick) {
@@ -798,7 +806,7 @@ public class ChessController {
 			row = temp.getR2();
 			col = temp.getC2();
 			gui.getBoard()[row][col].setBorderPainted(true);
-			gui.getBoard()[row][col].setBorder(BORDER);
+			gui.getBoard()[row][col].setBorder(HIGHLIGHT);
 		}
 	}
 

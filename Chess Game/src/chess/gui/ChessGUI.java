@@ -1,11 +1,17 @@
 package chess.gui;
 
+import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSLUCENT;
+import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSPARENT;
+import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
@@ -43,6 +49,8 @@ public class ChessGUI extends JFrame {
     private JMenuBar menuBar;
     /** File menu */
     private JMenu menu;
+    /** Menu to enable/disable AI */
+    private JMenu enableMenu;
     /** Option to start a new game */
     private JMenuItem newItem;
     /** Option to exit the game */
@@ -59,9 +67,10 @@ public class ChessGUI extends JFrame {
     /** Screen dimension */
     private Dimension screenSize = Toolkit.getDefaultToolkit()
             .getScreenSize();
+    private final int BHEIGHT = (screenSize.height - screenSize.height / 3);
+    private final int BWIDTH = (screenSize.height - screenSize.height / 3);
     /** Dimension for board to make square */
-    private Dimension boardSize = new Dimension(screenSize.height - 250,
-            screenSize.height - 250);
+    private Dimension boardSize = new Dimension((int)BHEIGHT, (int)BWIDTH);
     /** Main JPanel for the entire GUI */
     private JPanel mainPanel;
     /** GUI that has the timers in it */
@@ -94,19 +103,32 @@ public class ChessGUI extends JFrame {
     /**Scroll pane to allow scrolling through the list of moves */
     private JScrollPane listScroll;
     
+ // Determine what the default GraphicsDevice can support.
+ 	GraphicsEnvironment ge =
+ 	    GraphicsEnvironment.getLocalGraphicsEnvironment();
+ 	GraphicsDevice gd = ge.getDefaultScreenDevice();
+
+ 	boolean isUniformTranslucencySupported =
+ 	    gd.isWindowTranslucencySupported(TRANSLUCENT);
+ 	boolean isPerPixelTranslucencySupported =
+ 	    gd.isWindowTranslucencySupported(PERPIXEL_TRANSLUCENT);
+ 	boolean isShapedWindowSupported =
+ 	    gd.isWindowTranslucencySupported(PERPIXEL_TRANSPARENT);
+    
     
     
     /*******************************************************************
      * Constructor for the View
      ******************************************************************/
     public ChessGUI() {
+    	
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         FlowLayout layout = new FlowLayout();
         layout.setHgap(0);
         layout.setVgap(0);
-        ;
+        this.setLocation(screenSize.width - 2 * BWIDTH, 0);
         this.setLayout(layout);
-        
+        JButton[][] highLightBoard = new JButton[8][8];
         chess = new Chess();
         board = new JButton[8][8];
         menuBar = new JMenuBar();
@@ -117,6 +139,7 @@ public class ChessGUI extends JFrame {
         iconSetItem = new JMenuItem("Select Icon Set");
         enableItem = new JMenuItem("Enable AI");
         undoItem = new JMenuItem("Undo");
+        enableMenu = new JMenu("AI");
         
         resetTimerItem = new JMenuItem("Reset");
         twoMinutesItem = new JMenuItem("2 Minutes");
@@ -136,7 +159,6 @@ public class ChessGUI extends JFrame {
         menu.add(newItem);
         menu.add(exitItem);
         menu.add(iconSetItem);
-        menu.add(enableItem);
         menu.add(undoItem);
         menuBar.add(timerMenu);
         timerMenu.add(resetTimerItem);
@@ -145,6 +167,8 @@ public class ChessGUI extends JFrame {
         timerMenu.add(tenMinutesItem);
         timerMenu.add(enableTimerItem);
         timerMenu.add(disableTimerItem);
+        enableMenu.add(enableItem);
+        menuBar.add(enableMenu);
         
         setJMenuBar(menuBar);
 
@@ -400,7 +424,7 @@ public class ChessGUI extends JFrame {
         ListBox = new JList(listModel);
         listScroll = new JScrollPane(ListBox);
         
-        ListBox.setPreferredSize(new Dimension(100, 1000));
+        ListBox.setPreferredSize(new Dimension(100, boardSize.height));
         ListBox.setSelectionMode(
                 ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         ListBox.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -408,7 +432,7 @@ public class ChessGUI extends JFrame {
         ListBox.setVisible(true);
         
         listScroll = new JScrollPane(ListBox);
-        listScroll.setPreferredSize(new Dimension(100, 650));
+        listScroll.setPreferredSize(new Dimension(100, boardSize.height));
         
         historyPanel.add(listScroll);
         
@@ -427,6 +451,15 @@ public class ChessGUI extends JFrame {
       for (int x = 0; x<historyList.size(); x++){
           listModel.addElement(historyList.get(x));
       }
+  }
+  
+  /*******************************************************************
+   * Gets the enableMenu to turn the AI on/off
+   * 
+   * @return JMenu the enableMenu
+   ******************************************************************/
+  public JMenu getEnableMenu() {
+	  return enableMenu;
   }
   
   
