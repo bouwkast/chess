@@ -12,6 +12,8 @@ import org.junit.Test;
 import chess.main.Chess;
 import chess.objects.Bishop;
 import chess.objects.Board;
+import chess.objects.Castling_Move;
+import chess.objects.En_Passant_Move;
 import chess.objects.King;
 import chess.objects.Knight;
 import chess.objects.Move;
@@ -1619,7 +1621,6 @@ public class ChessTester {
     @Test
     public void invalidMovesToMake() {
         game = new Chess();
-        System.out.println("INITIATING");
         List<Move> test = game.generatePossibleMoves(6, 0);
         
         List<Move> invalidMoves = new ArrayList();
@@ -1629,31 +1630,302 @@ public class ChessTester {
                 
         Move pawnTemp2 = new Move(6, 0, 2, 1, game.getPieceAt(6, 0),
                 game.getPieceAt(2, 0));
-        
+                
         invalidMoves.add(pawnTemp1);
         invalidMoves.add(pawnTemp2);
-                
+        
         boolean result1 = (test.get(0).getR2() == invalidMoves.get(0)
                 .getR2());
-        
+                
         boolean result2 = (test.get(0).getC2() == invalidMoves.get(0)
                 .getC2());
-        
+                
         boolean result3 = (test.get(1).getR2() == invalidMoves.get(1)
                 .getR2());
-        
+                
         boolean result4 = (test.get(1).getC2() == invalidMoves.get(1)
                 .getC2());
-        
-        
+                
         assertFalse(result1);
         assertFalse(result2);
         assertFalse(result3);
         assertFalse(result4);
-
-        
         
     }
-
-   
+    
+    @Test
+    public void highlightPossibleMovesSuccess(){
+        game = new Chess();
+        game.setPieceAt(3, 3, whitePawn);
+        whitePawn.setHasMoved(false);
+        List<Move> expected = game.generatePossibleMoves(3, 3);
+        
+        System.out.println(expected.size());
+        
+        Move temp1 = expected.get(0);
+        
+        assertEquals(2,temp1.getR2());
+        
+        assertEquals(3,temp1.getC2());
+        
+    }
+    
+    /** Beginning of test methods for Castling_Move Object */
+    
+    @Test
+    public void setRookRow1Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        test.setR1(0);
+        
+        assertEquals(0, test.getR1());
+    }
+    
+    @Test
+    public void setRookCol1Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        test.setC1(5);
+        
+        assertEquals(5, test.getC1());
+    }
+    
+    @Test
+    public void setRookRow2Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        test.setR2(0);
+        
+        assertEquals(0, test.getR2());
+    }
+    
+    @Test
+    public void setRookCol2Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        test.setR1(6);
+        
+        assertEquals(6, test.getR1());
+    }
+    
+    @Test
+    public void setRookPieceSuccess() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        Rook piece = (Rook) game.getPieceAt(7, 7);
+        
+        test.setRookPiece(piece);
+        
+        assertEquals(piece, test.getRookPiece());
+    }
+    
+    @Test
+    public void setTargetLocationSuccess() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        Piece piece = game.getPieceAt(7, 2);
+        
+        test.setTargetPiece(piece);
+        
+        assertEquals(piece, test.getTargetPiece());
+    }
+    
+    @Test
+    public void getRookRow1Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        assertEquals(7, test.getRowOfRook1());
+    }
+    
+    @Test
+    public void getRookCol1Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        assertEquals(0, test.getColOfRook1());
+    }
+    
+    @Test
+    public void getRookRow2Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        assertEquals(7, test.getRowOfRook2());
+    }
+    
+    @Test
+    public void getRookCol2Success() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        assertEquals(3, test.getColOfRook2());
+    }
+    
+    @Test
+    public void getRookPieceSuccess() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        Piece piece = game.getPieceAt(7, 0);
+        
+        assertEquals(piece, test.getRookPiece());
+    }
+    
+    @Test
+    public void getTargetLocationSuccess() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        Piece piece = game.getPieceAt(7, 3);
+        
+        assertEquals(piece, test.getTargetPiece());
+    }
+    
+    @Test
+    public void cloneCastlingMoveSuccess() {
+        game = new Chess();
+        game.setPieceAt(7, 1, null);
+        game.setPieceAt(7, 2, null);
+        game.setPieceAt(7, 3, null);
+        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+                game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
+                3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
+                
+        Castling_Move cloned = test.cloneCastling();
+        
+        assertEquals(test.getRowOfRook1(), cloned.getRowOfRook1());
+        assertEquals(test.getColOfRook1(), cloned.getColOfRook1());
+        assertEquals(test.getRowOfRook2(), cloned.getRowOfRook2());
+        assertEquals(test.getColOfRook2(), cloned.getColOfRook2());
+        
+        assertEquals(test.getRookPiece().getName(),
+                cloned.getRookPiece().getName());
+                
+        assertEquals(test.getTargetPiece(), cloned.getTargetPiece());
+    }
+    
+    /** Begin of En Passant Move Method Tests */
+    
+    @Test
+    public void getCapturedPieceSuccess() {
+        game = new Chess();
+        game.setPieceAt(1, 3, blackPawn);
+        
+        game.setPieceAt(1, 2, whitePawn);
+        
+        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+                game.getPieceAt(1, 2), game.getPieceAt(0, 3),
+                game.getPieceAt(1, 3));
+                
+        Pawn piece = (Pawn) game.getPieceAt(1, 3);
+        
+        assertEquals(piece, test.getCapturedPiece());
+        
+    }
+    
+    @Test
+    public void setCapturedPieceSuccess() {
+        game = new Chess();
+        game.setPieceAt(1, 3, blackPawn);
+        
+        game.setPieceAt(1, 2, whitePawn);
+        
+        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+                game.getPieceAt(1, 2), game.getPieceAt(0, 3),
+                game.getPieceAt(1, 3));
+                
+        Pawn piece = (Pawn) game.getPieceAt(1, 4);
+        
+        test.setCapturedPiece(piece);
+        
+        assertEquals(piece, test.getCapturedPiece());
+        
+    }
+    
+    @Test
+    public void cloneEnPassantMoveSuccess() {
+        game = new Chess();
+        game.setPieceAt(1, 3, blackPawn);
+        
+        game.setPieceAt(1, 2, whitePawn);
+        
+        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+                game.getPieceAt(1, 2), game.getPieceAt(0, 3),
+                game.getPieceAt(1, 3));
+                
+        En_Passant_Move clonedMove = test.cloneMove();
+        
+        assertEquals(test.getCapturedPiece().getName(),
+                clonedMove.getCapturedPiece().getName());
+    }
+    
+    
+    
 }

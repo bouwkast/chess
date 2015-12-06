@@ -114,27 +114,28 @@ public class ChessController {
                 startStopAI();
             } else if (e.getSource() == gui.getUndoItem()) {
                 
-                Move temp = game.getPreviousMove();
+                if (game.getMoves().size() > 0){
+                    
+                    Move temp = game.getPreviousMove();
+                    if (temp instanceof Castling_Move){
+                        updateUndoMoveOnBoard(game.getPreviousMove());
+                        whiteTurn = !whiteTurn;
+                        turnChange(whiteTurn);
+                    
+                    } else if (aiEnabled) {
+                        updateUndoMoveOnBoard(game.getPreviousMove());
+                        updateUndoMoveOnBoard(game.getPreviousMove());
+                    } else {
+                        updateUndoMoveOnBoard(game.getPreviousMove());
+                        whiteTurn = !whiteTurn;
+                        turnChange(whiteTurn);
+                    }
                 
-                if (temp instanceof Castling_Move) {
-                    updateUndoMoveOnBoard(game.getPreviousMove());
-                    whiteTurn = !whiteTurn;
-                    turnChange(whiteTurn);
+                    updateHistory();
+                    gui.revalidate();
+                    gui.repaint();
                 }
-                
-                else if (aiEnabled) {
-                    updateUndoMoveOnBoard(game.getPreviousMove());
-                    updateUndoMoveOnBoard(game.getPreviousMove());
-                } else {
-                    updateUndoMoveOnBoard(game.getPreviousMove());
-                    whiteTurn = !whiteTurn;
-                    turnChange(whiteTurn);
-                }
-                
-                updateHistory();
-                gui.revalidate();
-                gui.repaint();
-            }
+            }     
             
             else if (e.getSource() == gui.getRestTimerItem()) {
                 resetTimers(currentTimeLimit);
