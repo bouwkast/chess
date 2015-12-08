@@ -5,7 +5,7 @@ import java.util.HashMap;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class IconSet {
+public class IconSet implements java.io.Serializable {
 	/** Set of icons with piece names as the key */
 	private HashMap<String,Icon> iconSet;
 	/** Default path for icons */

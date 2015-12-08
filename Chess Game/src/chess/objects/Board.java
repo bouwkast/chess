@@ -1,6 +1,6 @@
 package chess.objects;
 
-public class Board {
+public class Board implements java.io.Serializable {
     
     /** Is the 2D array that will contain the pieces */
     private Cell[][] board;

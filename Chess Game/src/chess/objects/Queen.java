@@ -2,7 +2,7 @@ package chess.objects;
 
 import chess.main.Chess;
 
-public class Queen extends Piece {
+public class Queen extends Piece implements java.io.Serializable {
 	/*******************************************************************
 	 * Constructor for the Queen that sets its PColor
 	 * 

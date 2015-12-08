@@ -17,7 +17,7 @@ import chess.objects.Piece;
 import chess.objects.Queen;
 import chess.objects.Rook;
 
-public class Chess {
+public class Chess implements java.io.Serializable {
     
     /** This is the board that will be used within the chess game */
     private Board board;

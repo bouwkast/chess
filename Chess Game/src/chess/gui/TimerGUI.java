@@ -9,7 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TimerGUI extends JPanel {
+public class TimerGUI extends JPanel implements java.io.Serializable {
 	private JPanel whiteTimerPanel;
 	private JPanel blackTimerPanel;
 	private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,

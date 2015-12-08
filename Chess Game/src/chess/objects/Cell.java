@@ -1,6 +1,6 @@
 package chess.objects;
 
-public class Cell {
+public class Cell implements java.io.Serializable{
 
 	/** Is the Piece in the Cell */
 	private Piece piece;

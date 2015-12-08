@@ -4,7 +4,7 @@ import javax.swing.Icon;
 
 import chess.main.Chess;
 
-public class Piece {
+public class Piece implements java.io.Serializable {
 	/** The color of the Piece in an Enum */
 	protected PColor color;
 	/** The name of the Piece */

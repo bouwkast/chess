@@ -2,7 +2,7 @@ package chess.objects;
 
 import chess.main.Chess;
 
-public class Bishop extends Piece {
+public class Bishop extends Piece implements java.io.Serializable{
 	/*******************************************************************
 	 * Constructor for the Bishop piece with its specified PColor
 	 * 

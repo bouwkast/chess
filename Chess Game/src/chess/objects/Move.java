@@ -1,6 +1,6 @@
 package chess.objects;
 
-public class Move {
+public class Move implements java.io.Serializable {
 
 	/** Locations of the selPiece and tarPiece */
 	private int r1, c1, r2, c2;

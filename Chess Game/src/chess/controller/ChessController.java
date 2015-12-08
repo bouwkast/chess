@@ -9,14 +9,22 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import chess.gui.ChessGUI;
 import chess.gui.IconSetDialog;
@@ -110,6 +118,38 @@ public class ChessController {
                 System.exit(0);
             } else if (e.getSource() == gui.getIconSetItem()) {
                 setIconSets();
+            } else if (e.getSource() == gui.getSaveItem()) {
+            	JFileChooser fc = new JFileChooser();
+            	int response = fc.showSaveDialog(null);
+            	if (response == JFileChooser.APPROVE_OPTION) {
+            		String filename = fc.getSelectedFile().toString();
+            		save(filename);
+            	}
+            } else if (e.getSource() == gui.getLoadItem()) {
+            	JFileChooser fc = new JFileChooser();
+            	int response = fc.showOpenDialog(null);
+            	if (response == JFileChooser.APPROVE_OPTION) {
+            		String filename = fc.getSelectedFile().toString();
+            		load(filename);
+            	}
+            	
+            	int r1Temp = r1;
+            	int r2Temp = r2;
+            	int c1Temp = c1;
+            	int c2Temp = c2;
+            	for ( int i = 0; i < 8; ++i ) {
+            		for ( int j = 0; j < 8; ++j ) {
+            			r1 = r2 = i;
+            			c1 = c2 = j;
+            			updateMovedPieceButtons();
+            		}
+            	}
+            	r1 = r1Temp;
+            	r2 = r2Temp;
+            	c1 = c1Temp;
+            	c2 = c2Temp;
+            	updateHistory();
+            	
             } else if (e.getSource() == gui.getEnableItem()) {
                 startStopAI();
             } else if (e.getSource() == gui.getUndoItem()) {
@@ -837,4 +877,70 @@ public class ChessController {
         gui.updateHistory(temp);
     }
     
+    /*******************************************************************
+     * Method to save the current game as a serialized file.
+     * 
+     * @param filename the path to save the file to
+     *******************************************************************/
+    private void save(String filename) {
+    	try {
+    		FileOutputStream fileOut = new FileOutputStream(filename);
+    		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+    		
+    		out.writeObject(game);
+    		out.writeInt(r1);
+    		out.writeInt(c1);
+    		out.writeInt(r2);
+    		out.writeInt(c2);
+    		out.writeBoolean(firstClick);
+    		out.writeBoolean(whiteTurn);
+    		out.writeInt(timeRemainingP1);
+    		out.writeInt(timeRemainingP2);
+    		out.writeBoolean(whitePlayerTimer);
+    		out.writeBoolean(timerSwitch);
+    		out.writeInt(currentTimeLimit);
+    		out.writeBoolean(aiEnabled);
+    		out.writeInt(resetPassant);
+    		out.writeInt(resetPassantB);
+    		
+    		out.close();
+    		fileOut.close();
+    	} catch(IOException i) {
+    		i.printStackTrace();
+    	}
+    }
+    
+    /*******************************************************************
+     * Method to load a game from a previously saved serialized file
+     * 
+     * @param filename the path to file to be loaded
+     *******************************************************************/
+    private void load(String filename) {
+    	try {
+    		FileInputStream fileIn = new FileInputStream(filename);
+    		ObjectInputStream in = new ObjectInputStream(fileIn);
+    		
+    		game = (Chess) in.readObject();
+    		r1 = in.readInt();
+    		c1 = in.readInt();
+    		r2 = in.readInt();
+    		c2 = in.readInt();
+    		firstClick = in.readBoolean();
+    		whiteTurn = in.readBoolean();
+    		timeRemainingP1 = in.readInt();
+    		timeRemainingP2 = in.readInt();
+    		whitePlayerTimer = in.readBoolean();
+    		timerSwitch = in.readBoolean();
+    		currentTimeLimit = in.readInt();
+    		aiEnabled = in.readBoolean();
+    		resetPassant = in.readInt();
+    		resetPassantB = in.readInt();
+    		
+    		in.close();
+    	} catch(IOException i) {
+    		i.printStackTrace();
+    	} catch(ClassNotFoundException cnf) {
+    		cnf.printStackTrace();
+    	}
+    }
 }

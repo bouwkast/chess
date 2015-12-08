@@ -3,7 +3,7 @@
  */
 package chess.objects;
 
-public class En_Passant_Move extends Move {
+public class En_Passant_Move extends Move implements java.io.Serializable {
     
     private Piece capturedPiece;
     

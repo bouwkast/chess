@@ -61,6 +61,10 @@ public class ChessGUI extends JFrame {
     private JMenuItem enableItem;
     /** Option to undo previous move(s) */
     private JMenuItem undoItem;
+    /** Option to save the game*/
+    private JMenuItem saveItem;
+    /** Option to load the game*/
+    private JMenuItem loadItem;
     /** Font for the JButtons */
     private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
             24);
@@ -137,6 +141,8 @@ public class ChessGUI extends JFrame {
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
         iconSetItem = new JMenuItem("Select Icon Set");
+        saveItem = new JMenuItem("Save");
+        loadItem = new JMenuItem("Load");
         enableItem = new JMenuItem("Enable AI");
         undoItem = new JMenuItem("Undo");
         enableMenu = new JMenu("AI");
@@ -160,6 +166,8 @@ public class ChessGUI extends JFrame {
         menu.add(exitItem);
         menu.add(iconSetItem);
         menu.add(undoItem);
+        menu.add(saveItem);
+        menu.add(loadItem);
         menuBar.add(timerMenu);
         timerMenu.add(resetTimerItem);
         timerMenu.add(twoMinutesItem);
@@ -299,6 +307,24 @@ public class ChessGUI extends JFrame {
     }
     
     /*******************************************************************
+     * Gets the save item to save the current game
+     * 
+     * @return a JMenuItem of icon set
+     ******************************************************************/
+    public JMenuItem getSaveItem() {
+        return saveItem;
+    }
+    
+    /*******************************************************************
+     * Gets the load item to load a previously saved game
+     * 
+     * @return a JMenuItem of icon set
+     ******************************************************************/
+    public JMenuItem getLoadItem() {
+        return loadItem;
+    }
+    
+    /*******************************************************************
      * Gets the JMenuItem that allows the user to enable the AI
      * 
      * @return a JMenuItem to enable the AI
@@ -349,6 +375,8 @@ public class ChessGUI extends JFrame {
         exitItem.addActionListener(listener);
         newItem.addActionListener(listener);
         iconSetItem.addActionListener(listener);
+        saveItem.addActionListener(listener);
+        loadItem.addActionListener(listener);
         
         enableItem.addActionListener(listener);
         undoItem.addActionListener(listener);

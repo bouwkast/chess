@@ -3,7 +3,7 @@
  */
 package chess.objects;
 
-public class Castling_Move extends Move {
+public class Castling_Move extends Move implements java.io.Serializable {
     
     int rowOfRook1;
     int colOfRook1;

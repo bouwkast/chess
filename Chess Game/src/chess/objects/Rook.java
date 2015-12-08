@@ -2,7 +2,7 @@ package chess.objects;
 
 import chess.main.Chess;
 
-public class Rook extends Piece {
+public class Rook extends Piece implements java.io.Serializable {
 	/*******************************************************************
 	 * Constructor for the Rook that sets its PColor
 	 * 

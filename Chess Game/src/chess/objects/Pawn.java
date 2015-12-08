@@ -2,7 +2,7 @@ package chess.objects;
 
 import chess.main.Chess;
 
-public class Pawn extends Piece {
+public class Pawn extends Piece implements java.io.Serializable {
     
     /*******************************************************************
      * Constructor for the Pawn that takes it's PColor

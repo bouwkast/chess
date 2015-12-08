@@ -2,7 +2,7 @@ package chess.objects;
 
 import chess.main.Chess;
 
-public class Movement {
+public class Movement implements java.io.Serializable {
 
 	/** Rows and columns of the piece and cell to check */
 	private int r1, c1, r2, c2;
