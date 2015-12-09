@@ -42,6 +42,10 @@ public class MoveTester {
         game.setPieceAt(4, 4, toCheck);
         Movement move = new Movement(4, 4, 4, 4, toCheck, game);
         assertFalse(move.checkLateral());
-        ;
+        
     }
+    
+    
+    
+    
 }

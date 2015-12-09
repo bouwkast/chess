@@ -198,14 +198,13 @@ public class ChessController {
                 
             }
             
-            else if (e.getSource() == gui.getEnableTimerItem()) {
-                switchTimerOnOff(true);
+            else if (e.getSource() == gui
+                    .getEnableOrDisableTimerItem()) {
+                switchTimerOnOff();
                 
             }
             
-            else if (e.getSource() == gui.getDisableTimerItem()) {
-                switchTimerOnOff(false);
-            } else if (firstClick) { // Stores pieces location or resets
+            else if (firstClick) { // Stores pieces location or resets
                 findCell(e);
                 executeFirstClick();
                 if (!firstClick) {
@@ -736,8 +735,15 @@ public class ChessController {
      * @param OnorOff a boolean value to enable or disable the timer
      ******************************************************************/
     
-    private void switchTimerOnOff(boolean OnorOff) {
-        timerSwitch = OnorOff;
+    private void switchTimerOnOff() {
+        if (!timerSwitch){
+            timerSwitch = true;
+            gui.getEnableOrDisableTimerItem().setText("Disable Timer");
+        }
+        else {
+        timerSwitch = false;
+        gui.getEnableOrDisableTimerItem().setText("Enable Timer");
+        }
     }
     
     /******************************************************************

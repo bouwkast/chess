@@ -89,11 +89,8 @@ public class ChessGUI extends JFrame {
     private JMenuItem fiveMinutesItem;
     /** Option to change the time limit to Ten Minutes */
     private JMenuItem tenMinutesItem;
-    /** Option to enable the timer */
-    private JMenuItem enableTimerItem;
-    
-    /** Option to disable the timer */
-    private JMenuItem disableTimerItem;
+    /** Option to enable/disable the timer */
+    private JMenuItem enableOrDisableTimerItem;
     
     /** Panel to contain the list of moves made throughout the game */
     private JPanel historyPanel;
@@ -151,8 +148,8 @@ public class ChessGUI extends JFrame {
         twoMinutesItem = new JMenuItem("2 Minutes");
         fiveMinutesItem = new JMenuItem("5 Minutes");
         tenMinutesItem = new JMenuItem("10 Minutes");
-        enableTimerItem = new JMenuItem("Enable Timer");
-        disableTimerItem = new JMenuItem("Disable Timer");
+        enableOrDisableTimerItem = new JMenuItem("Disable Timer");
+
         
         timerGUI = new TimerGUI();
         
@@ -173,8 +170,7 @@ public class ChessGUI extends JFrame {
         timerMenu.add(twoMinutesItem);
         timerMenu.add(fiveMinutesItem);
         timerMenu.add(tenMinutesItem);
-        timerMenu.add(enableTimerItem);
-        timerMenu.add(disableTimerItem);
+        timerMenu.add(enableOrDisableTimerItem);
         enableMenu.add(enableItem);
         menuBar.add(enableMenu);
         
@@ -358,12 +354,8 @@ public class ChessGUI extends JFrame {
         return tenMinutesItem;
     }
     
-    public JMenuItem getEnableTimerItem() {
-        return enableTimerItem;
-    }
-    
-    public JMenuItem getDisableTimerItem() {
-        return disableTimerItem;
+    public JMenuItem getEnableOrDisableTimerItem() {
+        return enableOrDisableTimerItem;
     }
     
     /*******************************************************************
@@ -384,8 +376,8 @@ public class ChessGUI extends JFrame {
         twoMinutesItem.addActionListener(listener);
         fiveMinutesItem.addActionListener(listener);
         tenMinutesItem.addActionListener(listener);
-        enableTimerItem.addActionListener(listener);
-        disableTimerItem.addActionListener(listener);
+        enableOrDisableTimerItem.addActionListener(listener);
+
         
         for (int row = 0; row < 8; ++row) {
             for (int col = 0; col < 8; ++col) {
