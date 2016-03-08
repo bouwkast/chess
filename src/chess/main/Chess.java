@@ -25,6 +25,7 @@ public class Chess implements java.io.Serializable {
     private Stack<Move> moves;
     /** Boolean to tell if a move is en passant */
     private boolean enPassCap;
+    private boolean isWhiteTurn;
     /**
      * ArrayList of Moves to keep track of movements made in the game
      */
@@ -40,6 +41,7 @@ public class Chess implements java.io.Serializable {
         moves = new Stack<Move>();
         enPassCap = false;
         historyOfMoves = new ArrayList();
+        isWhiteTurn = true;
     }
     
     // TODO delete, this serves no purpose Chess() is the same
@@ -923,5 +925,28 @@ public class Chess implements java.io.Serializable {
         
         return contentToDisplay;
     }
-    
+
+    /**
+     * Used to check for whose turn it is
+     * @return a boolean whether it is the white side's turn
+     */
+    public boolean isWhiteTurn() {
+        return isWhiteTurn;
+    }
+
+    /**
+     * Used to set whether it is the white side's turn or not - use changeTurn() for normal turn changing
+     * @param whiteTurn is a boolean for whether to set it to be the white side's turn or not
+     */
+    public void setWhiteTurn(boolean whiteTurn) {
+        isWhiteTurn = whiteTurn;
+    }
+
+    /**
+     * Used to change the turn to the next side
+     * @return a boolean for whether it is the white side's turn
+     */
+    public boolean changeTurn() {
+        return isWhiteTurn = !isWhiteTurn;
+    }
 }

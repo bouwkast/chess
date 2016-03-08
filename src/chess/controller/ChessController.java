@@ -54,8 +54,6 @@ public class ChessController {
     private int timeRemainingP2;
     /** DESCRIPTION */
     private Timer countdownTimer;
-    /** Boolean to indicate which player's timer should go down */
-    private boolean whitePlayerTimer;
     /** Boolean to determine whether the timer is enabled or disabled */
     private boolean timerSwitch;
     /** Int to store the current time limit selected by the player */
@@ -85,8 +83,7 @@ public class ChessController {
         this.gui = gui;
         this.game = game;
         this.firstClick = true;
-        whiteTurn = true;
-        whitePlayerTimer = true;
+        whiteTurn = game.isWhiteTurn();
         setTimers();
         aiEnabled = false;
         this.gui.addChessListener(new ChessListener());
@@ -151,16 +148,14 @@ public class ChessController {
                     Move temp = game.getPreviousMove();
                     if (temp instanceof Castling_Move){
                         updateUndoMoveOnBoard(game.getPreviousMove());
-                        whiteTurn = !whiteTurn;
-                        turnChange(whiteTurn);
-                    
+                        whiteTurn = game.changeTurn();
+
                     } else if (aiEnabled) {
                         updateUndoMoveOnBoard(game.getPreviousMove());
                         updateUndoMoveOnBoard(game.getPreviousMove());
                     } else {
                         updateUndoMoveOnBoard(game.getPreviousMove());
-                        whiteTurn = !whiteTurn;
-                        turnChange(whiteTurn);
+                        whiteTurn = game.changeTurn();
                     }
                 
                     updateHistory();
@@ -239,10 +234,7 @@ public class ChessController {
         gui.repaint();
         
         firstClick = true;
-        whiteTurn = true;
-        
-        // By default, the white player's time goes down first
-        whitePlayerTimer = true;
+        whiteTurn = game.isWhiteTurn(); // should be true at the start of the game
         resetTimers();
         
         resetPassant = 0;
@@ -375,8 +367,7 @@ public class ChessController {
                 resetPassant++;
             }
             
-            whiteTurn = !whiteTurn;
-            turnChange(whiteTurn);
+            whiteTurn = game.changeTurn();
             updateMovedPieceButtons();
             
             unHighlightCells();
@@ -425,8 +416,7 @@ public class ChessController {
                     // piece
                     game.movePieceTo(r1, c1, r2, c2, first);
                 }
-                whiteTurn = !whiteTurn;
-                turnChange(whiteTurn);
+                whiteTurn = game.changeTurn();
                 updateMovedPieceButtons();
                 if (resetPassantB == 1) {
                     game.getBoard().resetPassant();
@@ -588,20 +578,6 @@ public class ChessController {
         return game.getPieceAt(row, col);
     }
     
-    /***
-     * ****************************************************************
-     * A method to toggle which timer should go down. If
-     * whitePlayerTimer is true, it is Player 1's turn and their timer
-     * should go down. If whitePlayerTime is false, it is Player two's
-     * turn and their timer should go down instead
-     * 
-     * @param TurnPlayer
-     *****************************************************************            
-     */
-    public void turnChange(boolean TurnPlayer) {
-        whitePlayerTimer = TurnPlayer;
-    }
-    
     public void pawnPromotion(int row1, int col1, int row2, int col2,
             Piece piece) {
             
@@ -652,7 +628,7 @@ public class ChessController {
                     
             String p2Time = String.format("%d", p2minutes) + ":"
                     + String.format("%02d", p2seconds);
-            if (whitePlayerTimer && timerSwitch) {
+            if (whiteTurn && timerSwitch) {
                 if (--timeRemainingP1 > 0) {
                     
                     p1minutes = timeRemainingP1 / 60;
@@ -667,7 +643,7 @@ public class ChessController {
                     displayWinner(winner);
                     
                 }
-            } else if (!whitePlayerTimer && timerSwitch) {
+            } else if (!whiteTurn && timerSwitch) {
                 if (--timeRemainingP2 > 0) {
                     
                     p2minutes = timeRemainingP2 / 60;
@@ -723,8 +699,9 @@ public class ChessController {
     /*******************************************************************
      * Enables or disables the timer with the given boolean. True is
      * when the timer is enabled and false is when the timer is disabled
-     * 
-     * @param OnorOff a boolean value to enable or disable the timer
+     *
+     * What parameter???
+//     * @param OnorOff a boolean value to enable or disable the timer
      ******************************************************************/
     
     private void switchTimerOnOff() {
@@ -894,7 +871,6 @@ public class ChessController {
     		out.writeBoolean(whiteTurn);
     		out.writeInt(timeRemainingP1);
     		out.writeInt(timeRemainingP2);
-    		out.writeBoolean(whitePlayerTimer);
     		out.writeBoolean(timerSwitch);
     		out.writeInt(currentTimeLimit);
     		out.writeBoolean(aiEnabled);
@@ -927,7 +903,6 @@ public class ChessController {
     		whiteTurn = in.readBoolean();
     		timeRemainingP1 = in.readInt();
     		timeRemainingP2 = in.readInt();
-    		whitePlayerTimer = in.readBoolean();
     		timerSwitch = in.readBoolean();
     		currentTimeLimit = in.readInt();
     		aiEnabled = in.readBoolean();
