@@ -1,12 +1,6 @@
 package chess.controller;
 
-import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSLUCENT;
-import static java.awt.GraphicsDevice.WindowTranslucency.PERPIXEL_TRANSPARENT;
-import static java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT;
-
 import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -23,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import chess.gui.ChessGUI;
 import chess.gui.IconSetDialog;
