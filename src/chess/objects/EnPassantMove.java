@@ -3,7 +3,7 @@
  */
 package chess.objects;
 
-public class En_Passant_Move extends Move implements java.io.Serializable {
+public class EnPassantMove extends Move implements java.io.Serializable {
     
     private Piece capturedPiece;
     
@@ -21,8 +21,8 @@ public class En_Passant_Move extends Move implements java.io.Serializable {
      *@param selPiece is the selected Piece
      *@param tarPiece is the targeted Piece
     ******************************************************************/
-    public En_Passant_Move(int r1, int c1, int r2, int c2,
-            Piece selPiece, Piece tarPiece) {
+    public EnPassantMove(int r1, int c1, int r2, int c2,
+                         Piece selPiece, Piece tarPiece) {
         super(r1, c1, r2, c2, selPiece, tarPiece);
         // TODO Auto-generated constructor stub
     }
@@ -44,8 +44,8 @@ public class En_Passant_Move extends Move implements java.io.Serializable {
      *@param capturedPassant is the captured piece 
     ******************************************************************/
     
-    public En_Passant_Move(int r1, int c1, int r2, int c2,
-            Piece selPiece, Piece tarPiece, Piece capturedPassant) {
+    public EnPassantMove(int r1, int c1, int r2, int c2,
+                         Piece selPiece, Piece tarPiece, Piece capturedPassant) {
             
         super(r1, c1, r2, c2, selPiece, tarPiece);
         
@@ -80,7 +80,7 @@ public class En_Passant_Move extends Move implements java.io.Serializable {
      * 
      * @return the cloned En Passant Move
      ******************************************************************/
-    public En_Passant_Move cloneMove() {
+    public EnPassantMove cloneMove() {
         Piece selectClone;
         Piece targetClone;
         Piece capturedPieceCopy;
@@ -98,7 +98,7 @@ public class En_Passant_Move extends Move implements java.io.Serializable {
         else
         	capturedPieceCopy = null;
         
-        En_Passant_Move clonedMove = new En_Passant_Move(r1, c1, r2, c2,
+        EnPassantMove clonedMove = new EnPassantMove(r1, c1, r2, c2,
                 selectClone, targetClone, capturedPieceCopy);
                 
         return clonedMove;

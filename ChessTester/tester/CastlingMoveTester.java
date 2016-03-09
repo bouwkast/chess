@@ -5,14 +5,11 @@ package tester;
 
 import static org.junit.Assert.assertEquals;
 
+import chess.objects.*;
 import org.junit.Test;
 
 import chess.main.Chess;
-import chess.objects.Board;
-import chess.objects.Castling_Move;
-import chess.objects.Pawn;
-import chess.objects.Piece;
-import chess.objects.Rook;
+import chess.objects.CastlingMove;
 
 /**
  * @author andy
@@ -32,7 +29,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -47,7 +44,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -62,7 +59,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -77,7 +74,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -92,7 +89,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -109,7 +106,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -126,7 +123,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -139,7 +136,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -152,7 +149,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -165,7 +162,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -178,7 +175,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -193,7 +190,7 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
@@ -208,11 +205,11 @@ public class CastlingMoveTester {
         game.setPieceAt(7, 1, null);
         game.setPieceAt(7, 2, null);
         game.setPieceAt(7, 3, null);
-        Castling_Move test = new Castling_Move(7, 4, 7, 2,
+        CastlingMove test = new CastlingMove(7, 4, 7, 2,
                 game.getPieceAt(7, 4), game.getPieceAt(7, 2), 7, 0, 7,
                 3, game.getPieceAt(7, 0), game.getPieceAt(7, 3));
                 
-        Castling_Move cloned = test.cloneCastling();
+        CastlingMove cloned = test.cloneCastling();
         
         assertEquals(test.getRowOfRook1(), cloned.getRowOfRook1());
         assertEquals(test.getColOfRook1(), cloned.getColOfRook1());

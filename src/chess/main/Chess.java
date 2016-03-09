@@ -4,18 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import chess.objects.Bishop;
-import chess.objects.Board;
-import chess.objects.Castling_Move;
-import chess.objects.En_Passant_Move;
-import chess.objects.King;
-import chess.objects.Knight;
-import chess.objects.Move;
-import chess.objects.PColor;
-import chess.objects.Pawn;
-import chess.objects.Piece;
-import chess.objects.Queen;
-import chess.objects.Rook;
+import chess.objects.*;
+import chess.objects.CastlingMove;
 
 public class Chess implements java.io.Serializable {
     
@@ -115,7 +105,7 @@ public class Chess implements java.io.Serializable {
     
     /*******************************************************************
      * Performs the En Passant Move with the given rows and columns.
-     * Also creates the appropriate En_Passant_Move object to be stored
+     * Also creates the appropriate EnPassantMove object to be stored
      * in the stack
      * 
      * @param r1 the selected row
@@ -132,7 +122,7 @@ public class Chess implements java.io.Serializable {
         
         Piece piece = getPieceAt(r1, c2);
         
-        En_Passant_Move passantMove = new En_Passant_Move(r1, c1, r2,
+        EnPassantMove passantMove = new EnPassantMove(r1, c1, r2,
                 c2, selection, target, piece);
                 
         moves.add(passantMove.cloneMove());
@@ -146,7 +136,7 @@ public class Chess implements java.io.Serializable {
     
     /******************************************************************
      * Performs the Castling Move with the given rows and columns. Also
-     * creates the appropriate Castling_Move object to be stored in the
+     * creates the appropriate CastlingMove object to be stored in the
      * stack
      * 
      * @param kingRow1 contains the row of the selected King
@@ -168,7 +158,7 @@ public class Chess implements java.io.Serializable {
         Piece kingTarget = getPieceAt(kingRow2, kingCol2);
         Piece rookTarget = getPieceAt(rookRow2, rookCol2);
         
-        Castling_Move castlingMove = new Castling_Move(kingRow1,
+        CastlingMove castlingMove = new CastlingMove(kingRow1,
                 kingCol1, kingRow2, kingCol2, kingPiece, kingTarget,
                 rookRow1, rookCol1, rookRow2, rookCol2, rookPiece,
                 rookTarget);
@@ -211,8 +201,8 @@ public class Chess implements java.io.Serializable {
         Move toUnMake = moves.pop();
         historyOfMoves.remove(historyOfMoves.size() - 1);
         
-        if (toUnMake instanceof Castling_Move) {
-            Castling_Move temp = (Castling_Move) toUnMake;
+        if (toUnMake instanceof CastlingMove) {
+            CastlingMove temp = (CastlingMove) toUnMake;
             
             int kingRow1 = temp.getR1();
             int kingCol1 = temp.getC1();
@@ -238,8 +228,8 @@ public class Chess implements java.io.Serializable {
                     
         }
         
-        else if (toUnMake instanceof En_Passant_Move) {
-            En_Passant_Move passant = (En_Passant_Move) toUnMake;
+        else if (toUnMake instanceof EnPassantMove) {
+            EnPassantMove passant = (EnPassantMove) toUnMake;
             
             int passantR1 = passant.getR1();
             int passantC1 = passant.getC1();
@@ -878,8 +868,8 @@ public class Chess implements java.io.Serializable {
         
         for (int x = 0; x < historyOfMoves.size(); x++) {
             
-            if (historyOfMoves.get(x) instanceof Castling_Move) {
-                Castling_Move castles = (Castling_Move) historyOfMoves
+            if (historyOfMoves.get(x) instanceof CastlingMove) {
+                CastlingMove castles = (CastlingMove) historyOfMoves
                         .get(x);
                         
                 tempRow1 = castles.getR1() + 1;

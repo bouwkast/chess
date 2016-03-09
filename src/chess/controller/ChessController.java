@@ -21,17 +21,8 @@ import javax.swing.border.LineBorder;
 import chess.gui.ChessGUI;
 import chess.gui.IconSetDialog;
 import chess.main.Chess;
-import chess.objects.Bishop;
-import chess.objects.Castling_Move;
-import chess.objects.En_Passant_Move;
-import chess.objects.King;
-import chess.objects.Knight;
-import chess.objects.Move;
-import chess.objects.PColor;
-import chess.objects.Pawn;
-import chess.objects.Piece;
-import chess.objects.Queen;
-import chess.objects.Rook;
+import chess.objects.*;
+import chess.objects.EnPassantMove;
 
 public class ChessController {
     
@@ -146,7 +137,7 @@ public class ChessController {
                 if (game.getMoves().size() > 0){
                     
                     Move temp = game.getPreviousMove();
-                    if (temp instanceof Castling_Move){
+                    if (temp instanceof CastlingMove){
                         updateUndoMoveOnBoard(game.getPreviousMove());
                         whiteTurn = game.changeTurn();
 
@@ -733,9 +724,9 @@ public class ChessController {
         game.unMakeMove();
         
         // If move was a castling move, update accordingly
-        if (moves instanceof Castling_Move) {
+        if (moves instanceof CastlingMove) {
             
-            Castling_Move castlingTemp = (Castling_Move) temp;
+            CastlingMove castlingTemp = (CastlingMove) temp;
             
             r1 = castlingTemp.getR1();
             c1 = castlingTemp.getC1();
@@ -770,8 +761,8 @@ public class ChessController {
         }
         
         // If the move was an En Passant move, undo accordingly
-        else if (moves instanceof En_Passant_Move) {
-            En_Passant_Move passant = (En_Passant_Move) moves;
+        else if (moves instanceof EnPassantMove) {
+            EnPassantMove passant = (EnPassantMove) moves;
             
             r1 = passant.getR1();
             c1 = passant.getC1();

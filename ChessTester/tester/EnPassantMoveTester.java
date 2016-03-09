@@ -5,11 +5,11 @@ package tester;
 
 import static org.junit.Assert.assertEquals;
 
+import chess.objects.EnPassantMove;
 import org.junit.Test;
 
 import chess.main.Chess;
 import chess.objects.Board;
-import chess.objects.En_Passant_Move;
 import chess.objects.Pawn;
 
 /**
@@ -32,7 +32,7 @@ public class EnPassantMoveTester {
         
         game.setPieceAt(1, 2, whitePawn);
         
-        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+        EnPassantMove test = new EnPassantMove(1, 2, 0, 3,
                 game.getPieceAt(1, 2), game.getPieceAt(0, 3),
                 game.getPieceAt(1, 3));
                 
@@ -49,7 +49,7 @@ public class EnPassantMoveTester {
         
         game.setPieceAt(1, 2, whitePawn);
         
-        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+        EnPassantMove test = new EnPassantMove(1, 2, 0, 3,
                 game.getPieceAt(1, 2), game.getPieceAt(0, 3),
                 game.getPieceAt(1, 3));
                 
@@ -68,11 +68,11 @@ public class EnPassantMoveTester {
         
         game.setPieceAt(1, 2, whitePawn);
         
-        En_Passant_Move test = new En_Passant_Move(1, 2, 0, 3,
+        EnPassantMove test = new EnPassantMove(1, 2, 0, 3,
                 game.getPieceAt(1, 2), game.getPieceAt(0, 3),
                 game.getPieceAt(1, 3));
                 
-        En_Passant_Move clonedMove = test.cloneMove();
+        EnPassantMove clonedMove = test.cloneMove();
         
         assertEquals(test.getCapturedPiece().getName(),
                 clonedMove.getCapturedPiece().getName());

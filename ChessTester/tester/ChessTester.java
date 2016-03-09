@@ -10,19 +10,11 @@ import java.util.List;
 import org.junit.Test;
 
 import chess.main.Chess;
-import chess.objects.Bishop;
 import chess.objects.Board;
-import chess.objects.Castling_Move;
-import chess.objects.En_Passant_Move;
-import chess.objects.King;
-import chess.objects.Knight;
 import chess.objects.Move;
-import chess.objects.Movement;
 import chess.objects.PColor;
 import chess.objects.Pawn;
 import chess.objects.Piece;
-import chess.objects.Queen;
-import chess.objects.Rook;
 
 public class ChessTester {
     
