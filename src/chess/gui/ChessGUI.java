@@ -206,7 +206,7 @@ public class ChessGUI extends JFrame {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new JButton(new ImageIcon());
-                // board[row][col].setFont(FONT);
+                 board[row][col].setFont(FONT);
             }
         }
     }
@@ -239,10 +239,9 @@ public class ChessGUI extends JFrame {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if (chess.getPieceAt(row, col) != null) {
-                    setCellIcon(board[row][col], (ImageIcon) chess
-                            .getPieceAt(row, col).getImageIcon());
+                    board[row][col].setText(chess.getPieceAt(row, col).getIcon());
                 } else {
-                    board[row][col].setText(""));
+                    board[row][col].setText("");
                 }
                 board[row][col].getModel().setPressed(false);
                 board[row][col].setMargin(new Insets(0, 0, 0, 0));
@@ -384,28 +383,6 @@ public class ChessGUI extends JFrame {
                 board[row][col].addActionListener(listener);
             }
         }
-    }
-    
-    /*******************************************************************
-     * Returns a scaled image from the icon passed to it, scaled to the
-     * passed height and width
-     * 
-     * @param src is the icon from which the image will be scaled
-     * @param w is the width to scale the image to
-     * @param h is the height to scale the image to
-     * @return resize is the scaled image
-     ******************************************************************/
-    private Image getScaledIcon(Image src, int w, int h) {
-        BufferedImage resize = new BufferedImage(w, h,
-                BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = resize.createGraphics();
-        
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(src, 0, 0, w, h, null);
-        g.dispose();
-        
-        return resize;
     }
     
     /*******************************************************************

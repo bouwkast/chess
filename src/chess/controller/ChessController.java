@@ -94,8 +94,6 @@ public class ChessController {
                 startNewGame();
             } else if (e.getSource() == gui.getExitItem()) {
                 System.exit(0);
-            } else if (e.getSource() == gui.getIconSetItem()) {
-                setIconSets();
             } else if (e.getSource() == gui.getSaveItem()) {
             	JFileChooser fc = new JFileChooser();
             	int response = fc.showSaveDialog(null);
@@ -415,12 +413,16 @@ public class ChessController {
         game.executeCastle(r1, c1, r2, c2, (King) first);
         if (c1 < c2) {
             updateMovedPieceButtons();
+            gui.getButtonAt(r2, c2 + 1).setText("");
+            gui.getButtonAt(r2, c2 - 1).setText(game.getPieceAt(r2, c2 - 1).getIcon());
 //            gui.getButtonAt(r2, c2 + 1).setIcon(new ImageIcon());
 //            gui.setCellIcon(gui.getButtonAt(r2, c2 - 1),
 //                    (ImageIcon) game.getPieceAt(r2, c2 - 1)
 //                            .getImageIcon());
         } else {
             updateMovedPieceButtons();
+            gui.getButtonAt(r2, c2 - 2).setText("");
+            gui.getButtonAt(r2, c2 +1).setText(game.getPieceAt(r2, c2 + 1).getIcon());
 //            gui.getButtonAt(r2, c2 - 2).setIcon(new ImageIcon());
 //            gui.setCellIcon(gui.getButtonAt(r2, c2 + 1),
 //                    (ImageIcon) game.getPieceAt(r2, c2 + 1)
@@ -433,7 +435,9 @@ public class ChessController {
      **************************************************************/
     private void updateMovedPieceButtons() {
 //        gui.getButtonAt(r1, c1).setIcon(new ImageIcon());
-//        if (game.getPieceAt(r2, c2) != null) {
+        gui.getButtonAt(r1, c1).setText("");
+        if (game.getPieceAt(r2, c2) != null) {
+            gui.getButtonAt(r2, c2).setText(game.getPieceAt(r2, c2).getIcon());
 //            gui.setCellIcon(gui.getButtonAt(r2, c2),
 //                    (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
             gui.revalidate();
@@ -446,6 +450,8 @@ public class ChessController {
      **************************************************************/
     private void updatePassantPieces(Piece piece) {
         game.executeEnPassant(r1, c1, r2, c2, (Pawn) piece);
+        gui.getButtonAt(r2, c2).setText(game.getPieceAt(r2, c2).getIcon());
+        gui.getButtonAt(r1, c1).setText("");
 //        gui.setCellIcon(gui.getButtonAt(r2, c2),
 //                (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
 //        gui.getButtonAt(r1, c2).setIcon(new ImageIcon());
@@ -695,6 +701,7 @@ public class ChessController {
             int r2Rook = castlingTemp.getRowOfRook2();
             int c2Rook = castlingTemp.getColOfRook2();
 //
+            gui.getButtonAt(r1, c1).setText(game.getPieceAt(r1, c1).getIcon());
 //            gui.setCellIcon(gui.getButtonAt(r1, c1),
 //                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
                     
@@ -706,14 +713,17 @@ public class ChessController {
             
             rookTemp.setHasMoved(false);
             
-            gui.setCellIcon(gui.getButtonAt(r2, c2), new ImageIcon());
-            
-            gui.setCellIcon(gui.getButtonAt(r1Rook, c1Rook),
-                    (ImageIcon) game.getPieceAt(r1Rook, c1Rook)
-                            .getImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r2, c2), new ImageIcon());
+
+            gui.getButtonAt(r1, c1).setText(game.getPieceAt(r2, c2).getIcon());
+//            gui.setCellIcon(gui.getButtonAt(r1Rook, c1Rook),
+//                    (ImageIcon) game.getPieceAt(r1Rook, c1Rook)
+//                            .getImageIcon());
+            gui.getButtonAt(r1Rook, c1Rook).setText(game.getPieceAt(r1Rook, c1Rook).getIcon());
                             
-            gui.setCellIcon(gui.getButtonAt(r2Rook, c2Rook),
-                    new ImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r2Rook, c2Rook),
+//                    new ImageIcon());
+            gui.getButtonAt(r2Rook, c2Rook).setText("");
                     
         }
         
@@ -725,12 +735,16 @@ public class ChessController {
             c1 = passant.getC1();
             r2 = passant.getR2();
             c2 = passant.getC2();
-            
-            gui.setCellIcon(gui.getButtonAt(r1, c1),
-                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
-            gui.setCellIcon(gui.getButtonAt(r2, c2), new ImageIcon());
-            gui.setCellIcon(gui.getButtonAt(r1, c2),
-                    (ImageIcon) game.getPieceAt(r1, c2).getImageIcon());
+
+            gui.getButtonAt(r1, c1).setText(game.getPieceAt(r1, c1).getIcon());
+            gui.getButtonAt(r2, c2).setText("");
+            gui.getButtonAt(r1, c2).setText(game.getPieceAt(r1, c2).getIcon());
+
+//            gui.setCellIcon(gui.getButtonAt(r1, c1),
+//                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r2, c2), new ImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r1, c2),
+//                    (ImageIcon) game.getPieceAt(r1, c2).getImageIcon());
         }
         
         // If not castling or En Passant, update similar to regular move
@@ -741,16 +755,19 @@ public class ChessController {
             r2 = temp.getR2();
             c2 = temp.getC2();
             
-            gui.setCellIcon(gui.getButtonAt(r1, c1),
-                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r1, c1),
+//                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
+            gui.getButtonAt(r1, c1).setText(game.getPieceAt(r1, c1).getIcon());
                     
             if (game.getPieceAt(r2, c2) != null)
-                gui.setCellIcon(gui.getButtonAt(r2, c2),
-                        (ImageIcon) game.getPieceAt(r2, c2)
-                                .getImageIcon());
+                    gui.getButtonAt(r2, c2).setText(game.getPieceAt(r2, c2).getIcon());
+//                gui.setCellIcon(gui.getButtonAt(r2, c2),
+//                        (ImageIcon) game.getPieceAt(r2, c2)
+//                                .getImageIcon());
+
                                 
             else
-                gui.getButtonAt(r2, c2).setIcon(new ImageIcon());
+                gui.getButtonAt(r2, c2).setText("");
         }
     }
     
