@@ -242,7 +242,7 @@ public class ChessGUI extends JFrame {
                     setCellIcon(board[row][col], (ImageIcon) chess
                             .getPieceAt(row, col).getImageIcon());
                 } else {
-                    board[row][col].setIcon(new ImageIcon());
+                    board[row][col].setText(""));
                 }
                 board[row][col].getModel().setPressed(false);
                 board[row][col].setMargin(new Insets(0, 0, 0, 0));
@@ -384,20 +384,6 @@ public class ChessGUI extends JFrame {
                 board[row][col].addActionListener(listener);
             }
         }
-    }
-    
-    /*******************************************************************
-     * Sets the icon to be displayed by a JButton
-     * 
-     * @param button is the the JButton to modify
-     * @param ico is the icon to set button to display
-     ******************************************************************/
-    public void setCellIcon(JButton button, ImageIcon ico) {
-        int h = (int) (boardSize.getHeight() / 8);
-        int w = (int) (boardSize.getWidth() / 8);
-        ImageIcon scaled = new ImageIcon(
-                getScaledIcon(ico.getImage(), w, h));
-        button.setIcon(scaled);
     }
     
     /*******************************************************************

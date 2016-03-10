@@ -13,10 +13,6 @@ public class Piece implements java.io.Serializable {
 	protected String icon;
 	/** Whether the Piece has moved yet */
 	protected boolean hasMoved;
-	/** The set of icons to use for black pieces */
-	private static IconSet blackIconSet;
-	/** The set of icons to use for white pieces */
-	private static IconSet whiteIconSet;
 	/** An arbitrary score for each Piece, used by AI */
 	protected int score;
 
@@ -31,11 +27,6 @@ public class Piece implements java.io.Serializable {
 		name = "";
 		icon = "";
 		score = 0;
-		/** Prevents previously set icon sets from being reset */
-		if (blackIconSet == null)
-			blackIconSet = new IconSet("black");
-		if (whiteIconSet == null)
-			whiteIconSet = new IconSet("white");
 	}
 
 	/*******************************************************************
@@ -50,11 +41,6 @@ public class Piece implements java.io.Serializable {
 		this.setHasMoved(false);
 		icon = "";
 		score = 0;
-		/** Prevents previously set icon sets from being reset */
-		if (blackIconSet == null)
-			blackIconSet = new IconSet("black");
-		if (whiteIconSet == null)
-			whiteIconSet = new IconSet("white");
 	}
 
 	/*******************************************************************
@@ -72,10 +58,6 @@ public class Piece implements java.io.Serializable {
 		icon = "";
 		score = 0;
 		/** Prevents previously set icon sets from being reset */
-		if (blackIconSet == null)
-			blackIconSet = new IconSet("black");
-		if (whiteIconSet == null)
-			whiteIconSet = new IconSet("white");
 	}
 
 	/*******************************************************************
@@ -90,8 +72,6 @@ public class Piece implements java.io.Serializable {
 		this.hasMoved = otherPiece.hasMoved;
 		this.icon = otherPiece.icon;
 		this.score = otherPiece.score;
-		blackIconSet = otherPiece.blackIconSet;
-		whiteIconSet = otherPiece.whiteIconSet;
 	}
 
 	/*******************************************************************
@@ -166,37 +146,6 @@ public class Piece implements java.io.Serializable {
 		return "Piece name: " + name + "\nPiece color: " + color.name()
 				+ "\nhasMoved: " + hasMoved + "\nIcon: " + icon;
 
-	}
-
-	/*******************************************************************
-	 * Gets the Image Icon that corresponds to the Piece
-	 * 
-	 * @return an Icon object corresponding to the piece's name and
-	 *         color
-	 ******************************************************************/
-	public Icon getImageIcon() {
-		if (color == PColor.Black)
-			return blackIconSet.getIcon(name);
-		else
-			return whiteIconSet.getIcon(name);
-	}
-
-	/*******************************************************************
-	 * Setter for the icon set for black pieces
-	 * 
-	 * @param set is the string name of the set
-	 ******************************************************************/
-	public static void setBlackIconSet(String set) {
-		blackIconSet.setIconSet(set);
-	}
-
-	/*******************************************************************
-	 * Setter for the icon set for white pieces
-	 * 
-	 * @param set is the string name of the set
-	 ******************************************************************/
-	public static void setWhiteIconSet(String set) {
-		whiteIconSet.setIconSet(set);
 	}
 
 	/*******************************************************************

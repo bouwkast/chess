@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -19,7 +18,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import chess.gui.ChessGUI;
-import chess.gui.IconSetDialog;
 import chess.main.Chess;
 import chess.objects.*;
 import chess.objects.EnPassantMove;
@@ -237,44 +235,7 @@ public class ChessController {
             }
         }
     }
-    
-    /***************************************************************
-     * Calls dialog box to select the icon sets for black and white
-     * pieces
-     **************************************************************/
-    private void setIconSets() {
-        String message = "Changing icon sets will start a new game. "
-                + "Continue?";
-        String options[] = new String[2];
-        options[0] = "Continue";
-        options[1] = "Cancel";
-        
-        int result = JOptionPane.showOptionDialog(gui, message,
-                "Game Over!", JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE, null, options,
-                options[0]);
-        if (result == 0) {
-            IconSetDialog iconDialogWhite = new IconSetDialog();
-            JDialog dialogWhite = iconDialogWhite.createDialog(null,
-                    "Select White Icon Set");
-            dialogWhite.setVisible(true);
-            if (!iconDialogWhite.getSelected().equals("")) {
-                Piece.setWhiteIconSet(iconDialogWhite.getSelected());
-            }
-            
-            IconSetDialog iconDialogBlack = new IconSetDialog();
-            JDialog dialogBlack = iconDialogBlack.createDialog(null,
-                    "Select Black Icon Set");
-            dialogBlack.setVisible(true);
-            if (!iconDialogBlack.getSelected().equals("")) {
-                Piece.setBlackIconSet(iconDialogBlack.getSelected());
-            }
-            
-            startNewGame();
-        }
-        
-    }
-    
+
     /*******************************************************************
      * Helper method to find the cell that is pressed
      * 
@@ -454,16 +415,16 @@ public class ChessController {
         game.executeCastle(r1, c1, r2, c2, (King) first);
         if (c1 < c2) {
             updateMovedPieceButtons();
-            gui.getButtonAt(r2, c2 + 1).setIcon(new ImageIcon());
-            gui.setCellIcon(gui.getButtonAt(r2, c2 - 1),
-                    (ImageIcon) game.getPieceAt(r2, c2 - 1)
-                            .getImageIcon());
+//            gui.getButtonAt(r2, c2 + 1).setIcon(new ImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r2, c2 - 1),
+//                    (ImageIcon) game.getPieceAt(r2, c2 - 1)
+//                            .getImageIcon());
         } else {
             updateMovedPieceButtons();
-            gui.getButtonAt(r2, c2 - 2).setIcon(new ImageIcon());
-            gui.setCellIcon(gui.getButtonAt(r2, c2 + 1),
-                    (ImageIcon) game.getPieceAt(r2, c2 + 1)
-                            .getImageIcon());
+//            gui.getButtonAt(r2, c2 - 2).setIcon(new ImageIcon());
+//            gui.setCellIcon(gui.getButtonAt(r2, c2 + 1),
+//                    (ImageIcon) game.getPieceAt(r2, c2 + 1)
+//                            .getImageIcon());
         }
     }
     
@@ -471,10 +432,10 @@ public class ChessController {
      * Updates the two buttons' icons after moving a piece
      **************************************************************/
     private void updateMovedPieceButtons() {
-        gui.getButtonAt(r1, c1).setIcon(new ImageIcon());
-        if (game.getPieceAt(r2, c2) != null) {
-            gui.setCellIcon(gui.getButtonAt(r2, c2),
-                    (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
+//        gui.getButtonAt(r1, c1).setIcon(new ImageIcon());
+//        if (game.getPieceAt(r2, c2) != null) {
+//            gui.setCellIcon(gui.getButtonAt(r2, c2),
+//                    (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
             gui.revalidate();
         }
     }
@@ -485,9 +446,9 @@ public class ChessController {
      **************************************************************/
     private void updatePassantPieces(Piece piece) {
         game.executeEnPassant(r1, c1, r2, c2, (Pawn) piece);
-        gui.setCellIcon(gui.getButtonAt(r2, c2),
-                (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
-        gui.getButtonAt(r1, c2).setIcon(new ImageIcon());
+//        gui.setCellIcon(gui.getButtonAt(r2, c2),
+//                (ImageIcon) game.getPieceAt(r2, c2).getImageIcon());
+//        gui.getButtonAt(r1, c2).setIcon(new ImageIcon());
     }
     
     /***************************************************************
@@ -733,9 +694,9 @@ public class ChessController {
             int c1Rook = castlingTemp.getColOfRook1();
             int r2Rook = castlingTemp.getRowOfRook2();
             int c2Rook = castlingTemp.getColOfRook2();
-            
-            gui.setCellIcon(gui.getButtonAt(r1, c1),
-                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
+//
+//            gui.setCellIcon(gui.getButtonAt(r1, c1),
+//                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
                     
             Piece kingTemp = (King) game.getPieceAt(r1, c1);
             
