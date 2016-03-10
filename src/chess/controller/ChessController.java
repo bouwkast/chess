@@ -410,7 +410,7 @@ public class ChessController {
      * @param first is the first piece selected
      ******************************************************************/
     private void updateCastlePieces(Piece first) {
-        game.executeCastle(r1, c1, r2, c2, (King) first);
+        game.executeCastle(r1, c1, r2, c2, first);
         if (c1 < c2) {
             updateMovedPieceButtons();
             gui.getButtonAt(r2, c2 + 1).setText("");
@@ -705,11 +705,11 @@ public class ChessController {
 //            gui.setCellIcon(gui.getButtonAt(r1, c1),
 //                    (ImageIcon) game.getPieceAt(r1, c1).getImageIcon());
                     
-            Piece kingTemp = (King) game.getPieceAt(r1, c1);
+            Piece kingTemp = game.getPieceAt(r1, c1);
             
             kingTemp.setHasMoved(false);
             
-            Piece rookTemp = (Rook) game.getPieceAt(r1Rook, c1Rook);
+            Piece rookTemp = game.getPieceAt(r1Rook, c1Rook);
             
             rookTemp.setHasMoved(false);
             
@@ -783,8 +783,8 @@ public class ChessController {
         Move temp;
         int row;
         int col;
-        for (int x = 0; x < possibleMoves.size(); x++) {
-            temp = possibleMoves.get(x);
+        for (Move possibleMove : possibleMoves) {
+            temp = possibleMove;
             row = temp.getR2();
             col = temp.getC2();
             gui.getBoard()[row][col].setBorderPainted(true);
@@ -876,9 +876,11 @@ public class ChessController {
     		
     		in.close();
     	} catch(IOException i) {
+            System.err.println("IOException");
     		i.printStackTrace();
-    	} catch(ClassNotFoundException cnf) {
-    		cnf.printStackTrace();
-    	}
+    	} catch (ClassNotFoundException e) {
+            System.err.println("ClassNotFoundException");
+            e.printStackTrace();
+        }
     }
 }
