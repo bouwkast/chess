@@ -55,8 +55,6 @@ public class ChessGUI extends JFrame {
     private JMenuItem newItem;
     /** Option to exit the game */
     private JMenuItem exitItem;
-    /** Option to set the icon set */
-    private JMenuItem iconSetItem;
     /** Option to enable the AI */
     private JMenuItem enableItem;
     /** Option to undo previous move(s) */
@@ -137,7 +135,6 @@ public class ChessGUI extends JFrame {
         timerMenu = new JMenu("Timer");
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
-        iconSetItem = new JMenuItem("Select Icon Set");
         saveItem = new JMenuItem("Save");
         loadItem = new JMenuItem("Load");
         enableItem = new JMenuItem("Enable AI");
@@ -161,7 +158,6 @@ public class ChessGUI extends JFrame {
         menuBar.add(menu);
         menu.add(newItem);
         menu.add(exitItem);
-        menu.add(iconSetItem);
         menu.add(undoItem);
         menu.add(saveItem);
         menu.add(loadItem);
@@ -293,15 +289,6 @@ public class ChessGUI extends JFrame {
     }
     
     /*******************************************************************
-     * Gets the icon set item to change the icon set
-     * 
-     * @return a JMenuItem of icon set
-     ******************************************************************/
-    public JMenuItem getIconSetItem() {
-        return iconSetItem;
-    }
-    
-    /*******************************************************************
      * Gets the save item to save the current game
      * 
      * @return a JMenuItem of icon set
@@ -365,7 +352,6 @@ public class ChessGUI extends JFrame {
     public void addChessListener(ActionListener listener) {
         exitItem.addActionListener(listener);
         newItem.addActionListener(listener);
-        iconSetItem.addActionListener(listener);
         saveItem.addActionListener(listener);
         loadItem.addActionListener(listener);
         
