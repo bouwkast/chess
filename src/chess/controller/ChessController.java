@@ -779,7 +779,7 @@ public class ChessController {
      ******************************************************************/
     
     public void highlightPossibleMoves(Piece piece) {
-        List<Move> possibleMoves = game.generatePossibleMoves(r1, c1);
+        List<Move> possibleMoves = game.generatePossibleMoves(game.getBoard().getCellAt(r1, c1));
         Move temp;
         int row;
         int col;
