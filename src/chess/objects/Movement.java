@@ -6,30 +6,32 @@ public class Movement implements java.io.Serializable {
 
 	/** Rows and columns of the piece and cell to check */
 	private int r1, c1, r2, c2;
+
+	private Cell selected, targeted;
 	/** Game to check the movement with */
 	private Chess chess;
 	/** The piece to be moved */
 	private Piece piece;
 
-	public Movement(int r1, int c1, int r2, int c2, Piece piece,
+	public Movement(Cell selected, Cell targeted, Piece piece,
 			Chess chess) {
-		this.r1 = r1;
-		this.c1 = c1;
-		this.r2 = r2;
-		this.c2 = c2;
+		this.selected = selected;
+        this.targeted = targeted;
 		this.piece = piece;
 		this.chess = chess;
+        setVariables();
 	}
 
-	/*******************************************************************
+    private void setVariables() {
+        r1 = selected.getRow();
+        c1 = selected.getCol();
+        r2 = targeted.getRow();
+        c2 = targeted.getCol();
+    }
+
+    /*******************************************************************
 	 * Checks the Lateral movement of the piece for its movement UP,
 	 * RIGHT, DOWN, and LEFT
-	 * 
-	 * @param r1 is the row for the first Cell
-	 * @param c1 is the col for the first Cell
-	 * @param r2 is the row for the second Cell
-	 * @param c2 is the col for the second Cell
-	 * @param piece is the Piece that we are checking
 	 * @return a boolean value whether the Piece was moved
 	 ******************************************************************/
 	public boolean checkLateral() {
@@ -44,12 +46,7 @@ public class Movement implements java.io.Serializable {
 	/*******************************************************************
 	 * Checks the piece's movement vertically to make sure it is a valid
 	 * move.
-	 * 
-	 * @param r1 is the row of the Piece to check
-	 * @param c1 is the col of the Piece to check
-	 * @param r2 is the row of the Cell we are trying to move to
-	 * @param c2 is the col of the Cell we are trying to move to
-	 * @param piece is the Piece we are checking
+	 *
 	 * @return a boolean value whether the move is valid
 	 ******************************************************************/
 	private boolean checkVertical() {
@@ -74,12 +71,7 @@ public class Movement implements java.io.Serializable {
 	/*******************************************************************
 	 * Checks the Piece's movement horizontally to make sure it is a
 	 * valid move.
-	 * 
-	 * @param r1 is the row of the Piece to check
-	 * @param c1 is the col of the Piece to check
-	 * @param r2 is the row of the Cell we are trying to move to
-	 * @param c2 is the col of the Cell we are trying to move to
-	 * @param piece is the Piece we are checking
+	 *
 	 * @return a boolean value whether the move is valid
 	 ******************************************************************/
 	private boolean checkHorizontal() {
@@ -103,12 +95,7 @@ public class Movement implements java.io.Serializable {
 	/*******************************************************************
 	 * Checks the Piece's movement diagonally to make sure it is a valid
 	 * move.
-	 * 
-	 * @param r1 is the row of the Piece to check
-	 * @param c1 is the col of the Piece to check
-	 * @param r2 is the row of the Cell we are trying to move to
-	 * @param c2 is the col of the Cell we are trying to move to
-	 * @param piece is the Piece we are checking
+	 *
 	 * @return a boolean value whether the move is valid
 	 ******************************************************************/
 	public boolean checkDiagonal() {
