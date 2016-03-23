@@ -20,8 +20,6 @@ public class Chess implements java.io.Serializable {
      * ArrayList of Moves to keep track of movements made in the game
      */
     private List<Move> historyOfMoves;
-
-    private Cell current, targeted;
     
     /*******************************************************************
      * Default constructor - in the future we may add some parameters
@@ -119,10 +117,12 @@ public class Chess implements java.io.Serializable {
     public void moveEnPassant(Cell current, Cell targeted,
             Pawn pawn) {
             
-        Piece selection = getPieceAt(r1, c1);
-        Piece target = getPieceAt(r2, c2);
-        
-        Piece piece = getPieceAt(r1, c2);
+        Piece selection = current.getChessPiece();
+//        Piece selection = getPieceAt(r1, c1);
+//        Piece target = getPieceAt(r2, c2);
+        Piece target = targeted.getChessPiece();
+
+        Piece piece = getPieceAt(current.getRow(), targeted.getCol());
         
         EnPassantMove passantMove = new EnPassantMove(r1, c1, r2,
                 c2, selection, target, piece);
