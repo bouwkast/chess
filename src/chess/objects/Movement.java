@@ -7,15 +7,15 @@ public class Movement implements java.io.Serializable {
 	/** Rows and columns of the piece and cell to check */
 	private int r1, c1, r2, c2;
 
-	private Cell selected, targeted;
+	private Cell current, targeted;
 	/** Game to check the movement with */
 	private Chess chess;
 	/** The piece to be moved */
 	private Piece piece;
 
-	public Movement(Cell selected, Cell targeted, Piece piece,
-			Chess chess) {
-		this.selected = selected;
+	public Movement(Cell current, Cell targeted, Piece piece,
+                    Chess chess) {
+		this.current = current;
         this.targeted = targeted;
 		this.piece = piece;
 		this.chess = chess;
@@ -23,8 +23,8 @@ public class Movement implements java.io.Serializable {
 	}
 
     private void setVariables() {
-        r1 = selected.getRow();
-        c1 = selected.getCol();
+        r1 = current.getRow();
+        c1 = current.getCol();
         r2 = targeted.getRow();
         c2 = targeted.getCol();
     }

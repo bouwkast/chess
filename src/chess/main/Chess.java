@@ -94,7 +94,7 @@ public class Chess implements java.io.Serializable {
      * @param c2 is the col of the second cell
      * @param piece is the piece to move
      ******************************************************************/
-    public void movePieceTo(int r1, int c1, int r2, int c2,
+    public void movePieceTo(Cell current, Cell targeted,
             Piece piece) {
         makeMove(r1, c1, r2, c2);
         // Set the second cell to the pawn
@@ -114,7 +114,7 @@ public class Chess implements java.io.Serializable {
      * @param c2 the targeted col
      * @param pawn which contains the Pawn piece
      *******************************************************************/
-    public void moveEnPassant(int r1, int c1, int r2, int c2,
+    public void moveEnPassant(Cell current, Cell targeted,
             Pawn pawn) {
             
         Piece selection = getPieceAt(r1, c1);
@@ -133,7 +133,8 @@ public class Chess implements java.io.Serializable {
         // Set the previous cell to null
         setPieceAt(r1, c1, null);
     }
-    
+
+    //TODO terrible....
     /******************************************************************
      * Performs the Castling Move with the given rows and columns. Also
      * creates the appropriate CastlingMove object to be stored in the
@@ -185,7 +186,7 @@ public class Chess implements java.io.Serializable {
      * @param r2 the targeted row
      * @param c2 the targeted col
      ******************************************************************/
-    public void makeMove(int r1, int c1, int r2, int c2) {
+    public void makeMove(Cell current, Cell targeted) {
         Piece selPiece = getPieceAt(r1, c1); // shouldn't be null
         Piece tarPiece = getPieceAt(r2, c2); // can be null
         
@@ -193,7 +194,8 @@ public class Chess implements java.io.Serializable {
         moves.add(toMake.clone());
         historyOfMoves.add(toMake.clone());
     }
-    
+
+    //TODO could be a lot better
     /*******************************************************************
      * Undo the previously made move
      ******************************************************************/
@@ -325,7 +327,7 @@ public class Chess implements java.io.Serializable {
      * @param c2 is the col of the castling move
      * @param king is the King to castle
      ******************************************************************/
-    public void executeCastle(int r1, int c1, int r2, int c2,
+    public void executeCastle(Cell current, Cell targeted,
             Piece king) {
         King toCheck = (King) king;
         if (toCheck.castleCheckRight(r1, c1, r2, c2, king, this)) {
@@ -355,7 +357,7 @@ public class Chess implements java.io.Serializable {
      * @param c2 is the targeted col
      * @param pawn is the Pawn we are moving
      ******************************************************************/
-    public void executeEnPassant(int r1, int c1, int r2, int c2,
+    public void executeEnPassant(Cell current, Cell targeted,
             Pawn pawn) {
         moveEnPassant(r1, c1, r2, c2, pawn);
         setPieceAt(r1, c2, null);
@@ -509,7 +511,7 @@ public class Chess implements java.io.Serializable {
      * @param piece is the Piece to check
      * @return a boolean value whether it puts the King at risk
      ******************************************************************/
-    public boolean isFutureCheck(int r1, int c1, int r2, int c2,
+    public boolean isFutureCheck(Cell current, Cell targeted,
             Piece piece) {
             
         Piece old = getPieceAt(r1, c1);
