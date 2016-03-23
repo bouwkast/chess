@@ -3,34 +3,43 @@ package chess.objects;
 public class Move implements java.io.Serializable {
 
 	/** Locations of the selPiece and tarPiece */
-	private int r1, c1, r2, c2;
+//	private int r1, c1, r2, c2;
+
+    private Cell selected, targeted;
 	/** Piece that was selected */
 	private Piece selPiece;
 	/** Piece that is targeted, can be null */
 	private Piece tarPiece;
 	
-	/*******************************************************************
-	 * Move constructor to create a new move based on the selected row
-	 * and column and the targeted row and column. Each move contains a
-	 * copy of two new Pieces, different IDs, to be able to undo the
-	 * move.
-	 * 
-	 * @param r1 is the selected row
-	 * @param c1 is the selected col
-	 * @param r2 is the targeted row
-	 * @param c2 is the targeted col
-	 * @param selPiece is the selected Piece
-	 * @param tarPiece is the targeted Piece
-	 ******************************************************************/
-	public Move(int r1, int c1, int r2, int c2, Piece selPiece,
-			Piece tarPiece) {
-		this.r1 = r1;
-		this.c1 = c1;
-		this.r2 = r2;
-		this.c2 = c2;
-		this.selPiece = selPiece;
-		this.tarPiece = tarPiece;
-	}
+//	/*******************************************************************
+//	 * Move constructor to create a new move based on the selected row
+//	 * and column and the targeted row and column. Each move contains a
+//	 * copy of two new Pieces, different IDs, to be able to undo the
+//	 * move.
+//	 *
+//	 * @param r1 is the selected row
+//	 * @param c1 is the selected col
+//	 * @param r2 is the targeted row
+//	 * @param c2 is the targeted col
+//	 * @param selPiece is the selected Piece
+//	 * @param tarPiece is the targeted Piece
+//	 ******************************************************************/
+//	public Move(int r1, int c1, int r2, int c2, Piece selPiece,
+//			Piece tarPiece) {
+//		this.r1 = r1;
+//		this.c1 = c1;
+//		this.r2 = r2;
+//		this.c2 = c2;
+//		this.selPiece = selPiece;
+//		this.tarPiece = tarPiece;
+//	}
+
+	public Move(Cell selected, Cell targeted, Piece selPiece, Piece tarPiece) {
+        this.selected = selected;
+        this.targeted = targeted;
+        this.selPiece = selPiece;
+        this.tarPiece = tarPiece;
+    }
 
 	/*******************************************************************
 	 * Simple copy method to create a deep copy of a pre-existing move
@@ -74,80 +83,153 @@ public class Move implements java.io.Serializable {
 		} else {
 			toClone2 = null;
 		}
-		return new Move(r1, c1, r2, c2, toClone1, toClone2);
+//		return new Move(r1, c1, r2, c2, toClone1, toClone2);
+		return new Move(selected, targeted, toClone1, toClone2);
 	}
 
-	/*******************************************************************
-	 * Gets the selected row
-	 * 
-	 * @return the r1
-	 ******************************************************************/
-	public int getR1() {
-		return r1;
-	}
+//	/*******************************************************************
+//	 * Gets the selected row
+//	 *
+//	 * @return the r1
+//	 ******************************************************************/
+//	public int getR1() {
+//		return r1;
+//	}
+//
+//	/*******************************************************************
+//	 * Sets the selected row
+//	 *
+//	 * @param r1 the r1 to set
+//	 ******************************************************************/
+//	public void setR1(int r1) {
+//		this.r1 = r1;
+//	}
+//
+//	/*******************************************************************
+//	 * Gets the selected col
+//	 *
+//	 * @return the c1
+//	 ******************************************************************/
+//	public int getC1() {
+//		return c1;
+//	}
+//
+//	/*******************************************************************
+//	 * Sets the selected col
+//	 *
+//	 * @param c1 the c1 to set
+//	 ******************************************************************/
+//	public void setC1(int c1) {
+//		this.c1 = c1;
+//	}
+//
+//	/*******************************************************************
+//	 * Gets the targeted row
+//	 *
+//	 * @return the r2
+//	 ******************************************************************/
+//	public int getR2() {
+//		return r2;
+//	}
+//
+//	/*******************************************************************
+//	 * Sets the targeted row
+//	 *
+//	 * @param r2 the r2 to set
+//	 ******************************************************************/
+//	public void setR2(int r2) {
+//		this.r2 = r2;
+//	}
+//
+//	/*******************************************************************
+//	 * Gets the targeted col
+//	 *
+//	 * @return the c2
+//	 ******************************************************************/
+//	public int getC2() {
+//		return c2;
+//	}
+//
+//	/*******************************************************************
+//	 * Sets the targeted col
+//	 *
+//	 * @param c2 the c2 to set
+//	 ******************************************************************/
+//	public void setC2(int c2) {
+//		this.c2 = c2;
+//	}
 
-	/*******************************************************************
-	 * Sets the selected row 
-	 *
-	 * @param r1 the r1 to set
-	 ******************************************************************/
-	public void setR1(int r1) {
-		this.r1 = r1;
-	}
+    /*******************************************************************
+     * Gets the selected row
+     *
+     * @return the r1
+     ******************************************************************/
+    public int getR1() {
+        return selected.getCol();
+    }
 
-	/*******************************************************************
-	 * Gets the selected col
-	 * 
-	 * @return the c1
-	 ******************************************************************/
-	public int getC1() {
-		return c1;
-	}
+    /*******************************************************************
+     * Sets the selected row
+     *
+     * @param r1 the r1 to set
+     ******************************************************************/
+    public void setR1(int r1) {
+        selected.setRow(r1);
+    }
 
-	/*******************************************************************
-	 * Sets the selected col 
-	 *
-	 * @param c1 the c1 to set
-	 ******************************************************************/
-	public void setC1(int c1) {
-		this.c1 = c1;
-	}
+    /*******************************************************************
+     * Gets the selected col
+     *
+     * @return the c1
+     ******************************************************************/
+    public int getC1() {
+        return selected.getCol();
+    }
 
-	/*******************************************************************
-	 * Gets the targeted row
-	 * 
-	 * @return the r2
-	 ******************************************************************/
-	public int getR2() {
-		return r2;
-	}
+    /*******************************************************************
+     * Sets the selected col
+     *
+     * @param c1 the c1 to set
+     ******************************************************************/
+    public void setC1(int c1) {
+        selected.setCol(c1);
+    }
 
-	/*******************************************************************
-	 * Sets the targeted row 
-	 *
-	 * @param r2 the r2 to set
-	 ******************************************************************/
-	public void setR2(int r2) {
-		this.r2 = r2;
-	}
+    /*******************************************************************
+     * Gets the targeted row
+     *
+     * @return the r2
+     ******************************************************************/
+    public int getR2() {
+        return targeted.getRow();
+    }
 
-	/*******************************************************************
-	 * Gets the targeted col
-	 * 
-	 * @return the c2
-	 ******************************************************************/
-	public int getC2() {
-		return c2;
-	}
+    /*******************************************************************
+     * Sets the targeted row
+     *
+     * @param r2 the r2 to set
+     ******************************************************************/
+    public void setR2(int r2) {
+        targeted.setRow(r2);
+    }
 
-	/*******************************************************************
-	 * Sets the targeted col 
-	 *
-	 * @param c2 the c2 to set
-	 ******************************************************************/
-	public void setC2(int c2) {
-		this.c2 = c2;
-	}
+    /*******************************************************************
+     * Gets the targeted col
+     *
+     * @return the c2
+     ******************************************************************/
+    public int getC2() {
+        return targeted.getCol();
+    }
+
+    /*******************************************************************
+     * Sets the targeted col
+     *
+     * @param c2 the c2 to set
+     ******************************************************************/
+    public void setC2(int c2) {
+        targeted.setCol(c2);
+    }
 
 	/*******************************************************************
 	 * Gets the selected Piece

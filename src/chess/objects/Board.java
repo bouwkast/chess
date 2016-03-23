@@ -23,7 +23,7 @@ public class Board implements java.io.Serializable {
     public void reset() {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                board[x][y] = new Cell();
+                board[x][y] = new Cell(x, y);
             }
         }
     }

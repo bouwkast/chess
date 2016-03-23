@@ -551,18 +551,12 @@ public class Chess implements java.io.Serializable {
                 return false;
             }
         }
-        // Need to reset the pieces
-        
-        // setPieceAt(r1, c1, old);
-        // getPieceAt(r1, c1).setHasMoved(moved);
-        // setPieceAt(r2, c2, pCellToCheck);
 
     }
     
     public boolean checkMoveNoCheck(int r1, int c1, int r2, int c2,
             Piece piece) {
-    	
-//    	boolean check = isKingInCheck(piece.getColor());
+
              
     	boolean isFirst = true;
         if (piece.checkMovement(r1, c1, r2, c2, this)) {

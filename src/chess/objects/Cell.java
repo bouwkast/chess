@@ -7,6 +7,8 @@ public class Cell implements java.io.Serializable{
 	/** Is whether the Cell is considered for En Passant */
 	private boolean isPassant;
 
+    private int row, col;
+
 	/*******************************************************************
 	 * Constructor for the Cell class, sets the piece to be null and
 	 * sets isPassant to be false by default.
@@ -14,7 +16,20 @@ public class Cell implements java.io.Serializable{
 	public Cell() {
 		piece = null;
 		isPassant = false;
+        row = -1;
+        col = -1;
 	}
+
+    /*******************************************************************
+     * Constructor for the Cell class, sets the piece to be null and
+     * sets isPassant to be false by default.
+     ******************************************************************/
+    public Cell(int row, int col) {
+        piece = null;
+        isPassant = false;
+        this.row = row;
+        this.col = col;
+    }
 
 	/*******************************************************************
 	 * Sets the Piece that is in the Cell, isPassant is set to false by
@@ -77,4 +92,19 @@ public class Cell implements java.io.Serializable{
 		this.isPassant = isPassant;
 	}
 
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
 }
