@@ -323,7 +323,8 @@ public class Chess implements java.io.Serializable {
      ******************************************************************/
     public void executeCastle(Cell current, Cell targeted, Piece king) {
         King toCheck = (King) king;
-        if (toCheck.castleCheckRight(current, targeted, king, this)) {
+
+        if(current.getRow() < targeted.getRow()) {
             // kingside
             // movePieceTo(r1, c1, r2, c2, king);
             Piece toCastle = getPieceAt(targeted.getRow(), targeted.getCol() + 1);
