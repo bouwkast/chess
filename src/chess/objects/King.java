@@ -3,11 +3,13 @@ package chess.objects;
 import chess.main.Chess;
 
 public class King extends Piece implements java.io.Serializable {
-    
+
+    private Cell current, targeted;
+
     /*******************************************************************
      * Constructor for the King that sets its PColor. While both Kings
      * are alive the game will continue.
-     * 
+     *
      * @param color is the PColor of the King to make
      ******************************************************************/
     public King(PColor color) {
@@ -19,126 +21,117 @@ public class King extends Piece implements java.io.Serializable {
             this.icon = "\u265a"; // black
         this.score = 99999;
     }
-    
+
     /*******************************************************************
-     * Copy constructor for the King 
-     * 
+     * Copy constructor for the King
+     *
      * @param other is the King to copy
      ******************************************************************/
     public King(King other) {
-    	super(other);
+        super(other);
     }
-    
+
     @Override
-    public boolean checkMovement(int r1, int c1, int r2, int c2,
-            Chess chess) {
+    public boolean checkMovement(Cell current, Cell targeted,
+                                 Chess chess) {
+        this.current = current;
+        this.targeted = targeted;
         /* King is similar to the queen, but can only move 1 spot */
-        Movement move = new Movement(r1, c1, r2, c2, this, chess);
+        Movement move = new Movement(current, targeted, this, chess);
         // Check if the attempted move is diagonal
-        if (Math.abs(r1 - r2) == Math.abs(c1 - c2)) {
-        	if(Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 1) {
-        		 return move.checkDiagonal();
-        	} else {
-        		return false;
-        	}
+        if (absRow() == absCol()) {
+            if (absRow() == 1 && absCol() == 1) {
+                return move.checkDiagonal();
+            } else {
+                return false;
+            }
             // Check to make sure it is one spot
-           
+
             // Check if the attempted move is lateral
-        } else if ((Math.abs(r1 - r2) == 0 && Math.abs(c1 - c2) == 1)
-                || (Math.abs(r1 - r2) == 1 && Math.abs(c1 - c2) == 0)) {
+        } else if ((absRow() == 0 && absCol() == 1)
+                || (absRow() == 1 && absCol() == 0)) {
             return move.checkLateral();
         } else {
             // Check for castling
-            return checkCastling(r1, c1, r2, c2, this, chess);
+            return checkCastling(this, chess);
         }
         // If neither, return false because it is an invalid move
     }
-    
+
     /*******************************************************************
      * Checks to see if the move is a valid castle move
-     * 
-     * @param r1 is the row of the King to castle
-     * @param c1 is the col of the King to castle
-     * @param r2 is the row of the castling move
-     * @param c2 is the col of the castling move
+     *
      * @param king is the King to castle
      * @return a boolean value whether the king can be castled
      ******************************************************************/
-    public boolean checkCastling(int r1, int c1, int r2, int c2,
-            King king, Chess chess) {
+    public boolean checkCastling(King king, Chess chess) {
         if (!king.hasMoved()) { // King can't have moved yet
-            if ((r1 == 0 && r2 == 0) || (r1 == 7 && r2 == 7)) {
-                if (Math.abs(c1 - c2) == 2 && c2 == 6 || c2 == 2) { // moving two cols
-                    if (c1 < c2) { // going to the right
-                        return castleCheckRight(r1, c1, r2, c2, king,
-                                chess);
+            if ((current.getRow() == 0 && targeted.getRow() == 0) || (current.getRow() == 7 && targeted.getRow() == 7)) {
+                if (absCol() == 2 && targeted.getCol() == 6 || targeted.getCol() == 2) { // moving two cols
+                    if (current.getCol() < targeted.getCol()) { // going to the right
+                        return castleCheckRight(king, chess);
                     } else { // going to the left
-                        return castleCheckLeft(r1, c1, r2, c2, king,
-                                chess);
+                        return castleCheckLeft(king, chess);
                     }
                 }
             }
         }
         return false;
     }
-    
+
+    public int absCol() {
+        return Math.abs(current.getCol() - targeted.getCol());
+    }
+
+    public int absRow() {
+        return Math.abs(current.getRow() - targeted.getRow());
+    }
+
     /*******************************************************************
      * Checks to see if the "queenside" castle is valid
-     * 
-     * @param r1 is the row of the King
-     * @param c1 is the col of the King
-     * @param r2 is the row of the castling move
-     * @param c2 is the col of the castling move
+     *
      * @param king is the King to castle
      * @return a boolean value whether the King can be castled
      ******************************************************************/
-    public boolean castleCheckLeft(int r1, int c1, int r2, int c2,
-            Piece king, Chess chess) {
-        if (Math.abs(c1 - c2) != 2) {
+    public boolean castleCheckLeft(Piece king, Chess chess) {
+        if (absCol() != 2) {
             return false;
         }
-        if(c2 < 2)
-        	System.out.print("OOOOOOOOOOOPSS" + c2);
-        if (chess.getPieceAt(r2, c2 - 2) != null) {
-            Piece toCastle = chess.getPieceAt(r2, c2 - 2);
+        if (chess.getPieceAt(targeted.getRow(), targeted.getCol() - 2) != null) {
+            Piece toCastle = chess.getPieceAt(targeted.getRow(), targeted.getCol() - 2);
             if (toCastle instanceof Rook && !toCastle.hasMoved()) {
                 // Need 3 empty and non-check cells
-                if (chess.getPieceAt(r2, c2 - 1) != null)
+                if (chess.getPieceAt(targeted.getRow(), targeted.getCol() - 1) != null)
                     return false;
-                if (chess.getPieceAt(r2, c2) != null)
+                if (chess.getPieceAt(targeted.getRow(), targeted.getCol()) != null)
                     return false;
-                if (chess.getPieceAt(r2, c2 + 1) != null)
+                if (chess.getPieceAt(targeted.getRow(), targeted.getCol() + 1) != null)
                     return false;
-                if (chess.isFutureCheck(r1, c1, r2, c2 + 1, king))
+                if (chess.isFutureCheck(current, chess.getBoard().getCellAt(targeted.getRow(), targeted.getCol() + 1), king))
                     return false;
                 return true;
             }
         }
         return false;
     }
-    
+
     /*******************************************************************
      * Checks to see if move is a valid "kingside" castle
-     * 
-     * @param r1 is the row of the King
-     * @param c1 is the col of the King
-     * @param r2 is the row of the castling move
-     * @param c2 is the col of the castling move
+     *
      * @param king is the King to castle
      * @return a boolean value whether it is a valid "kingside" castle
      ******************************************************************/
-    public boolean castleCheckRight(int r1, int c1, int r2, int c2,
-            Piece king, Chess chess) {
-        if (Math.abs(c1 - c2) != 2)
+    public boolean castleCheckRight(Piece king, Chess chess) {
+        if (absCol() != 2)
             return false;
-        if (chess.getPieceAt(r2, c2 + 1) != null) {
-            Piece toCastle = chess.getPieceAt(r2, c2 + 1);
+        if (chess.getPieceAt(targeted.getRow(), targeted.getCol() + 1) != null) {
+            Piece toCastle = chess.getPieceAt(targeted.getRow(), targeted.getCol() + 1);
             if (toCastle instanceof Rook && !toCastle.hasMoved()) {
-                if (chess.getPieceAt(r2, c2 - 1) != null)
+                if (chess.getPieceAt(targeted.getRow(), targeted.getCol() - 1) != null)
                     return false;
-                if (chess.getPieceAt(r2, c2) != null)
+                if (chess.getPieceAt(targeted.getRow(), targeted.getCol()) != null)
                     return false;
-                if (chess.isFutureCheck(r1, c1, r2, c2 - 1, king))
+                if (chess.isFutureCheck(current, chess.getBoard().getCellAt(targeted.getRow(), targeted.getCol() - 1), king))
                     return false;
                 return true;
             }

@@ -20,6 +20,8 @@ public class Chess implements java.io.Serializable {
      * ArrayList of Moves to keep track of movements made in the game
      */
     private List<Move> historyOfMoves;
+
+    private Cell current, targeted;
     
     /*******************************************************************
      * Default constructor - in the future we may add some parameters
@@ -179,18 +181,17 @@ public class Chess implements java.io.Serializable {
     }
     
     /*******************************************************************
-     * Makes a copy of a move that is about to be made.
-     * 
-     * @param r1 the selected row
-     * @param c1 the selected col
-     * @param r2 the targeted row
-     * @param c2 the targeted col
+     * Makes a copy of a move that is about to be made
+     *
+     * @param current is the currently selected piece to be move
+     * @param targeted is the targeted Cell to move the current piece to
      ******************************************************************/
     public void makeMove(Cell current, Cell targeted) {
-        Piece selPiece = getPieceAt(r1, c1); // shouldn't be null
-        Piece tarPiece = getPieceAt(r2, c2); // can be null
-        
-        Move toMake = new Move(r1, c1, r2, c2, selPiece, tarPiece);
+//        Piece selPiece = getPieceAt(r1, c1); // shouldn't be null
+        Piece selPiece = current.getChessPiece();
+//        Piece tarPiece = getPieceAt(r2, c2); // can be null
+        Piece tarPiece = targeted.getChessPiece();
+        Move toMake = new Move(current, targeted, selPiece, tarPiece);
         moves.add(toMake.clone());
         historyOfMoves.add(toMake.clone());
     }

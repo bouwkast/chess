@@ -166,7 +166,7 @@ public class Piece implements java.io.Serializable {
 		this.score = score;
 	}
 
-	public boolean checkMovement(int r1, int c1, int r2, int c2,
+	public boolean checkMovement(Cell current, Cell targeted,
 			Chess chess) {
 		return false;
 	}
