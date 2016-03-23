@@ -282,13 +282,13 @@ public class ChessController {
     private void executeSecondClick() {
         Piece first = game.getPieceAt(r1, c1);
         
-        if (game.checkMove(r1, c1, r2, c2, first)) {
+        if (game.checkMove(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first)) {
             // Castling is a unique king move
             if (first instanceof King) {
                 if (r1 == r2 && Math.abs(c1 - c2) == 2) {
                     updateCastlePieces(first);
                 } else {
-                    game.movePieceTo(r1, c1, r2, c2, first);
+                    game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
                     updateMovedPieceButtons();
                 }
             } else if (first instanceof Pawn) {
@@ -296,7 +296,7 @@ public class ChessController {
                     updatePassantPieces(first);
                     game.getBoard().resetPassant();
                 } else {
-                    game.movePieceTo(r1, c1, r2, c2, first);
+                    game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
                     updateMovedPieceButtons();
                 }
                 if (game.checkPawnPromotion(r2, c2, first)) {
@@ -304,7 +304,7 @@ public class ChessController {
                 }
             } else {
                 // It is a valid move, tell the game to move the piece
-                game.movePieceTo(r1, c1, r2, c2, first);
+                game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
             }
             if (resetPassant == 2) {
                 game.getBoard().resetPassant();
@@ -336,13 +336,13 @@ public class ChessController {
             c2 = move.getC2();
             Piece first = game.getPieceAt(r1, c1);
             
-            if (game.checkMove(r1, c1, r2, c2, first)) {
+            if (game.checkMove(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first)) {
                 // Castling is a unique king move
                 if (first instanceof King) {
                     if (r1 == r2 && Math.abs(c1 - c2) == 2) {
                         updateCastlePieces(first);
                     } else {
-                        game.movePieceTo(r1, c1, r2, c2, first);
+                        game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
                         updateMovedPieceButtons();
                     }
                 } else if (first instanceof Pawn) {
@@ -354,13 +354,13 @@ public class ChessController {
                         game.setEnPassCap(false);
                         game.getBoard().resetPassant();
                     } else {
-                        game.movePieceTo(r1, c1, r2, c2, first);
+                        game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
                         updateMovedPieceButtons();
                     }
                 } else {
                     // It is a valid move, tell the game to move the
                     // piece
-                    game.movePieceTo(r1, c1, r2, c2, first);
+                    game.movePieceTo(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
                 }
                 whiteTurn = game.changeTurn();
                 updateMovedPieceButtons();
@@ -410,7 +410,7 @@ public class ChessController {
      * @param first is the first piece selected
      ******************************************************************/
     private void updateCastlePieces(Piece first) {
-        game.executeCastle(r1, c1, r2, c2, first);
+        game.executeCastle(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), first);
         if (c1 < c2) {
             updateMovedPieceButtons();
             gui.getButtonAt(r2, c2 + 1).setText("");
@@ -449,7 +449,7 @@ public class ChessController {
      * of a en Passant move
      **************************************************************/
     private void updatePassantPieces(Piece piece) {
-        game.executeEnPassant(r1, c1, r2, c2, (Pawn) piece);
+        game.executeEnPassant(game.getBoard().getCellAt(r1, c1), game.getBoard().getCellAt(r2, c2), (Pawn) piece);
         gui.getButtonAt(r2, c2).setText(game.getPieceAt(r2, c2).getIcon());
         gui.getButtonAt(r1, c1).setText("");
 //        gui.setCellIcon(gui.getButtonAt(r2, c2),
