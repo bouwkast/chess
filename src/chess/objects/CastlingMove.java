@@ -26,9 +26,9 @@ public class CastlingMove extends Move implements java.io.Serializable {
      * @param selPiece is the selected Piece
      * @param tarPiece is the targeted Piece
      ******************************************************************/
-    public CastlingMove(int r1, int c1, int r2, int c2, Piece selPiece,
+    public CastlingMove(Cell current, Cell targeted, Piece selPiece,
                         Piece tarPiece) {
-        super(r1, c1, r2, c2, selPiece, tarPiece);
+        super(current, targeted, selPiece, tarPiece);
     }
     
     /*******************************************************************
