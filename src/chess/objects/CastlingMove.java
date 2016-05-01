@@ -12,8 +12,9 @@ public class CastlingMove extends Move implements java.io.Serializable {
     int rowOfRook2;
     int colOfRook2;
     Piece rookPiece;
-    Piece targetLocation;
+    Piece targetLocation; // TODO appears that this is useless
     boolean isKingside;
+    Cell current, targeted;
     
     /*******************************************************************
      * Constructor to create a new CastlingMove based on the selected
@@ -33,48 +34,56 @@ public class CastlingMove extends Move implements java.io.Serializable {
         else
             isKingside = false;
         setParameters(current, targeted);
+        this.current = current;
+        this.targeted = targeted;
     }
 
     private void setParameters(Cell current, Cell targeted) {
         int xDir = isKingside ? -1 : 3; // direction of the rook to move
-
-
+        colOfRook1 = isKingside ? 7 : 0; // if it is kingside its in col 7 else its 0
+        colOfRook2 = colOfRook1 + xDir;
+        if(current.getChessPiece().getColor() == PColor.Black)
+            rowOfRook1 = 0;
+        else
+            rowOfRook1 = 7;
+        rowOfRook2 = rowOfRook1; // TODO, seriously....... it can only go horizontally need to fix
+        if(current.getChessPiece().getColor() == PColor.Black)
+            rookPiece = new Rook(PColor.Black);
+        else
+            rookPiece = new Rook(PColor.White);
 
     }
-
-    /*******************************************************************
-     * Constructor to create a new CastlingMove based on the selected
-     * King's row and column, the targeted row and column for the King,
-     * the selected Rook's row and column, and the Rook's targeted row
-     * and column.
-     * 
-     * @param kingRow1 contains the row of the selected King
-     * @param kingCol1 contains the column of the selected King
-     * @param kingRow2 contains the row where the King will go
-     * @param kingCol2 contains the column where the King will go
-     * @param kingPiece contains the King piece
-     * @param tarPiece contains the piece at the targeted location
-     * @param rookRow1 contains the row of the selected Rook
-     * @param rookCol1 contains the column of the selected Rook
-     * @param rookRow2 contains the row where the Rook will go
-     * @param rookCol2 contains the column where the Rook will go
-     * @param rookSelect contains the Rook piece
-     * @param rookTarPiece contains the piece at the targted location
-     ******************************************************************/
-    public CastlingMove(Cell current, Cell targeted, Piece kingPiece, Piece tarPiece, int rookRow1,
-                        int rookCol1, int rookRow2, int rookCol2, Piece rookSelect,
-                        Piece rookTarPiece) {
-            
-        super(current, targeted, kingPiece,
-                tarPiece);
-                
-        rowOfRook1 = rookRow1;
-        colOfRook1 = rookCol1;
-        rowOfRook2 = rookRow2;
-        colOfRook2 = rookCol2;
-        rookPiece = rookSelect;
-        targetLocation = rookTarPiece;
-    }
+    // TODO temporary comment out before deletion
+//
+//    /*******************************************************************
+//     * Constructor to create a new CastlingMove based on the selected
+//     * King's row and column, the targeted row and column for the King,
+//     * the selected Rook's row and column, and the Rook's targeted row
+//     * and column.
+//     *
+//     * @param kingPiece contains the King piece
+//     * @param tarPiece contains the piece at the targeted location
+//     * @param rookRow1 contains the row of the selected Rook
+//     * @param rookCol1 contains the column of the selected Rook
+//     * @param rookRow2 contains the row where the Rook will go
+//     * @param rookCol2 contains the column where the Rook will go
+//     * @param rookSelect contains the Rook piece
+//     * @param rookTarPiece contains the piece at the targted location
+//     ******************************************************************/
+//    public CastlingMove(Cell current, Cell targeted, Piece kingPiece, Piece tarPiece, int rookRow1,
+//                        int rookCol1, int rookRow2, int rookCol2, Piece rookSelect,
+//                        Piece rookTarPiece) {
+//
+//        super(current, targeted, kingPiece,
+//                tarPiece);
+//
+//        rowOfRook1 = rookRow1;
+//        colOfRook1 = rookCol1;
+//        rowOfRook2 = rookRow2;
+//        colOfRook2 = rookCol2;
+//        rookPiece = rookSelect;
+//        targetLocation = rookTarPiece;
+//    }
     
     /*******************************************************************
      * Method to set the row of the selected Rook to a given value.
@@ -210,23 +219,22 @@ public class CastlingMove extends Move implements java.io.Serializable {
         
         Piece cloneRookStart;
         Piece cloneRookEnd;
-        
-        int rowOfKing1 = super.getR1();
-        int colOfKing1 = super.getC1();
-        int rowOfKing2 = super.getR2();
-        int colOfKing2 = super.getC2();
+
+        Cell cCurrent = current.cloneCell();
+        Cell cTargeted = targeted.cloneCell();
         
         cloneRookStart = new Rook((Rook) rookPiece);
         cloneRookEnd = null;
         
         cloneKingStart = new King((King) super.getSelPiece());
         cloneKingEnd = null;
-        
-        CastlingMove clonedCastle = new CastlingMove(current, targeted, cloneKingStart,
-                cloneKingEnd, rowOfRook1, colOfRook1, rowOfRook2,
-                colOfRook2, cloneRookStart, cloneRookEnd);
-                
-        return clonedCastle;
+
+        return new CastlingMove(cCurrent, cTargeted, cloneKingStart, null);
+//        CastlingMove clonedCastle = new CastlingMove(current, targeted, cloneKingStart,
+//                cloneKingEnd, rowOfRook1, colOfRook1, rowOfRook2,
+//                colOfRook2, cloneRookStart, cloneRookEnd);
+//
+//        return clonedCastle;
     }
     
 }

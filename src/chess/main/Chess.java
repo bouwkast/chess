@@ -121,7 +121,7 @@ public class Chess implements java.io.Serializable {
 
         Piece piece = getPieceAt(current.getRow(), targeted.getCol());
 
-        EnPassantMove passantMove = new EnPassantMove(current.getRow(), current.getCol(), targeted.getRow(), targeted.getCol(), selection, target, piece);
+        EnPassantMove passantMove = new EnPassantMove(current, targeted, selection, target, piece);
 
         moves.add(passantMove.cloneMove());
         historyOfMoves.add(passantMove.cloneMove());
@@ -158,10 +158,11 @@ public class Chess implements java.io.Serializable {
         Piece kingTarget = getPieceAt(kingRow2, kingCol2);
         Piece rookTarget = getPieceAt(rookRow2, rookCol2);
 
-        CastlingMove castlingMove = new CastlingMove(kingRow1,
-                kingCol1, kingRow2, kingCol2, kingPiece, kingTarget,
-                rookRow1, rookCol1, rookRow2, rookCol2, rookPiece,
-                rookTarget);
+//        CastlingMove castlingMove = new CastlingMove(kingRow1,
+//                kingCol1, kingRow2, kingCol2, kingPiece, kingTarget,
+//                rookRow1, rookCol1, rookRow2, rookCol2, rookPiece,
+//                rookTarget);
+        CastlingMove castlingMove = new CastlingMove(board.getCellAt(kingRow1, kingCol1), board.getCellAt(kingRow2, kingCol2), board.getPieceAt(kingRow1, kingCol1), null);
 
         moves.add(castlingMove.cloneCastling());
         historyOfMoves.add(castlingMove.cloneCastling());

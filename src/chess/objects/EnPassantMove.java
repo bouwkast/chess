@@ -6,6 +6,7 @@ package chess.objects;
 public class EnPassantMove extends Move implements java.io.Serializable {
     
     private Piece capturedPiece;
+    private Cell current, targeted;
     
     /******************************************************************
      * Constructor for the En Passant Move. 
@@ -13,17 +14,15 @@ public class EnPassantMove extends Move implements java.io.Serializable {
      * and column and the targeted row and column. Here to act as a 
      * super constructor for the move class 
      * and contains all of its variables
-     * 
-     *@param r1 is the selected row
-     *@param c1 is the selected col
-     *@param r2 is the targeted row
-     *@param c2 is the targeted col
+     *
      *@param selPiece is the selected Piece
      *@param tarPiece is the targeted Piece
     ******************************************************************/
-    public EnPassantMove(int r1, int c1, int r2, int c2,
+    public EnPassantMove(Cell current, Cell targeted,
                          Piece selPiece, Piece tarPiece) {
-        super(r1, c1, r2, c2, selPiece, tarPiece);
+        super(current, targeted, selPiece, tarPiece);
+        this.current = current;
+        this.targeted = targeted;
         // TODO Auto-generated constructor stub
     }
     
@@ -34,23 +33,20 @@ public class EnPassantMove extends Move implements java.io.Serializable {
      * object contains all the variables of the Move object as well
      * as a third piece variable that stores the 
      * captured piece that results from this movement
-     * 
-     *@param r1 is the selected row
-     *@param c1 is the selected col
-     *@param r2 is the targeted row
-     *@param c2 is the targeted col
+     *
      *@param selPiece is the selected Piece
      *@param tarPiece is the targeted Piece
      *@param capturedPassant is the captured piece 
     ******************************************************************/
     
-    public EnPassantMove(int r1, int c1, int r2, int c2,
+    public EnPassantMove(Cell current, Cell targeted,
                          Piece selPiece, Piece tarPiece, Piece capturedPassant) {
             
-        super(r1, c1, r2, c2, selPiece, tarPiece);
+        super(current, targeted, selPiece, tarPiece);
         
         capturedPiece = capturedPassant;
-        
+        this.current = current;
+        this.targeted = targeted;
     }
     
     /******************************************************************
@@ -89,6 +85,9 @@ public class EnPassantMove extends Move implements java.io.Serializable {
         int c1 = super.getC1();
         int r2 = super.getR2();
         int c2 = super.getC2();
+
+        Cell cCurrent = current.cloneCell();
+        Cell cTargeted = targeted.cloneCell();
         
         selectClone = new Pawn((Pawn) super.getSelPiece());
         targetClone = null;
@@ -98,7 +97,7 @@ public class EnPassantMove extends Move implements java.io.Serializable {
         else
         	capturedPieceCopy = null;
         
-        EnPassantMove clonedMove = new EnPassantMove(r1, c1, r2, c2,
+        EnPassantMove clonedMove = new EnPassantMove(cCurrent, cTargeted,
                 selectClone, targetClone, capturedPieceCopy);
                 
         return clonedMove;

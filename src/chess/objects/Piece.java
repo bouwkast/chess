@@ -29,6 +29,8 @@ public class Piece implements java.io.Serializable {
 		score = 0;
 	}
 
+
+
 	/*******************************************************************
 	 * Third constructor that takes three parameters for the Piece
 	 * 

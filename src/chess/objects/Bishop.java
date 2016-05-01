@@ -20,13 +20,6 @@ public class Bishop extends Piece implements java.io.Serializable {
         this.score = 30;
     }
 
-    public int absCol() {
-        return Math.abs(current.getCol() - targeted.getCol());
-    }
-
-    public int absRow() {
-        return Math.abs(current.getRow() - targeted.getRow());
-    }
 
     /*******************************************************************
      * Copy constructor for the Bishop
@@ -42,7 +35,7 @@ public class Bishop extends Piece implements java.io.Serializable {
         this.current = current;
         this.targeted = targeted;
         // Bishops row and col must change by same amount
-        if (absRow() == absCol()) {
+        if (Math.abs(current.getRow() - targeted.getRow()) == Math.abs(current.getCol() - targeted.getCol())) {
             Movement move = new Movement(current, targeted, this, chess);
             return move.checkDiagonal();
 

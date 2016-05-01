@@ -25,18 +25,11 @@ public class Knight extends Piece implements java.io.Serializable {
         super(other);
     }
 
-    public int absCol() {
-        return Math.abs(current.getCol() - targeted.getCol());
-    }
-
-    public int absRow() {
-        return Math.abs(current.getRow() - targeted.getRow());
-    }
-
     @Override
     public boolean checkMovement(Cell current, Cell targeted, Chess chess) {
+
         // First need to calc the difference for the rows and cols
-        if ((absRow() == 2 && absCol() == 1) || (absRow() == 1 && absCol() == 2)) {
+        if ((Math.abs(current.getRow() - targeted.getRow()) == 2 && Math.abs(current.getCol() - targeted.getCol()) == 1) || (Math.abs(current.getRow() - targeted.getRow()) == 1 &&  Math.abs(current.getCol() - targeted.getCol()) == 2)) {
             // Need to check the cell it is moving to
             if (targeted.getChessPiece() == null || this.getColor() != targeted.getChessPiece().getColor()) {
                 // Valid move, we can move the Knight

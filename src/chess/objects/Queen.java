@@ -20,17 +20,10 @@ public class Queen extends Piece implements java.io.Serializable {
 		this.score = 90;
 	}
 
-    public int absCol() {
-        return Math.abs(current.getCol() - targeted.getCol());
-    }
-
-    public int absRow() {
-        return Math.abs(current.getRow() - targeted.getRow());
-    }
 	
 	/*******************************************************************
 	 * Copy constructor for the Queen 
-	 * 
+	 *
 	 * @param other is the Queen to copy
 	 ******************************************************************/
 	public Queen(Queen other) {
@@ -44,12 +37,12 @@ public class Queen extends Piece implements java.io.Serializable {
 		/* The Queen can move either diagonally or laterally */
 		Movement move = new Movement(current, targeted, this, chess);
 		// Check if the attempted move is diagonal
-		if (absRow() == absCol()) {
+		if (Math.abs(current.getRow() - targeted.getRow()) == Math.abs(current.getCol() - targeted.getCol())) {
 			return move.checkDiagonal();
 
 			// Check if the attempted move is lateral
-		} else if ((absRow() == 0 && current.getCol() != targeted.getCol())
-				|| (current.getRow() != targeted.getRow() && absCol() == 0)) {
+		} else if ((Math.abs(current.getRow() - targeted.getRow()) == 0 && current.getCol() != targeted.getCol())
+				|| (current.getRow() != targeted.getRow() && Math.abs(current.getCol() - targeted.getCol()) == 0)) {
 			return move.checkLateral();
 		}
 

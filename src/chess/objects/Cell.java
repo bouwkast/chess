@@ -31,6 +31,13 @@ public class Cell implements java.io.Serializable{
         this.col = col;
     }
 
+    public Cell(Piece piece, Boolean isPassant, int row, int col) {
+        this.piece = piece;
+        this.isPassant = isPassant;
+        this.row = row;
+        this.col = col;
+    }
+
 	/*******************************************************************
 	 * Sets the Piece that is in the Cell, isPassant is set to false by
 	 * default and only is true when a pawn moves past the cell due to
@@ -106,5 +113,9 @@ public class Cell implements java.io.Serializable{
 
     public void setCol(int col) {
         this.col = col;
+    }
+
+	public Cell cloneCell() {
+        return new Cell(new Piece(piece), isPassant, row, col);
     }
 }
