@@ -4,6 +4,8 @@
 package chess.objects;
 
 public class CastlingMove extends Move implements java.io.Serializable {
+
+
     
     int rowOfRook1;
     int colOfRook1;
@@ -11,6 +13,7 @@ public class CastlingMove extends Move implements java.io.Serializable {
     int colOfRook2;
     Piece rookPiece;
     Piece targetLocation;
+    boolean isKingside;
     
     /*******************************************************************
      * Constructor to create a new CastlingMove based on the selected
@@ -18,19 +21,27 @@ public class CastlingMove extends Move implements java.io.Serializable {
      * super constructor for the move class. Each CastlingMove contains
      * a copy of the King and the Rook with different IDs to be able to
      * undo the Castling move.
-     * 
-     * @param r1 is the selected row
-     * @param c1 is the selected col
-     * @param r2 is the targeted row
-     * @param c2 is the targeted col
+     *
      * @param selPiece is the selected Piece
      * @param tarPiece is the targeted Piece
      ******************************************************************/
     public CastlingMove(Cell current, Cell targeted, Piece selPiece,
                         Piece tarPiece) {
         super(current, targeted, selPiece, tarPiece);
+        if(current.getCol() < targeted.getCol())
+            isKingside = true;
+        else
+            isKingside = false;
+        setParameters(current, targeted);
     }
-    
+
+    private void setParameters(Cell current, Cell targeted) {
+        int xDir = isKingside ? -1 : 3; // direction of the rook to move
+
+
+
+    }
+
     /*******************************************************************
      * Constructor to create a new CastlingMove based on the selected
      * King's row and column, the targeted row and column for the King,
@@ -50,12 +61,11 @@ public class CastlingMove extends Move implements java.io.Serializable {
      * @param rookSelect contains the Rook piece
      * @param rookTarPiece contains the piece at the targted location
      ******************************************************************/
-    public CastlingMove(int kingRow1, int kingCol1, int kingRow2,
-                        int kingCol2, Piece kingPiece, Piece tarPiece, int rookRow1,
+    public CastlingMove(Cell current, Cell targeted, Piece kingPiece, Piece tarPiece, int rookRow1,
                         int rookCol1, int rookRow2, int rookCol2, Piece rookSelect,
                         Piece rookTarPiece) {
             
-        super(kingRow1, kingCol1, kingRow2, kingCol2, kingPiece,
+        super(current, targeted, kingPiece,
                 tarPiece);
                 
         rowOfRook1 = rookRow1;
@@ -212,8 +222,7 @@ public class CastlingMove extends Move implements java.io.Serializable {
         cloneKingStart = new King((King) super.getSelPiece());
         cloneKingEnd = null;
         
-        CastlingMove clonedCastle = new CastlingMove(rowOfKing1,
-                colOfKing1, rowOfKing2, colOfKing2, cloneKingStart,
+        CastlingMove clonedCastle = new CastlingMove(current, targeted, cloneKingStart,
                 cloneKingEnd, rowOfRook1, colOfRook1, rowOfRook2,
                 colOfRook2, cloneRookStart, cloneRookEnd);
                 
