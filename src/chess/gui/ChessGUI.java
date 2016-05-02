@@ -9,130 +9,116 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics2D;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Image;
+
 import java.awt.Insets;
-import java.awt.RenderingHints;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
+
 
 import chess.main.Chess;
 
 public class ChessGUI extends JFrame {
-    
+
     private static final long serialVersionUID = 1L;
-    
-    /** Is the 2D array of JButtons to use for the board */
+
+    /**
+     * Is the 2D array of JButtons to use for the board
+     */
     private JButton[][] board;
-    /** Is the panel that contains the JButtons */
+    /**
+     * Is the panel that contains the JButtons
+     */
     private JPanel gridPanel;
-    /** Is the instance of the chess game */
+    /**
+     * Is the instance of the chess game
+     */
     private Chess chess;
-    /** Menu Bar for the game */
+    /**
+     * Menu Bar for the game
+     */
     private JMenuBar menuBar;
-    /** File menu */
+    /**
+     * File menu
+     */
     private JMenu menu;
-    /** Menu to enable/disable AI */
+    /**
+     * Menu to enable/disable AI
+     */
     private JMenu enableMenu;
-    /** Option to start a new game */
+    /**
+     * Option to start a new game
+     */
     private JMenuItem newItem;
-    /** Option to exit the game */
+    /**
+     * Option to exit the game
+     */
     private JMenuItem exitItem;
-    /** Option to enable the AI */
+    /**
+     * Option to enable the AI
+     */
     private JMenuItem enableItem;
-    /** Option to undo previous move(s) */
+    /**
+     * Option to undo previous move(s)
+     */
     private JMenuItem undoItem;
-    /** Option to save the game*/
+    /**
+     * Option to save the game
+     */
     private JMenuItem saveItem;
-    /** Option to load the game*/
+    /**
+     * Option to load the game
+     */
     private JMenuItem loadItem;
-    /** Font for the JButtons */
+    /**
+     * Font for the JButtons
+     */
     private final Font FONT = new Font("Arial Unicode MS", Font.BOLD,
             24);
-    /** Screen dimension */
+    /**
+     * Screen dimension
+     */
     private Dimension screenSize = Toolkit.getDefaultToolkit()
             .getScreenSize();
     private final int BHEIGHT = (screenSize.height - screenSize.height / 3);
     private final int BWIDTH = (screenSize.height - screenSize.height / 3);
-    /** Dimension for board to make square */
-    private Dimension boardSize = new Dimension((int)BHEIGHT, (int)BWIDTH);
-    /** Main JPanel for the entire GUI */
+    /**
+     * Dimension for board to make square
+     */
+    private Dimension boardSize = new Dimension((int) BHEIGHT, (int) BWIDTH);
+    /**
+     * Main JPanel for the entire GUI
+     */
     private JPanel mainPanel;
-    /** GUI that has the timers in it */
-    private TimerGUI timerGUI;
-    /** Timer Menu */
-    private JMenu timerMenu;
-     /** Option to reset the Timer */
-    private JMenuItem resetTimerItem;
-    /** Option to change the time limit to Two Minutes */
-    private JMenuItem twoMinutesItem;
-    /** Option to change the time limit to Five Minutes */
-    private JMenuItem fiveMinutesItem;
-    /** Option to change the time limit to Ten Minutes */
-    private JMenuItem tenMinutesItem;
-    /** Option to enable/disable the timer */
-    private JMenuItem enableOrDisableTimerItem;
-    
-    /** Panel to contain the list of moves made throughout the game */
-    private JPanel historyPanel;
-    
-    /**List to display moves made throughout the game*/
-    private JList ListBox;
-    
-    /**DESCRIPTION*/
-    private DefaultListModel<String> listModel;
-    
-    /**Scroll pane to allow scrolling through the list of moves */
-    private JScrollPane listScroll;
-    
- // Determine what the default GraphicsDevice can support.
- 	GraphicsEnvironment ge =
- 	    GraphicsEnvironment.getLocalGraphicsEnvironment();
- 	GraphicsDevice gd = ge.getDefaultScreenDevice();
 
- 	boolean isUniformTranslucencySupported =
- 	    gd.isWindowTranslucencySupported(TRANSLUCENT);
- 	boolean isPerPixelTranslucencySupported =
- 	    gd.isWindowTranslucencySupported(PERPIXEL_TRANSLUCENT);
- 	boolean isShapedWindowSupported =
- 	    gd.isWindowTranslucencySupported(PERPIXEL_TRANSPARENT);
-    
-    
-    
+
     /*******************************************************************
      * Constructor for the View
      ******************************************************************/
     public ChessGUI() {
-    	
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         FlowLayout layout = new FlowLayout();
         layout.setHgap(0);
         layout.setVgap(0);
         this.setLocation(screenSize.width - 2 * BWIDTH, 0);
         this.setLayout(layout);
-        JButton[][] highLightBoard = new JButton[8][8];
         chess = new Chess();
         board = new JButton[8][8];
         menuBar = new JMenuBar();
         menu = new JMenu("File");
-        timerMenu = new JMenu("Timer");
         newItem = new JMenuItem("New Game");
         exitItem = new JMenuItem("Exit Game");
         saveItem = new JMenuItem("Save");
@@ -140,20 +126,12 @@ public class ChessGUI extends JFrame {
         enableItem = new JMenuItem("Enable AI");
         undoItem = new JMenuItem("Undo");
         enableMenu = new JMenu("AI");
-        
-        resetTimerItem = new JMenuItem("Reset");
-        twoMinutesItem = new JMenuItem("2 Minutes");
-        fiveMinutesItem = new JMenuItem("5 Minutes");
-        tenMinutesItem = new JMenuItem("10 Minutes");
-        enableOrDisableTimerItem = new JMenuItem("Disable Timer");
 
-        
-        timerGUI = new TimerGUI();
-        
+
         mainPanel = new JPanel(new BorderLayout());
         gridPanel = new JPanel(new GridLayout(8, 8));
         gridPanel.setPreferredSize(boardSize);
-        
+
         add(menuBar);
         menuBar.add(menu);
         menu.add(newItem);
@@ -161,40 +139,32 @@ public class ChessGUI extends JFrame {
         menu.add(undoItem);
         menu.add(saveItem);
         menu.add(loadItem);
-        menuBar.add(timerMenu);
-        timerMenu.add(resetTimerItem);
-        timerMenu.add(twoMinutesItem);
-        timerMenu.add(fiveMinutesItem);
-        timerMenu.add(tenMinutesItem);
-        timerMenu.add(enableOrDisableTimerItem);
         enableMenu.add(enableItem);
         menuBar.add(enableMenu);
-        
+
         setJMenuBar(menuBar);
 
-                
-        mainPanel.add(timerGUI, BorderLayout.NORTH);
+
         mainPanel.add(gridPanel);
-        
-        
-        addHistoryList();
+
+
         createButtons();
         resetBoard();
-                
+
         this.add(mainPanel);
         this.pack();
         this.setVisible(true);
     }
-    
+
     /******************************************************************
      * Gets the board in the form of a 2D array of JButtons
-     * 
+     *
      * @return a 2D array of JButton
      *****************************************************************/
     public JButton[][] getBoard() {
         return board;
     }
-    
+
     /******************************************************************
      * Creates all of the buttons and creates an ImageIcon in each
      *****************************************************************/
@@ -202,14 +172,14 @@ public class ChessGUI extends JFrame {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 board[row][col] = new JButton(new ImageIcon());
-                 board[row][col].setFont(FONT);
+                board[row][col].setFont(FONT);
             }
         }
     }
-    
+
     /*******************************************************************
      * Gets the JButton at a specified location
-     * 
+     *
      * @param row is the row of the JButton to get
      * @param col is the col of the JButton to get
      * @return a JButton at the specified location
@@ -217,7 +187,7 @@ public class ChessGUI extends JFrame {
     public JButton getButtonAt(int row, int col) {
         return board[row][col];
     }
-    
+
     /*******************************************************************
      * Resets the Board that the user sees
      ******************************************************************/
@@ -225,9 +195,8 @@ public class ChessGUI extends JFrame {
         gridPanel.removeAll();
         resetButtons();
         setCheckers();
-        listModel.clear();
     }
-    
+
     /*******************************************************************
      * Resets each button and puts the proper icon in place
      ******************************************************************/
@@ -247,7 +216,7 @@ public class ChessGUI extends JFrame {
             }
         }
     }
-    
+
     /*******************************************************************
      * Creates the checkerboard pattern for the board
      ******************************************************************/
@@ -269,84 +238,64 @@ public class ChessGUI extends JFrame {
             }
         }
     }
-    
+
     /*******************************************************************
      * Gets the menu item to start a new game
-     * 
+     *
      * @return a JMenuItem of new game
      ******************************************************************/
     public JMenuItem getNewItem() {
         return newItem;
     }
-    
+
     /*******************************************************************
      * Gets the menu item to exit the game
-     * 
+     *
      * @return a JMenuItem of exit game
      ******************************************************************/
     public JMenuItem getExitItem() {
         return exitItem;
     }
-    
+
     /*******************************************************************
      * Gets the save item to save the current game
-     * 
+     *
      * @return a JMenuItem of icon set
      ******************************************************************/
     public JMenuItem getSaveItem() {
         return saveItem;
     }
-    
+
     /*******************************************************************
      * Gets the load item to load a previously saved game
-     * 
+     *
      * @return a JMenuItem of icon set
      ******************************************************************/
     public JMenuItem getLoadItem() {
         return loadItem;
     }
-    
+
     /*******************************************************************
      * Gets the JMenuItem that allows the user to enable the AI
-     * 
+     *
      * @return a JMenuItem to enable the AI
      ******************************************************************/
     public JMenuItem getEnableItem() {
         return enableItem;
     }
-    
+
     /*******************************************************************
      * Gets the JMenuItem that allows the user to undo a move
-     * 
+     *
      * @return a JMenuItem to undo a previous move
      ******************************************************************/
     public JMenuItem getUndoItem() {
         return undoItem;
     }
-    
-    public JMenuItem getRestTimerItem() {
-        return resetTimerItem;
-    }
-    
-    public JMenuItem getTwoMinutesItem() {
-        return twoMinutesItem;
-    }
-    
-    public JMenuItem getFiveMinutesItem() {
-        return fiveMinutesItem;
-    }
-    
-    public JMenuItem getTenMinutesItem() {
-        return tenMinutesItem;
-    }
-    
-    public JMenuItem getEnableOrDisableTimerItem() {
-        return enableOrDisableTimerItem;
-    }
-    
+
     /*******************************************************************
      * Adds the Controller to the JButtons
-     * 
+     *
      * @param listener is the ActionListener to add
      ******************************************************************/
     public void addChessListener(ActionListener listener) {
@@ -354,82 +303,27 @@ public class ChessGUI extends JFrame {
         newItem.addActionListener(listener);
         saveItem.addActionListener(listener);
         loadItem.addActionListener(listener);
-        
+
         enableItem.addActionListener(listener);
         undoItem.addActionListener(listener);
-        resetTimerItem.addActionListener(listener);
-        twoMinutesItem.addActionListener(listener);
-        fiveMinutesItem.addActionListener(listener);
-        tenMinutesItem.addActionListener(listener);
-        enableOrDisableTimerItem.addActionListener(listener);
 
-        
+
         for (int row = 0; row < 8; ++row) {
             for (int col = 0; col < 8; ++col) {
                 board[row][col].addActionListener(listener);
             }
         }
     }
-    
+
+
     /*******************************************************************
-     * Gets the TimerGUI that holds both of the times for the players
-     * 
-     * @return the TimerGUI
+     * Gets the enableMenu to turn the AI on/off
+     *
+     * @return JMenu the enableMenu
      ******************************************************************/
-    public TimerGUI getTimerGUI() {
-        return timerGUI;
+    public JMenu getEnableMenu() {
+        return enableMenu;
     }
-    
-    /*******************************************************************
-     * Method to add the necessary components to the GUI to create
-     * the history list of moves made throughout the game 
-     * 
-    *******************************************************************/
-    
-    public void addHistoryList(){
-        
-        historyPanel = new JPanel();
-        listModel = new DefaultListModel();
-        ListBox = new JList(listModel);
-        listScroll = new JScrollPane(ListBox);
-        
-        ListBox.setPreferredSize(new Dimension(100, boardSize.height));
-        ListBox.setSelectionMode(
-                ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        ListBox.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        ListBox.setVisibleRowCount(-1);
-        ListBox.setVisible(true);
-        
-        listScroll = new JScrollPane(ListBox);
-        listScroll.setPreferredSize(new Dimension(100, boardSize.height));
-        
-        historyPanel.add(listScroll);
-        
-        mainPanel.add(historyPanel,BorderLayout.WEST);
-    }
-    
-   /********************************************************************
-   * Method to update the history list of moves and display the 
-   * appropriate Strings
-   * 
-   * @param historyList containing the Strings to display
-  *********************************************************************/
-  
-  public void updateHistory(List<String> historyList){
-      listModel.clear();
-      for (int x = 0; x<historyList.size(); x++){
-          listModel.addElement(historyList.get(x));
-      }
-  }
-  
-  /*******************************************************************
-   * Gets the enableMenu to turn the AI on/off
-   * 
-   * @return JMenu the enableMenu
-   ******************************************************************/
-  public JMenu getEnableMenu() {
-	  return enableMenu;
-  }
-  
-  
+
+
 }
