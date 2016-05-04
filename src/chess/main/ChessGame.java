@@ -15,14 +15,14 @@ import chess.gui.ChessGUI;
 public class ChessGame {
 
 	public static void main(String[] args) {
-//		ChessGUI theView = new ChessGUI();
+		ChessGUI theView = new ChessGUI();
 		
 		Chess theModel = new Chess();
 
 //		ChessController theController =
 //				new ChessController(theView, theModel);
 
-//		theView.setVisible(true);
+		theView.setVisible(true);
 	}
 
 }

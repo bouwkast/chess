@@ -63,6 +63,7 @@ public class ChessController {
      * @param e is the ActionEvent that occurs
      ******************************************************************/
     private void findCell(ActionEvent e) {
+
     }
 
 
