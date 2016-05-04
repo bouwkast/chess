@@ -30,4 +30,7 @@ public class Piece implements java.io.Serializable {
     }
 
 
+    public String getIcon() {
+        return icon;
+    }
 }
