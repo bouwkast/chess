@@ -37,4 +37,8 @@ public class Piece implements java.io.Serializable {
     public int getColor() {
         return color;
     }
+
+    public String getName() {
+        return name;
+    }
 }
