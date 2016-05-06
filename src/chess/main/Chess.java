@@ -27,12 +27,12 @@ public class Chess implements java.io.Serializable {
         return true;
     }
 
-    private boolean checkPawnMove(Cell initial, Cell targeted) {
+    public boolean checkPawnMove(Cell initial, Cell targeted) {
 
         return false;
     }
 
-    private boolean checkKnightMove(Cell initial, Cell targeted) {
+    public boolean checkKnightMove(Cell initial, Cell targeted) {
         // move is 2 row 1 col or 1 row 2 col
         if (Math.abs(initial.getRow() - targeted.getRow()) == 2 && Math.abs(initial.getCol() - targeted.getCol())
                 == 1 || Math.abs(initial.getRow() - targeted.getRow()) == 1 && Math.abs(initial.getCol() - targeted.getCol()) == 2) {
@@ -42,12 +42,12 @@ public class Chess implements java.io.Serializable {
         return false;
     }
 
-    private boolean checkBishopMove(Cell initial, Cell targeted) {
+    public boolean checkBishopMove(Cell initial, Cell targeted) {
 
         return false;
     }
 
-    private boolean checkRookMove(Cell initial, Cell targeted) {
+    public boolean checkRookMove(Cell initial, Cell targeted) {
         // rooks move vertical or horizontal
 
         if(initial.getCol() != targeted.getCol() && initial.getRow() != targeted.getRow())
@@ -69,17 +69,17 @@ public class Chess implements java.io.Serializable {
         }
     }
 
-    private boolean checkQueenMove(Cell initial, Cell targeted) {
+    public boolean checkQueenMove(Cell initial, Cell targeted) {
 
         return false;
     }
 
-    private boolean checkKingMove(Cell initial, Cell targeted) {
+    public boolean checkKingMove(Cell initial, Cell targeted) {
 
         return false;
     }
 
-    private boolean isValidMove(Cell initial, Cell targeted) {
+    public boolean isValidMove(Cell initial, Cell targeted) {
 
         if (initial.getPiece() == null)
             return false; // no piece to move
