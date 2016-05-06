@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import chess.gui.ChessGUI;
 import chess.main.Chess;
+import chess.objects.Cell;
 
 public class ChessController {
 
@@ -16,6 +17,10 @@ public class ChessController {
      * Is the Chess to add to the controller
      */
     private Chess game;
+
+    private Cell initial, targeted;
+
+    private boolean firstClick;
 
     /*******************************************************************
      * Constructor for the Controller part of the MVC Takes in both the
@@ -36,6 +41,7 @@ public class ChessController {
     public ChessController(ChessGUI gui, Chess game) {
         this.gui = gui;
         this.game = game;
+        firstClick = true;
     }
 
     /*******************************************************************
@@ -45,9 +51,15 @@ public class ChessController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            findCell(e);
+            sendOffToGame(initial, targeted);
 
 
         }
+    }
+
+    private void sendOffToGame(Cell initial, Cell targeted) {
+
     }
 
     /***************************************************************
@@ -63,6 +75,17 @@ public class ChessController {
      * @param e is the ActionEvent that occurs
      ******************************************************************/
     private void findCell(ActionEvent e) {
+
+        for(int row = 0; row < 8; ++row) {
+            for(int col = 0; col < 8; ++col) {
+                if(gui.getButtonAt(row, col).equals(e)) {
+                    if(firstClick)
+                        initial = game.getBoard().getCellAt(row, col);
+                    else
+                        targeted = game.getBoard().getCellAt(row, col);
+                }
+            }
+        }
 
     }
 
