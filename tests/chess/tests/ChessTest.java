@@ -1,13 +1,19 @@
 package chess.tests;
 
+import chess.main.Chess;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Steven on 5/5/2016.
- */
 public class ChessTest {
+
+    Chess game;
+
+    @Before
+    public void setupGame() {
+       game = new Chess();
+    }
     @Test
     public void getPieceAt() throws Exception {
 
@@ -30,6 +36,11 @@ public class ChessTest {
 
     @Test
     public void checkKnightMove() throws Exception {
+        //start with default board layout
+        assertTrue(game.isValidMove(game.getCellAt(0, 1), game.getCellAt(2, 2)));
+        game = new Chess();
+        assertFalse(game.isValidMove(game.getCellAt(0, 1), game.getCellAt(2, 1)));
+
 
     }
 

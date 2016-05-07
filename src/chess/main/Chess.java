@@ -16,6 +16,10 @@ public class Chess implements java.io.Serializable {
         return board.getCellAt(row, col).getPiece();
     }
 
+    public Cell getCellAt(int row, int col) {
+        return board.getCellAt(row, col);
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -43,8 +47,22 @@ public class Chess implements java.io.Serializable {
     }
 
     public boolean checkBishopMove(Cell initial, Cell targeted) {
+        if(initial.getCol() != targeted.getCol() && initial.getRow() != targeted.getRow()) {
+            return checkDiagonalMovement(initial, targeted);
+        } else {
+            return false;
+        }
+    }
 
-        return false;
+    private boolean checkDiagonalMovement(Cell initial, Cell targeted) {
+        int colDir = initial.getCol() < targeted.getCol() ? 1 : -1; // one is some diagonal right
+        int rowDir = initial.getRow() < targeted.getRow() ? 1 : -1; // one is some diagonal down
+        // confusing for loop coming
+        for(int row = initial.getRow() + rowDir, col = initial.getCol() + colDir; row != targeted.getRow(); row += rowDir, col += colDir) {
+            if(board.getCellAt(row, col).getPiece() != null)
+                return false;
+        }
+        return true;
     }
 
     public boolean checkRookMove(Cell initial, Cell targeted) {
@@ -53,20 +71,28 @@ public class Chess implements java.io.Serializable {
         if(initial.getCol() != targeted.getCol() && initial.getRow() != targeted.getRow())
             return false; // diagonal move
         if(initial.getRow() != targeted.getRow()) { // vertical
-            int dir = initial.getRow() < targeted.getRow() ? 1 : -1; // 1 is going down
-            for(int row = initial.getRow() + dir; row != targeted.getRow(); row += dir) {
-                if(board.getCellAt(row, initial.getCol()).getPiece() != null)
-                    return false; // piece in way
-            }
-            return true;
+            return checkVerticalMovement(initial, targeted);
         } else { // horizontal
-            int dir = initial.getCol() < targeted.getCol() ? 1 : -1; // 1 is going right
-            for(int col = initial.getCol() + 1; col != targeted.getCol(); col += dir) {
-                if(board.getCellAt(initial.getRow(), col).getPiece() != null)
-                    return false; // piece in way
-            }
-            return true;
+            return checkHorizontalMovement(initial, targeted);
         }
+    }
+
+    private boolean checkHorizontalMovement(Cell initial, Cell targeted) {
+        int colDir = initial.getCol() < targeted.getCol() ? 1 : -1; // 1 is going right
+        for(int col = initial.getCol() + colDir; col != targeted.getCol(); col += colDir) {
+            if(board.getCellAt(initial.getRow(), col).getPiece() != null)
+                return false; // piece in way
+        }
+        return true;
+    }
+
+    private boolean checkVerticalMovement(Cell initial, Cell targeted) {
+        int rowDir = initial.getRow() < targeted.getRow() ? 1 : -1; // 1 is going down
+        for(int row = initial.getRow() + rowDir; row != targeted.getRow(); row += rowDir) {
+            if(board.getCellAt(row, initial.getCol()).getPiece() != null)
+                return false; // piece in way
+        }
+        return true;
     }
 
     public boolean checkQueenMove(Cell initial, Cell targeted) {
@@ -78,6 +104,8 @@ public class Chess implements java.io.Serializable {
 
         return false;
     }
+
+
 
     public boolean isValidMove(Cell initial, Cell targeted) {
 
