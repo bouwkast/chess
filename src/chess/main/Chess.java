@@ -26,14 +26,37 @@ public class Chess implements java.io.Serializable {
 
     public boolean movePiece(Cell initial, Cell targeted) {
         if (isValidMove(initial, targeted)) {
-
+            targeted.setPiece(initial.getPiece());
+            initial.setPiece(null);
+            targeted.getPiece().setHasMoved(true);
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean checkPawnMove(Cell initial, Cell targeted) {
+        // pawn movement is color dependent
+        int colorDir = initial.getPiece().getColor() == 0 ? 1 : -1; // if color is 0 it is black
 
-        return false;
+        if(initial.getPiece().isHasMoved()) {
+            if(Math.abs(initial.getRow() - targeted.getRow()) > 1 || Math.abs(initial.getCol() - targeted.getCol()) > 1)
+                return false; // can only move two rows on first move, can never move 2 cols
+        }
+
+        // ensure moving in appropriate direction
+        if(targeted.getRow() - initial.getRow() != colorDir && targeted.getRow() - initial.getRow() != colorDir * 2)
+            return false;
+
+
+        if(targeted.getPiece() == null && initial.getCol() != targeted.getCol())
+                return false; // can only move diagonal if attacking
+        // if moving two rows check for piece in-between or at targeted
+        if(targeted.getRow() - initial.getRow() == colorDir * 2) {
+            if(board.getCellAt(initial.getRow() + colorDir, initial.getCol()).getPiece() != null || board.getCellAt(targeted.getRow(), initial.getCol()).getPiece() != null)
+                return false;
+        }
+
+        return true;
     }
 
     public boolean checkKnightMove(Cell initial, Cell targeted) {
@@ -42,7 +65,6 @@ public class Chess implements java.io.Serializable {
                 == 1 || Math.abs(initial.getRow() - targeted.getRow()) == 1 && Math.abs(initial.getCol() - targeted.getCol()) == 2) {
             return true;
         }
-
         return false;
     }
 

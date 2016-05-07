@@ -41,4 +41,12 @@ public class Piece implements java.io.Serializable {
     public String getName() {
         return name;
     }
+
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
 }
