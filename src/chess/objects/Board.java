@@ -63,4 +63,8 @@ public class Board {
         return grid[row][col];
     }
 
+    public void clearBoard() {
+        createGrid();
+    }
+
 }

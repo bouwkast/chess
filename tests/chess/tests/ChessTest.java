@@ -1,7 +1,9 @@
 package chess.tests;
 
 import chess.main.Chess;
+import chess.objects.Bishop;
 import chess.objects.Pawn;
+import chess.objects.Rook;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -122,11 +124,48 @@ public class ChessTest {
 
     @Test
     public void checkBishopMove() throws Exception {
+        game.getBoard().clearBoard();
+        game.getCellAt(0, 0).setPiece(new Bishop(0)); // create black bishop top left
+        for(int row = 1,  col = 1; row < 8; ++row, ++col) {
+            assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(row, col)));
+        }
+        for(int row = 1; row < 8; ++row) {
+            assertFalse(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(row, 0)));
+        }
+        for(int col = 1; col < 8; ++col) {
+            assertFalse(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(0, col)));
+        }
 
+        game.getCellAt(1, 1).setPiece(new Pawn(1));
+        assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(1, 1)));
+
+        game.getCellAt(1, 1).setPiece(null);
+
+        game.getCellAt(2, 2).setPiece(new Pawn(1));
+
+        assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(2, 2)));
     }
 
     @Test
     public void checkRookMove() throws Exception {
+
+        game.getBoard().clearBoard();
+        game.getCellAt(0, 0).setPiece(new Rook(0));
+        for(int row = 1,  col = 1; row < 8; ++row, ++col) {
+            assertFalse(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(row, col)));
+        }
+        for(int row = 1; row < 8; ++row) {
+            assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(row, 0)));
+        }
+        for(int col = 1; col < 8; ++col) {
+            assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(0, col)));
+        }
+
+        game.getCellAt(0, 1).setPiece(new Pawn(1));
+        game.getCellAt(1, 0).setPiece(new Pawn(1));
+        assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(0, 1)));
+        assertTrue(game.isValidMove(game.getCellAt(0, 0), game.getCellAt(1, 0)));
+
 
     }
 
