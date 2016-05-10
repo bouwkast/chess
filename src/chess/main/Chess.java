@@ -164,11 +164,19 @@ public class Chess implements java.io.Serializable {
     }
 
     public boolean checkQueenMove(Cell initial, Cell targeted) {
-
+        if(initial.getRow() == targeted.getRow())
+            return checkHorizontalMovement(initial, targeted);
+        if(initial.getCol() == targeted.getCol())
+            return checkVerticalMovement(initial, targeted);
+        if(Math.abs(initial.getRow() - targeted.getRow()) == Math.abs(initial.getCol() - targeted.getCol()))
+            return checkDiagonalMovement(initial, targeted);
         return false;
     }
 
     public boolean checkKingMove(Cell initial, Cell targeted) {
+        if(Math.abs(initial.getRow() - targeted.getRow() ) < 2 && Math.abs(initial.getCol() - targeted.getCol()) < 2) {
+            return true; // TODO castling and check/checkmate
+        }
 
         return false;
     }
